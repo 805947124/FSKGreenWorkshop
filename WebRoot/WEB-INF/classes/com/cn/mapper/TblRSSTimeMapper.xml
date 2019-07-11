@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRSSTimeMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRSSTime">
+    <result column="RobotNo" jdbcType="NVARCHAR" property="robotno" />
+    <result column="SN" jdbcType="NVARCHAR" property="sn" />
+    <result column="StartTime_SN" jdbcType="TIMESTAMP" property="starttimeSn" />
+    <result column="EndTime_SN" jdbcType="TIMESTAMP" property="endtimeSn" />
+    <result column="Tester_IP" jdbcType="NVARCHAR" property="testerIp" />
+    <result column="Claw_get" jdbcType="NCHAR" property="clawGet" />
+    <result column="Claw_put" jdbcType="NCHAR" property="clawPut" />
+    <result column="PS_Blank" jdbcType="DOUBLE" property="psBlank" />
+    <result column="PS_BlankTray_X" jdbcType="DOUBLE" property="psBlanktrayX" />
+    <result column="PS_BlankTray_Y" jdbcType="DOUBLE" property="psBlanktrayY" />
+    <result column="PS_BlankTray_CR" jdbcType="DOUBLE" property="psBlanktrayCr" />
+    <result column="Blank_tray->Pass_Tray" jdbcType="DOUBLE" property="blankTraypassTray" />
+    <result column="Blank_Tray->Temp_Tray" jdbcType="DOUBLE" property="blankTraytempTray" />
+    <result column="Temp_Tray->PASS_Tray" jdbcType="DOUBLE" property="tempTraypassTray" />
+    <result column="PS_DUT" jdbcType="DOUBLE" property="psDut" />
+    <result column="PS_DUT_X" jdbcType="DOUBLE" property="psDutX" />
+    <result column="PS_DUT_Y" jdbcType="DOUBLE" property="psDutY" />
+    <result column="PS_DUT_CR" jdbcType="DOUBLE" property="psDutCr" />
+    <result column="Get_DUT" jdbcType="DOUBLE" property="getDut" />
+    <result column="MoveToTester" jdbcType="DOUBLE" property="movetotester" />
+    <result column="First_PS" jdbcType="DOUBLE" property="firstPs" />
+    <result column="First_PS_FT_X" jdbcType="DOUBLE" property="firstPsFtX" />
+    <result column="First_PS_FT_Y" jdbcType="DOUBLE" property="firstPsFtY" />
+    <result column="First_PS_FT_CR" jdbcType="DOUBLE" property="firstPsFtCr" />
+    <result column="exchange_DUT_FT" jdbcType="DOUBLE" property="exchangeDutFt" />
+    <result column="exchange_DUT_AP" jdbcType="DOUBLE" property="exchangeDutAp" />
+    <result column="Second_PS" jdbcType="DOUBLE" property="secondPs" />
+    <result column="Second_PS_AP_X" jdbcType="DOUBLE" property="secondPsApX" />
+    <result column="Second_PS_AP_Y" jdbcType="DOUBLE" property="secondPsApY" />
+    <result column="Second_PS_AP_CR" jdbcType="DOUBLE" property="secondPsApCr" />
+    <result column="MoveToSafer" jdbcType="DOUBLE" property="movetosafer" />
+    <result column="Put_Fail_FT" jdbcType="DOUBLE" property="putFailFt" />
+    <result column="Put_Fail_AP" jdbcType="DOUBLE" property="putFailAp" />
+    <result column="Put_PASS_AP" jdbcType="DOUBLE" property="putPassAp" />
+    <result column="PutTempPASS_AP" jdbcType="DOUBLE" property="puttemppassAp" />
+    <result column="TotalTime" jdbcType="DOUBLE" property="totaltime" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblRSSTime">
+    insert into Robot_SN_State_Time (RobotNo, SN, StartTime_SN, 
+      EndTime_SN, Tester_IP, Claw_get, 
+      Claw_put, PS_Blank, PS_BlankTray_X, 
+      PS_BlankTray_Y, PS_BlankTray_CR, Blank_tray->Pass_Tray, 
+      Blank_Tray->Temp_Tray, Temp_Tray->PASS_Tray, PS_DUT, 
+      PS_DUT_X, PS_DUT_Y, PS_DUT_CR, 
+      Get_DUT, MoveToTester, First_PS, 
+      First_PS_FT_X, First_PS_FT_Y, First_PS_FT_CR, 
+      exchange_DUT_FT, exchange_DUT_AP, Second_PS, 
+      Second_PS_AP_X, Second_PS_AP_Y, Second_PS_AP_CR, 
+      MoveToSafer, Put_Fail_FT, Put_Fail_AP, 
+      Put_PASS_AP, PutTempPASS_AP, TotalTime
+      )
+    values (#{robotno,jdbcType=NVARCHAR}, #{sn,jdbcType=NVARCHAR}, #{starttimeSn,jdbcType=TIMESTAMP}, 
+      #{endtimeSn,jdbcType=TIMESTAMP}, #{testerIp,jdbcType=NVARCHAR}, #{clawGet,jdbcType=NCHAR}, 
+      #{clawPut,jdbcType=NCHAR}, #{psBlank,jdbcType=DOUBLE}, #{psBlanktrayX,jdbcType=DOUBLE}, 
+      #{psBlanktrayY,jdbcType=DOUBLE}, #{psBlanktrayCr,jdbcType=DOUBLE}, #{blankTray>passTray,jdbcType=DOUBLE}, 
+      #{blankTray>tempTray,jdbcType=DOUBLE}, #{tempTray>passTray,jdbcType=DOUBLE}, #{psDut,jdbcType=DOUBLE}, 
+      #{psDutX,jdbcType=DOUBLE}, #{psDutY,jdbcType=DOUBLE}, #{psDutCr,jdbcType=DOUBLE}, 
+      #{getDut,jdbcType=DOUBLE}, #{movetotester,jdbcType=DOUBLE}, #{firstPs,jdbcType=DOUBLE}, 
+      #{firstPsFtX,jdbcType=DOUBLE}, #{firstPsFtY,jdbcType=DOUBLE}, #{firstPsFtCr,jdbcType=DOUBLE}, 
+      #{exchangeDutFt,jdbcType=DOUBLE}, #{exchangeDutAp,jdbcType=DOUBLE}, #{secondPs,jdbcType=DOUBLE}, 
+      #{secondPsApX,jdbcType=DOUBLE}, #{secondPsApY,jdbcType=DOUBLE}, #{secondPsApCr,jdbcType=DOUBLE}, 
+      #{movetosafer,jdbcType=DOUBLE}, #{putFailFt,jdbcType=DOUBLE}, #{putFailAp,jdbcType=DOUBLE}, 
+      #{putPassAp,jdbcType=DOUBLE}, #{puttemppassAp,jdbcType=DOUBLE}, #{totaltime,jdbcType=DOUBLE}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select  RobotNo, SN, StartTime_SN, EndTime_SN, Tester_IP, Claw_get, Claw_put, PS_Blank, 
+    PS_BlankTray_X, PS_BlankTray_Y, PS_BlankTray_CR, [Blank_tray->Pass_Tray], [Blank_Tray->Temp_Tray], 
+    [Temp_Tray->PASS_Tray], PS_DUT, PS_DUT_X, PS_DUT_Y, PS_DUT_CR, Get_DUT, MoveToTester, 
+    First_PS, First_PS_FT_X, First_PS_FT_Y, First_PS_FT_CR, exchange_DUT_FT, exchange_DUT_AP, 
+    Second_PS, Second_PS_AP_X, Second_PS_AP_Y, Second_PS_AP_CR, MoveToSafer, Put_Fail_FT, 
+    Put_Fail_AP, Put_PASS_AP, PutTempPASS_AP, TotalTime
+    from Robot_SN_State_Time
+  </select>
+</mapper>

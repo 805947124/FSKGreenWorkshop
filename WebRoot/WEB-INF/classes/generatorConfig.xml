@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+  <context id="context1" targetRuntime="MyBatis3Simple">
+  
+  	 <commentGenerator>
+            <!-- 抑制警告 -->
+            <property name="suppressTypeWarnings" value="true" />
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true" />
+            <!-- 是否生成注释代时间戳 -->
+            <property name="suppressDate" value="true" />
+            
+            <property name="javaFileEncoding" value="UTF-8" />
+        </commentGenerator>
+  
+    <jdbcConnection connectionURL="jdbc:sqlserver://localhost:1433;databaseName=test" 
+    driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" password="123456" userId="sa" />
+    
+    <javaModelGenerator targetPackage="com.cn.entity" targetProject="FSKGreenWorkshop\src" />
+    
+    <sqlMapGenerator targetPackage="com.cn.mapper" targetProject="FSKGreenWorkshop\src" />
+    
+    <javaClientGenerator targetPackage="com.cn.mapper" targetProject="FSKGreenWorkshop\src" type="XMLMAPPER" />
+    
+    <!-- <table tableName="userinfo" domainObjectName="TblUser" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" 
+            enableSelectByExample="true" selectByExampleQueryId="true">
+      <columnOverride column="userid" property="id" />
+      <columnOverride column="username" property="uname" />
+    </table>
+    <table tableName="tbl_TYPE" domainObjectName="TblType" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" 
+            enableSelectByExample="true" selectByExampleQueryId="true"></table>
+    <table tableName="admininfo" domainObjectName="TblAdmin"></table>
+   <table tableName="typeinfo" domainObjectName="TblType"></table>
+   <table tableName="tbl_HOUSE" domainObjectName="TblHouse" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+            enableSelectByExample="false" selectByExampleQueryId="false">
+   		<columnOverride column="???" property="???" />
+   </table> -->
+   <!-- <table tableName="typesecondinfo" domainObjectName="TblSecondType">
+   		<columnOverride column="tname" property="tid" />
+   </table> -->
+   <table tableName="Model_STD" domainObjectName="TblModelSTD"></table>
+   <table tableName="Robot_Claw_WorkInfo" domainObjectName="TblRCWorkInfo"></table>
+   <table tableName="Robot_ErrorDefine" domainObjectName="TblRErrorDefine"></table>
+   <table tableName="Robot_SN_State_Time" domainObjectName="TblRSSTime"></table>
+   <table tableName="Robot_Status_ByHour" domainObjectName="TblRSByHour"></table>
+   <table tableName="Robot_Status_Now" domainObjectName="TblRSNow"></table>
+   <table tableName="Robot_Status_Time" domainObjectName="TblRSTime"></table>
+   <table tableName="Robot_Tester_WorkInfo" domainObjectName="TblRTWorkInfo"></table>
+   
+   
+   
+   <!-- <table tableName="goodsinfo" domainObjectName="TblGoodsInfo">
+   		<columnOverride column="tsname" property="tsid" />
+   </table> -->
+   
+  </context>
+</generatorConfiguration>

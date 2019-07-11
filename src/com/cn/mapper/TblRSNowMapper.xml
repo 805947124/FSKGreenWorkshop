@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRSNowMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRSNow">
+    <result column="Record_Time" jdbcType="TIMESTAMP" property="recordTime" />
+    <result column="ModelName" jdbcType="NVARCHAR" property="modelname" />
+    <result column="StationName" jdbcType="NCHAR" property="stationname" />
+    <result column="RobotNo" jdbcType="NVARCHAR" property="robotno" />
+    <result column="Building" jdbcType="NCHAR" property="building" />
+    <result column="Floor" jdbcType="NCHAR" property="floor" />
+    <result column="Area" jdbcType="NCHAR" property="area" />
+    <result column="ErrorInfo" jdbcType="NVARCHAR" property="errorinfo" />
+    <result column="RobotStatus" jdbcType="NVARCHAR" property="robotstatus" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblRSNow">
+    insert into Robot_Status_Now (Record_Time, ModelName, StationName, 
+      RobotNo, Building, Floor, 
+      Area, ErrorInfo, RobotStatus
+      )
+    values (#{recordTime,jdbcType=TIMESTAMP}, #{modelname,jdbcType=NVARCHAR}, #{stationname,jdbcType=NCHAR}, 
+      #{robotno,jdbcType=NVARCHAR}, #{building,jdbcType=NCHAR}, #{floor,jdbcType=NCHAR}, 
+      #{area,jdbcType=NCHAR}, #{errorinfo,jdbcType=NVARCHAR}, #{robotstatus,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Record_Time, ModelName, StationName, RobotNo, Building, Floor, Area, ErrorInfo, 
+    RobotStatus
+    from Robot_Status_Now
+  </select>
+</mapper>

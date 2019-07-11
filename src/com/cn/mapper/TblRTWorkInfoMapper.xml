@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRTWorkInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRTWorkInfo">
+    <result column="RobotNo" jdbcType="NVARCHAR" property="robotno" />
+    <result column="TesterNum" jdbcType="NCHAR" property="testernum" />
+    <result column="Tester_IP" jdbcType="NVARCHAR" property="testerIp" />
+    <result column="Status" jdbcType="NVARCHAR" property="status" />
+    <result column="TotalTest" jdbcType="INTEGER" property="totaltest" />
+    <result column="PassNum" jdbcType="INTEGER" property="passnum" />
+    <result column="FailNum" jdbcType="INTEGER" property="failnum" />
+    <result column="FENum" jdbcType="INTEGER" property="fenum" />
+    <result column="SFCErrNum" jdbcType="INTEGER" property="sfcerrnum" />
+    <result column="RepairTime" jdbcType="DOUBLE" property="repairtime" />
+    <result column="Put_NG" jdbcType="INTEGER" property="putNg" />
+    <result column="FirstPS_NG" jdbcType="INTEGER" property="firstpsNg" />
+    <result column="Put_OK" jdbcType="INTEGER" property="putOk" />
+    <result column="Date_Time" jdbcType="TIMESTAMP" property="dateTime" />
+    <result column="Station" jdbcType="NVARCHAR" property="station" />
+    <result column="Model" jdbcType="NVARCHAR" property="model" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblRTWorkInfo">
+    insert into Robot_Tester_WorkInfo (RobotNo, TesterNum, Tester_IP, 
+      Status, TotalTest, PassNum, 
+      FailNum, FENum, SFCErrNum, 
+      RepairTime, Put_NG, FirstPS_NG, 
+      Put_OK, Date_Time, Station, 
+      Model)
+    values (#{robotno,jdbcType=NVARCHAR}, #{testernum,jdbcType=NCHAR}, #{testerIp,jdbcType=NVARCHAR}, 
+      #{status,jdbcType=NVARCHAR}, #{totaltest,jdbcType=INTEGER}, #{passnum,jdbcType=INTEGER}, 
+      #{failnum,jdbcType=INTEGER}, #{fenum,jdbcType=INTEGER}, #{sfcerrnum,jdbcType=INTEGER}, 
+      #{repairtime,jdbcType=DOUBLE}, #{putNg,jdbcType=INTEGER}, #{firstpsNg,jdbcType=INTEGER}, 
+      #{putOk,jdbcType=INTEGER}, #{dateTime,jdbcType=TIMESTAMP}, #{station,jdbcType=NVARCHAR}, 
+      #{model,jdbcType=NVARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select RobotNo, TesterNum, Tester_IP, Status, TotalTest, PassNum, FailNum, FENum, 
+    SFCErrNum, RepairTime, Put_NG, FirstPS_NG, Put_OK, Date_Time, Station, Model
+    from Robot_Tester_WorkInfo
+  </select>
+</mapper>

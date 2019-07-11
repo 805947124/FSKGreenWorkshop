@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRSByHourMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRSByHour">
+    <result column="Record_Time" jdbcType="TIMESTAMP" property="recordTime" />
+    <result column="ModelName" jdbcType="NVARCHAR" property="modelname" />
+    <result column="StationName" jdbcType="NCHAR" property="stationname" />
+    <result column="RobotNo" jdbcType="NVARCHAR" property="robotno" />
+    <result column="Building" jdbcType="NCHAR" property="building" />
+    <result column="Floor" jdbcType="NCHAR" property="floor" />
+    <result column="Area" jdbcType="NCHAR" property="area" />
+    <result column="RunTimes" jdbcType="DOUBLE" property="runtimes" />
+    <result column="StandbyTimes" jdbcType="DOUBLE" property="standbytimes" />
+    <result column="ErrorTimes" jdbcType="DOUBLE" property="errortimes" />
+    <result column="Date" jdbcType="TIMESTAMP" property="date" />
+    <result column="Hour" jdbcType="NCHAR" property="hour" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblRSByHour">
+    insert into Robot_Status_ByHour (Record_Time, ModelName, StationName, 
+      RobotNo, Building, Floor, 
+      Area, RunTimes, StandbyTimes, 
+      ErrorTimes, Date, Hour
+      )
+    values (#{recordTime,jdbcType=TIMESTAMP}, #{modelname,jdbcType=NVARCHAR}, #{stationname,jdbcType=NCHAR}, 
+      #{robotno,jdbcType=NVARCHAR}, #{building,jdbcType=NCHAR}, #{floor,jdbcType=NCHAR}, 
+      #{area,jdbcType=NCHAR}, #{runtimes,jdbcType=DOUBLE}, #{standbytimes,jdbcType=DOUBLE}, 
+      #{errortimes,jdbcType=DOUBLE}, #{date,jdbcType=TIMESTAMP}, #{hour,jdbcType=NCHAR}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Record_Time, ModelName, StationName, RobotNo, Building, Floor, Area, RunTimes, 
+    StandbyTimes, ErrorTimes, Date, Hour
+    from Robot_Status_ByHour
+  </select>
+</mapper>

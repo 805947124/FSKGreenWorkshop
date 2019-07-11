@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRSTimeMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRSTime">
+    <result column="Record_Time" jdbcType="TIMESTAMP" property="recordTime" />
+    <result column="ModelName" jdbcType="NVARCHAR" property="modelname" />
+    <result column="StationName" jdbcType="NCHAR" property="stationname" />
+    <result column="RobotNo" jdbcType="NVARCHAR" property="robotno" />
+    <result column="Building" jdbcType="NCHAR" property="building" />
+    <result column="Floor" jdbcType="NCHAR" property="floor" />
+    <result column="Area" jdbcType="NCHAR" property="area" />
+    <result column="ErrorInfo" jdbcType="NVARCHAR" property="errorinfo" />
+    <result column="RobotStatus" jdbcType="NVARCHAR" property="robotstatus" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="TotalTime" jdbcType="NVARCHAR" property="totaltime" />
+    <result column="TimeFlag" jdbcType="NVARCHAR" property="timeflag" />
+    <result column="Ex_Value1" jdbcType="NVARCHAR" property="exValue1" />
+    <result column="Ex_Value2" jdbcType="NVARCHAR" property="exValue2" />
+    <result column="Ex_Value3" jdbcType="NVARCHAR" property="exValue3" />
+    <result column="Ex_Value4" jdbcType="NVARCHAR" property="exValue4" />
+    <result column="Ex_Value5" jdbcType="NVARCHAR" property="exValue5" />
+    <result column="Ex_Value6" jdbcType="NVARCHAR" property="exValue6" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblRSTime">
+    insert into Robot_Status_Time (Record_Time, ModelName, StationName, 
+      RobotNo, Building, Floor, 
+      Area, ErrorInfo, RobotStatus, 
+      StartTime, EndTime, TotalTime, 
+      TimeFlag, Ex_Value1, Ex_Value2, 
+      Ex_Value3, Ex_Value4, Ex_Value5, 
+      Ex_Value6)
+    values (#{recordTime,jdbcType=TIMESTAMP}, #{modelname,jdbcType=NVARCHAR}, #{stationname,jdbcType=NCHAR}, 
+      #{robotno,jdbcType=NVARCHAR}, #{building,jdbcType=NCHAR}, #{floor,jdbcType=NCHAR}, 
+      #{area,jdbcType=NCHAR}, #{errorinfo,jdbcType=NVARCHAR}, #{robotstatus,jdbcType=NVARCHAR}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{totaltime,jdbcType=NVARCHAR}, 
+      #{timeflag,jdbcType=NVARCHAR}, #{exValue1,jdbcType=NVARCHAR}, #{exValue2,jdbcType=NVARCHAR}, 
+      #{exValue3,jdbcType=NVARCHAR}, #{exValue4,jdbcType=NVARCHAR}, #{exValue5,jdbcType=NVARCHAR}, 
+      #{exValue6,jdbcType=NVARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Record_Time, ModelName, StationName, RobotNo, Building, Floor, Area, ErrorInfo, 
+    RobotStatus, StartTime, EndTime, TotalTime, TimeFlag, Ex_Value1, Ex_Value2, Ex_Value3, 
+    Ex_Value4, Ex_Value5, Ex_Value6
+    from Robot_Status_Time
+  </select>
+  
+  <select id="selectRobotNo" resultType="int">
+  	select COUNT(*) from Robot_Status_Time a where exists(select * from (select RobotNo,MAX(starttime) as FTime from Robot_status_time group by RobotNo)
+		x where x.RobotNo = a.RobotNo and a.starttime = x.FTime)
+  </select>
+  
+  <select id="selectRobotNoCount" resultType="int">
+  	select COUNT(*) from Robot_Status_Time
+  </select>
+  
+  <select id="selectRobotNoRunCount" resultType="int">
+  	select COUNT(*) from Robot_Status_Time a where a.TimeFlag ='RUNNING'
+  </select>
+</mapper>

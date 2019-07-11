@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblModelSTDMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblModelSTD">
+    <result column="Model" jdbcType="NVARCHAR" property="model" />
+    <result column="Station" jdbcType="NVARCHAR" property="station" />
+    <result column="STD" jdbcType="DOUBLE" property="std" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblModelSTD">
+    insert into Model_STD (Model, Station, STD
+      )
+    values (#{model,jdbcType=NVARCHAR}, #{station,jdbcType=NVARCHAR}, #{std,jdbcType=DOUBLE}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Model, Station, STD
+    from Model_STD
+  </select>
+</mapper>

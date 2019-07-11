@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRCWorkInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRCWorkInfo">
+    <result column="RobotNo" jdbcType="NVARCHAR" property="robotno" />
+    <result column="CLAW_Num" jdbcType="NCHAR" property="clawNum" />
+    <result column="Scan_NG" jdbcType="INTEGER" property="scanNg" />
+    <result column="PUT_NG" jdbcType="INTEGER" property="putNg" />
+    <result column="FirstPS_NG" jdbcType="INTEGER" property="firstpsNg" />
+    <result column="PUT_OK" jdbcType="INTEGER" property="putOk" />
+    <result column="Date_Time" jdbcType="TIMESTAMP" property="dateTime" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblRCWorkInfo">
+    insert into Robot_Claw_WorkInfo (RobotNo, CLAW_Num, Scan_NG, 
+      PUT_NG, FirstPS_NG, PUT_OK, 
+      Date_Time)
+    values (#{robotno,jdbcType=NVARCHAR}, #{clawNum,jdbcType=NCHAR}, #{scanNg,jdbcType=INTEGER}, 
+      #{putNg,jdbcType=INTEGER}, #{firstpsNg,jdbcType=INTEGER}, #{putOk,jdbcType=INTEGER}, 
+      #{dateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select RobotNo, CLAW_Num, Scan_NG, PUT_NG, FirstPS_NG, PUT_OK, Date_Time
+    from Robot_Claw_WorkInfo
+  </select>
+</mapper>

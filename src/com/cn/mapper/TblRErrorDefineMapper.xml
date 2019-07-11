@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRErrorDefineMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRErrorDefine">
+    <result column="ErrorInfo" jdbcType="NVARCHAR" property="errorinfo" />
+    <result column="ErrorDescription" jdbcType="NVARCHAR" property="errordescription" />
+  </resultMap>
+  <insert id="insert" parameterType="com.cn.entity.TblRErrorDefine">
+    insert into Robot_ErrorDefine (ErrorInfo, ErrorDescription)
+    values (#{errorinfo,jdbcType=NVARCHAR}, #{errordescription,jdbcType=NVARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ErrorInfo, ErrorDescription
+    from Robot_ErrorDefine
+  </select>
+</mapper>
