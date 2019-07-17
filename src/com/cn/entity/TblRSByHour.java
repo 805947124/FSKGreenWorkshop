@@ -2,6 +2,8 @@ package com.cn.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class TblRSByHour {
     private Date recordTime;
 
@@ -26,7 +28,10 @@ public class TblRSByHour {
     private Date date;
 
     private String hour;
+    
+    private String RobotStatus;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getRecordTime() {
         return recordTime;
     }
@@ -107,6 +112,7 @@ public class TblRSByHour {
         this.errortimes = errortimes;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss:SSS",timezone = "GMT+8")
     public Date getDate() {
         return date;
     }
@@ -122,4 +128,15 @@ public class TblRSByHour {
     public void setHour(String hour) {
         this.hour = hour;
     }
+
+	public String getRobotStatus() {
+		return RobotStatus;
+	}
+
+	public void setRobotStatus(String robotStatus) {
+		RobotStatus = robotStatus;
+	}
+    
+    
+    
 }

@@ -36,4 +36,24 @@ public class TblRSTimeBiz {
 	}
 	
 	
+	public Integer selectByRobotNoTypeFun(String area, String building, String floor,String startTime, String overTime) {
+		Integer num = tblRSTimeMapper.selectRobotNoType(area,building,floor,startTime,overTime);
+		return num;
+	}
+
+	public Integer RobotNoCountTypeFun(String area, String building, String floor,String startTime, String overTime) {
+		Integer num = tblRSTimeMapper.selectRobotNoCountType(area,building,floor,startTime,overTime);
+		return num;
+	}
+
+	public Integer RobotNoRunCountTypeFun(String area, String building, String floor,String startTime, String overTime) {
+		Integer num = tblRSTimeMapper.selectRobotNoRunCountType(area,building,floor,startTime,overTime);
+		return num;
+	}
+	
+	
+	
+	
+	
+	
 }

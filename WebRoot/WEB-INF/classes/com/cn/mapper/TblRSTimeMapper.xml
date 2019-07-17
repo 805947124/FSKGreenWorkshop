@@ -57,4 +57,36 @@
   <select id="selectRobotNoRunCount" resultType="int">
   	select COUNT(*) from Robot_Status_Time a where a.TimeFlag ='RUNNING'
   </select>
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectRobotNoType" resultType="Integer" parameterType="String">
+  	select COUNT(*) from Robot_Status_Time a where exists(select * from (select RobotNo,MAX(starttime) as FTime from Robot_status_time group by RobotNo)
+		x where x.RobotNo = a.RobotNo and a.starttime = x.FTime)
+		and StartTime between #{startTime} and #{overTime}
+  </select>
+  
+  <select id="selectRobotNoCountType" resultType="Integer" parameterType="String">
+  	select COUNT(*) from Robot_Status_Time where Area = '${area}' 
+  		and Building = '${building}' 
+  		and Floor = '${floor}' 
+		and StartTime between '${startTime}' and '${overTime}'
+  </select>
+  
+  <select id="selectRobotNoRunCountType" resultType="Integer" parameterType="String">
+  	select COUNT(*) from Robot_Status_Time a where a.TimeFlag ='RUNNING' 
+  		and a.Area = '${area}'
+  		and a.Building = '${building}' 
+  		and a.Floor = '${floor}' 
+		and a.StartTime between '${startTime}' and '${overTime}'
+  </select>
+  
+  
+  
+  
+  
 </mapper>

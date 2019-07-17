@@ -7,4 +7,16 @@ public interface TblRSByHourMapper {
     int insert(TblRSByHour record);
 
     List<TblRSByHour> selectAll();
+
+	List<TblRSByHour> selectByStatus();
+
+	int selectByRobotNo();
+
+	int selectByRunRobotNo();
+
+	int selectByStanbyRobotNo();
+
+	int selectByErroRobotNo();
+
+	int selectByShutdownRobotNo();
 }

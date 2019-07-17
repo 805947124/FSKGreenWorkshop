@@ -20,7 +20,27 @@ public class TblRSNowController {
 	@Autowired
 	private TblRSNowBiz tblRSNowBiz;
 	
-	
+	@RequestMapping("/selectRSNowCount")
+	public @ResponseBody Map selectRSNowCount( String apikey){
+		
+		
+		Map map = new HashMap();
+		List<TblRSNow> tblRSNows = null;
+		if (!apikey.equals("nnjj_0944547748")) {
+					
+			map.put("flag", "0");
+			map.put("msg", "∑«∑®«Î«Û£°");
+		}else {
+			tblRSNows = tblRSNowBiz.selectByRSNoweFun();
+			
+			map = new HashMap();
+			
+			map.put("flag", "1");
+			map.put("tblRSNows", tblRSNows);
+		}
+		
+		return map;
+	}
 	
 	@RequestMapping("/selectRSNow")
 	public @ResponseBody Map selectRSNow( String apikey){
@@ -38,8 +58,6 @@ public class TblRSNowController {
 			
 			map.put("flag", "1");
 			map.put("tblRSNows", tblRSNows);
-			
-			
 		}
 		
 		return map;
