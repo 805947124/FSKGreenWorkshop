@@ -15,7 +15,7 @@
             <property name="javaFileEncoding" value="UTF-8" />
         </commentGenerator>
   
-    <jdbcConnection connectionURL="jdbc:sqlserver://localhost:1433;databaseName=test" 
+    <jdbcConnection connectionURL="jdbc:sqlserver://localhost:1433;databaseName=TE_Robot_Database" 
     driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" password="123456" userId="sa" />
     
     <javaModelGenerator targetPackage="com.cn.entity" targetProject="FSKGreenWorkshop\src" />
@@ -40,14 +40,8 @@
    <!-- <table tableName="typesecondinfo" domainObjectName="TblSecondType">
    		<columnOverride column="tname" property="tid" />
    </table> -->
-   <table tableName="Model_STD" domainObjectName="TblModelSTD"></table>
-   <table tableName="Robot_Claw_WorkInfo" domainObjectName="TblRCWorkInfo"></table>
-   <table tableName="Robot_ErrorDefine" domainObjectName="TblRErrorDefine"></table>
-   <table tableName="Robot_SN_State_Time" domainObjectName="TblRSSTime"></table>
-   <table tableName="Robot_Status_ByHour" domainObjectName="TblRSByHour"></table>
-   <table tableName="Robot_Status_Now" domainObjectName="TblRSNow"></table>
-   <table tableName="Robot_Status_Time" domainObjectName="TblRSTime"></table>
-   <table tableName="Robot_Tester_WorkInfo" domainObjectName="TblRTWorkInfo"></table>
+   <table tableName="User" domainObjectName="TblUser"></table>
+	
    
    
    
