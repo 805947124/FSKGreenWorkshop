@@ -40,7 +40,9 @@
    <!-- <table tableName="typesecondinfo" domainObjectName="TblSecondType">
    		<columnOverride column="tname" property="tid" />
    </table> -->
-   <table tableName="User" domainObjectName="TblUser"></table>
+   <table tableName="Customer_Name" domainObjectName="TblCustomer"></table>
+   <table tableName="Model_Type" domainObjectName="TblModelType"></table>
+   <table tableName="Robot_Info" domainObjectName="TblRobotInfo"></table>
 	
    
    

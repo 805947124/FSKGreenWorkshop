@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblModelTypeMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblModelType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ModelName" jdbcType="NVARCHAR" property="modelname" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Model_Type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.entity.TblModelType">
+    insert into Model_Type (id, ModelName)
+    values (#{id,jdbcType=INTEGER}, #{modelname,jdbcType=NVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.cn.entity.TblModelType">
+    update Model_Type
+    set ModelName = #{modelname,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, ModelName
+    from Model_Type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, ModelName
+    from Model_Type
+  </select>
+</mapper>
