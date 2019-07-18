@@ -36,7 +36,7 @@ public class TblRsByHourController {
 	public @ResponseBody Map selectByRsByHourNo(String apikey){
 		
 		Map map = new HashMap();
-		Map shujuMap = new HashMap();
+		Map NumMap = new HashMap();
 		Integer SAMStatus = 0;
 		String msg = "";
 		List<TblRSByHour> tblRSByHours = null;
@@ -64,13 +64,13 @@ public class TblRsByHourController {
 			map.put("flag", "1");
 			
 			
-			shujuMap.put("robotNo", robotNo);
-			shujuMap.put("robotNoRunCount", robotNoRunCount);
-			shujuMap.put("robotNoStanbyCount", robotNoStanbyCount);
-			shujuMap.put("robotNoErroCount", robotNoErroCount);
-			shujuMap.put("robotNoShutdownCount", robotNoShutdownCount);
+			NumMap.put("robotNo", robotNo);
+			NumMap.put("robotNoRunCount", robotNoRunCount);
+			NumMap.put("robotNoStanbyCount", robotNoStanbyCount);
+			NumMap.put("robotNoErroCount", robotNoErroCount);
+			NumMap.put("robotNoShutdownCount", robotNoShutdownCount);
 			map.put("tblRSByHours", tblRSByHours);
-			map.put("shujuMap", shujuMap);
+			map.put("NumMap", NumMap);
 			map.put("msg", msg);
 		}
 		return map;
