@@ -63,7 +63,7 @@ public class TblRSTimeController {
 	
 	
 	/**
-	 * 首页条件查询
+	 * 首页条件查询所有机械手数量及首页效率
 	 * @param apikey
 	 * @param factoryArea
 	 * @param area
