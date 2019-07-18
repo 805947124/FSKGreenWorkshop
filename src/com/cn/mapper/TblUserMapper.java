@@ -13,4 +13,7 @@ public interface TblUserMapper {
     List<TblUser> selectAll();
 
     int updateByPrimaryKey(TblUser record);
+
+	TblUser selectByName(String jobnumber);
+
 }

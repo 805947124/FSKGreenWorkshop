@@ -10,7 +10,7 @@
     <result column="CustomerName" jdbcType="NVARCHAR" property="customername" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from User
+    delete from adminInfo
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.cn.entity.TblUser">
@@ -22,7 +22,7 @@
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.cn.entity.TblUser">
-    update User
+    update adminInfo
     set JobNumber = #{jobnumber,jdbcType=NVARCHAR},
       Password = #{password,jdbcType=NVARCHAR},
       Name = #{name,jdbcType=NVARCHAR},
@@ -32,11 +32,15 @@
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, JobNumber, Password, Name, Grade, CustomerName
-    from User
+    from adminInfo
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, JobNumber, Password, Name, Grade, CustomerName
-    from User
+    from adminInfo
+  </select>
+  
+  <select id="selectByName" resultType="com.cn.entity.TblUser">
+    select * from adminInfo where JobNumber = #{jobnumber};
   </select>
 </mapper>
