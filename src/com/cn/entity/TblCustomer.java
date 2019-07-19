@@ -1,9 +1,15 @@
 package com.cn.entity;
 
+import java.util.List;
+
+import javax.management.loading.PrivateClassLoader;
+
 public class TblCustomer {
     private Integer id;
 
     private String customername;
+    
+    private List<TblRSNow> tblRSNows;
 
     public Integer getId() {
         return id;
@@ -20,4 +26,14 @@ public class TblCustomer {
     public void setCustomername(String customername) {
         this.customername = customername;
     }
+
+	public List<TblRSNow> getTblRSNows() {
+		return tblRSNows;
+	}
+
+	public void setTblRSNows(List<TblRSNow> tblRSNows) {
+		this.tblRSNows = tblRSNows;
+	}
+    
+    
 }

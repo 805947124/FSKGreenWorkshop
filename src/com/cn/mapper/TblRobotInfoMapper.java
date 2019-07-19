@@ -13,4 +13,6 @@ public interface TblRobotInfoMapper {
     List<TblRobotInfo> selectAll();
 
     int updateByPrimaryKey(TblRobotInfo record);
+
+	List<TblRobotInfo> selectByName(String customername);
 }

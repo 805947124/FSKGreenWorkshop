@@ -22,6 +22,8 @@ public class TblRSNow {
     private String errorinfo;
 
     private String robotstatus;
+    
+    private String efficiency;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getRecordTime() {
@@ -95,4 +97,24 @@ public class TblRSNow {
     public void setRobotstatus(String robotstatus) {
         this.robotstatus = robotstatus;
     }
+    
+    
+
+	public String getEfficiency() {
+		return efficiency;
+	}
+
+	public void setEfficiency(String efficiency) {
+		this.efficiency = efficiency;
+	}
+
+	@Override
+	public String toString() {
+		return "TblRSNow [recordTime=" + recordTime + ", modelname=" + modelname + ", stationname=" + stationname
+				+ ", robotno=" + robotno + ", building=" + building + ", floor=" + floor + ", area=" + area
+				+ ", errorinfo=" + errorinfo + ", robotstatus=" + robotstatus + "]";
+	}
+    
+    
+    
 }

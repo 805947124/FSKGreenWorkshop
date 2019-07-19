@@ -50,6 +50,18 @@ public class TblRSTimeBiz {
 		Integer num = tblRSTimeMapper.selectRobotNoRunCountType(area,building,floor,startTime,overTime);
 		return num;
 	}
+
+	public int selectRobotRunCount(String robotno) {
+		// TODO Auto-generated method stub
+		Integer numInteger = tblRSTimeMapper.selectRobotRunCount(robotno);
+		return numInteger;
+	}
+
+	public int selectRobotAllCount(String robotno) {
+		// TODO Auto-generated method stub
+		Integer numInteger = tblRSTimeMapper.selectRobotAllCount(robotno);
+		return numInteger;
+	}
 	
 	
 	

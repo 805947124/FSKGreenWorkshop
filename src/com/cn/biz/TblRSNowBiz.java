@@ -19,6 +19,14 @@ public class TblRSNowBiz {
 		List<TblRSNow> tblRSNows = tblRSNowMapper.selectAll();
 		return tblRSNows;
 	}
+
+	public List<TblRSNow> selectByCustomerName(String customername) {
+		// TODO Auto-generated method stub
+		List<TblRSNow> tblRSNows = tblRSNowMapper.selectByCustomer(customername);
+		return tblRSNows;
+	}
+
+	
 	
 	
 }

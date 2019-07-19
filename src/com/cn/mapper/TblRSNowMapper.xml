@@ -27,4 +27,10 @@
     RobotStatus
     from Robot_Status_Now
   </select>
+  
+  <select id="selectByCustomer" resultMap="BaseResultMap">
+    select * from Robot_Status_Now b where b.RobotNo in( select a.RobotNo from Robot_Info a where a.CustomerName=(
+	select c.id  from Customer_Name c where c.CustomerName='${customername}') group by a.RobotNo)
+  </select>
+  
 </mapper>

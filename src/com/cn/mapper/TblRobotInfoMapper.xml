@@ -35,4 +35,9 @@
     select id, RobotNo, Number, ModelType, CustomerName
     from Robot_Info
   </select>
+  
+  <select id="selectByName" resultMap="BaseResultMap">
+    select a.RobotNo from Robot_Info a where a.CustomerName=(
+select c.id  from Customer_Name c where c.CustomerName=#{customername}) group by a.RobotNo
+  </select>
 </mapper>

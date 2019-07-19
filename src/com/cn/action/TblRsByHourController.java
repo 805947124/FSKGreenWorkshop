@@ -2,6 +2,7 @@ package com.cn.action;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cn.biz.TblRobotInfoBiz;
 import com.cn.biz.TblRsByHourBiz;
+import com.cn.biz.TblCustomerBiz;
+import com.cn.biz.TblRSNowBiz;
+import com.cn.biz.TblRSTimeBiz;
+import com.cn.entity.TblCustomer;
 import com.cn.entity.TblRSByHour;
 import com.cn.entity.TblRSNow;
+import com.cn.entity.TblRobotInfo;
 
 @Controller
 @RequestMapping("/rsByHour")
@@ -23,6 +30,14 @@ public class TblRsByHourController {
 
 	@Autowired
 	private TblRsByHourBiz tblRsByHourBiz;
+	@Autowired 
+	private TblRobotInfoBiz tblRobotInfoBiz;
+	@Autowired
+	private TblCustomerBiz tblCustomerBiz;
+	@Autowired
+	private TblRSNowBiz tblRSNowBiz;
+	@Autowired
+	private TblRSTimeBiz tblRSTimeBiz;
 	
 	/**
 	 * Robot查询状态数
@@ -82,22 +97,54 @@ public class TblRsByHourController {
 		
 		Map map = new HashMap();
 		Map NumMap = new HashMap();
+		Map customerMap = new HashMap();
+		Map robotNoMap = new HashMap();
 		String msg = "";
+		
+		
 		List<TblRSByHour> tblRSByHours = null;
+		List<TblCustomer> tblCustomers = null;
+		TblCustomer tblCustomer = null;
+		List<TblRSNow> tblRSNows =new ArrayList<TblRSNow>();
+		TblRSNow tblRSNow = null;
+		DecimalFormat df = new DecimalFormat("0.00");
+		String productivity = "";
+		
 		if (!apikey.equals("nnjj_0944547748")) {
 			msg = "非法请求！";
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
+			tblCustomers = tblCustomerBiz.selectAllFun();
+			int indexCustomer = tblCustomers.size()-1;
 			
-			tblRSByHours = tblRsByHourBiz.selectByStatusFun();
-			
-			
-			map = new HashMap();
+			for (int i = 1; i <= indexCustomer; i++) {
+				tblCustomer = tblCustomers.get(i);
+				tblRSNows = tblRSNowBiz.selectByCustomerName(tblCustomer.getCustomername());
+				
+				tblCustomer.setId(tblCustomers.get(i).getId());
+				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+				tblCustomer.setTblRSNows(tblRSNows);
+				int indexTblRSNow = tblRSNows.size();
+				for (int j = 0; j < indexTblRSNow; j++) {
+					int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
+					int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+					
+					productivity = df.format((double)runCount/allCount);
+					
+					tblRSNows.get(j).setEfficiency(productivity);
+				}
+				
+				customerMap.put(tblCustomer.getCustomername(),tblCustomer);
+				
+				
+			}
+
+			//tblRSByHours = tblRsByHourBiz.selectByStatusFun();
 			
 			map.put("flag", "1");
-			
-			map.put("tblRSByHours", tblRSByHours);
+			map.put("tblCustomers", customerMap);
+			//map.put("tblRSByHours", tblRSByHours);
 			map.put("NumMap", NumMap);
 			map.put("msg", msg);
 		}

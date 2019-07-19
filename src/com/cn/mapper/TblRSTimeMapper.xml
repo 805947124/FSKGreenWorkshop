@@ -86,7 +86,13 @@
   </select>
   
   
+  <select id="selectRobotRunCount" resultType="int">
+  	select COUNT(*) from Robot_Status_Time a where a.TimeFlag ='RUNNING' and a.RobotNo = #{robotno}
+  </select>
   
+  <select id="selectRobotAllCount" resultType="int">
+  	select COUNT(*) from Robot_Status_Time a where a.RobotNo = #{robotno}
+  </select>
   
   
 </mapper>
