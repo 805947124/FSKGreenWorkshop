@@ -24,29 +24,25 @@ public class TblRsByHourController {
 	@Autowired
 	private TblRsByHourBiz tblRsByHourBiz;
 	
-	
-	
 	/**
-	 * Robot状态监控默认查询
+	 * Robot查询状态数
 	 * @param apikey
 	 * @return map
 	 * @throws ParseException
 	 */
-	@RequestMapping("/selectByRsByHourNo")
-	public @ResponseBody Map selectByRsByHourNo(String apikey){
+	@RequestMapping("/selectByStatusNo")
+	public @ResponseBody Map selectByStatusNo(String apikey){
 		
 		Map map = new HashMap();
 		Map NumMap = new HashMap();
 		Integer SAMStatus = 0;
 		String msg = "";
-		List<TblRSByHour> tblRSByHours = null;
 		if (!apikey.equals("nnjj_0944547748")) {
 			msg = "非法请求！";
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
 			
-			tblRSByHours = tblRsByHourBiz.selectByStatusFun();
 			Integer robotNo = tblRsByHourBiz.selectByRobotNoFun();
 			Integer robotNoRunCount = tblRsByHourBiz.RobotNoRunCountFun();
 			Integer robotNoStanbyCount = tblRsByHourBiz.RobotNoStanbyCountFun();
@@ -69,6 +65,38 @@ public class TblRsByHourController {
 			NumMap.put("robotNoStanbyCount", robotNoStanbyCount);
 			NumMap.put("robotNoErroCount", robotNoErroCount);
 			NumMap.put("robotNoShutdownCount", robotNoShutdownCount);
+			map.put("NumMap", NumMap);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	/**
+	 * Robot查询机械手按区域划分列表
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRsByHourNo")
+	public @ResponseBody Map selectByRsByHourNo(String apikey){
+		
+		Map map = new HashMap();
+		Map NumMap = new HashMap();
+		String msg = "";
+		List<TblRSByHour> tblRSByHours = null;
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+			
+			tblRSByHours = tblRsByHourBiz.selectByStatusFun();
+			
+			
+			map = new HashMap();
+			
+			map.put("flag", "1");
+			
 			map.put("tblRSByHours", tblRSByHours);
 			map.put("NumMap", NumMap);
 			map.put("msg", msg);

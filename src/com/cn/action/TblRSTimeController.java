@@ -75,7 +75,7 @@ public class TblRSTimeController {
 	 * @throws ParseException
 	 */
 	@RequestMapping("/selectRSTimeByTypeRobotNo")
-	public @ResponseBody Map selectRSTimeByTypeRobotNo(String apikey,@Param("area")String area, @Param("building")String building, @Param("floor")String floor, @Param("startTime")String startTime,
+	public @ResponseBody Map selectRSTimeByTypeRobotNo(String apikey,String factoryArea, @Param("area")String area, @Param("building")String building, @Param("floor")String floor, @Param("startTime")String startTime,
 			@Param("overTime")String overTime) throws ParseException{
 		
 		System.out.println("开始时间"+startTime+"结束时间"+overTime);
