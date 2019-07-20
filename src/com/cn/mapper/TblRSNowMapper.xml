@@ -33,4 +33,14 @@
 	select c.id  from Customer_Name c where c.CustomerName='${customername}') group by a.RobotNo)
   </select>
   
+  <select id="selectByCustomerByType" resultMap="BaseResultMap">
+    select * from Robot_Status_Now b where b.RobotNo in( select a.RobotNo from Robot_Info a where a.CustomerName=(
+	select c.id  from Customer_Name c where c.CustomerName='${customername}') group by a.RobotNo) and b.ModelName = '${modelName}' and b.RobotNo = '${robotNo}'
+  </select>
+  
+  <select id="selectByCustomerByMdoelName" resultMap="BaseResultMap">
+    select * from Robot_Status_Now b where b.RobotNo in( select a.RobotNo from Robot_Info a where a.CustomerName=(
+	select c.id  from Customer_Name c where c.CustomerName='${customername}') group by a.RobotNo) and b.ModelName = '${modelName}'
+  </select>
+  
 </mapper>

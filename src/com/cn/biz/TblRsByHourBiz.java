@@ -49,6 +49,16 @@ public class TblRsByHourBiz {
 		int num = tblRSByHourMapper.selectByShutdownRobotNo();
 		return num;
 	}
+
+	public List selectModelNameFun() {
+		List<String> ModelName = tblRSByHourMapper.selectModelNameFun();
+		return ModelName;
+	}
+
+	public List selectRobotNoFun(String modelName) {
+		List<String> RobotNo = tblRSByHourMapper.selectRobotNoFun(modelName);
+		return RobotNo;
+	}
 	
 	
 	

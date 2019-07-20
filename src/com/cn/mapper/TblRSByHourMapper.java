@@ -19,4 +19,8 @@ public interface TblRSByHourMapper {
 	int selectByErroRobotNo();
 
 	int selectByShutdownRobotNo();
+
+	List<String> selectModelNameFun();
+
+	List<String> selectRobotNoFun(String modelName);
 }
