@@ -75,10 +75,15 @@ public class TblRSTimeController {
 	 * @throws ParseException
 	 */
 	@RequestMapping("/selectRSTimeByTypeRobotNo")
-	public @ResponseBody Map selectRSTimeByTypeRobotNo(String apikey,String factoryArea, @Param("area")String area, @Param("building")String building, @Param("floor")String floor, @Param("startTime")String startTime,
+	public @ResponseBody Map selectRSTimeByTypeRobotNo(String apikey,String factoryArea, @Param("area")String area, @Param("buildingFloor")String buildingFloor, @Param("startTime")String startTime,
 			@Param("overTime")String overTime) throws ParseException{
 		
 		System.out.println("开始时间"+startTime+"结束时间"+overTime);
+		
+		String[] BF = new String[20];
+		BF = buildingFloor.split("-");
+		String building = BF[0];
+		String floor = BF[1];
 
 		Map map = new HashMap();
 		String productivity="";
