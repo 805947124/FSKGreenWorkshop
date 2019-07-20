@@ -24,6 +24,8 @@ public class TblRSNowBiz {
 		// TODO Auto-generated method stub
 		List<TblRSNow> tblRSNows = tblRSNowMapper.selectByCustomer(customername);
 		return tblRSNows;
+		
+		
 	}
 
 	

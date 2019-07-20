@@ -101,12 +101,10 @@ public class TblRsByHourController {
 		Map robotNoMap = new HashMap();
 		String msg = "";
 		
-		
-		List<TblRSByHour> tblRSByHours = null;
 		List<TblCustomer> tblCustomers = null;
+
 		TblCustomer tblCustomer = null;
 		List<TblRSNow> tblRSNows =new ArrayList<TblRSNow>();
-		TblRSNow tblRSNow = null;
 		DecimalFormat df = new DecimalFormat("0.00");
 		String productivity = "";
 		
@@ -117,8 +115,8 @@ public class TblRsByHourController {
 		}else {
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
-			
-			for (int i = 1; i <= indexCustomer; i++) {
+
+			for (int i = 0; i <= indexCustomer; i++) {
 				tblCustomer = tblCustomers.get(i);
 				tblRSNows = tblRSNowBiz.selectByCustomerName(tblCustomer.getCustomername());
 				
@@ -127,25 +125,30 @@ public class TblRsByHourController {
 				tblCustomer.setTblRSNows(tblRSNows);
 				int indexTblRSNow = tblRSNows.size();
 				for (int j = 0; j < indexTblRSNow; j++) {
-					int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
-					int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+					int runCount=0;
+					int allCount=0;
 					
-					productivity = df.format((double)runCount/allCount);
+					if (tblRSNows!=null) {
+						 runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
+						 allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+					}
+					if (runCount==0&& allCount==0) {
+						productivity = "0";
+					}else {
+						productivity = df.format((double)runCount/allCount);
+					}
+					
+					
 					
 					tblRSNows.get(j).setEfficiency(productivity);
 				}
-				
-				customerMap.put(tblCustomer.getCustomername(),tblCustomer);
-				
 				
 			}
 
 			//tblRSByHours = tblRsByHourBiz.selectByStatusFun();
 			
 			map.put("flag", "1");
-			map.put("tblCustomers", customerMap);
-			//map.put("tblRSByHours", tblRSByHours);
-			map.put("NumMap", NumMap);
+			map.put("tblCustomers", tblCustomers);
 			map.put("msg", msg);
 		}
 		return map;
@@ -163,9 +166,6 @@ public class TblRsByHourController {
 			map.put("msg", "·Ç·¨ÇëÇó£¡");
 		}else {
 			tblRSByHours = tblRsByHourBiz.selectByRSByHoueFun();
-			
-			map = new HashMap();
-			
 			map.put("flag", "1");
 			map.put("tblRSByHours", tblRSByHours);
 			
