@@ -155,6 +155,139 @@ public class TblRsByHourController {
 	}
 	
 	
+	/**
+	 * 级联菜单：查询机种
+	 * @param apikey
+	 * @return
+	 */
+	@RequestMapping("/selectModelName")
+	public @ResponseBody Map selectModelName(String apikey){
+		
+		Map map = new HashMap();
+		List ModelName = new ArrayList<String>();
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+
+			map.put("flag", "0");
+			map.put("msg", "非法请求！");
+		}else {
+			ModelName = tblRsByHourBiz.selectModelNameFun();
+			
+			map = new HashMap();
+			
+			map.put("flag", "1");
+			map.put("ModelName", ModelName);
+		}
+		return map;
+	}
+	
+	/**
+	 * 级联菜单：根据机种查询手臂号
+	 * @param apikey
+	 * @param modelName
+	 * @return
+	 */
+	@RequestMapping("/selectRobotNo")
+	public @ResponseBody Map selectRobotNo(String apikey,String modelName){
+		
+		Map map = new HashMap();
+		List RobotNo = new ArrayList<String>();
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+
+			map.put("flag", "0");
+			map.put("msg", "非法请求！");
+		}else {
+			RobotNo = tblRsByHourBiz.selectRobotNoFun(modelName);
+			
+			map = new HashMap();
+			
+			map.put("flag", "1");
+			map.put("RobotNo", RobotNo);
+		}
+		return map;
+	}
+	
+	@RequestMapping("/selectByTypeByRsByHourNo")
+	public @ResponseBody Map selectByTypeByRsByHourNo(String apikey,String modelName,String robotNo){
+		
+		Map map = new HashMap();
+		Map NumMap = new HashMap();
+		Map customerMap = new HashMap();
+		Map robotNoMap = new HashMap();
+		String msg = "";
+		
+		
+		List<TblRSByHour> tblRSByHours = null;
+		List<TblCustomer> tblCustomers = null;
+		TblCustomer tblCustomer = null;
+		List<TblRSNow> tblRSNows =new ArrayList<TblRSNow>();
+		TblRSNow tblRSNow = null;
+		DecimalFormat df = new DecimalFormat("0.00");
+		String productivity = "";
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+			tblCustomers = tblCustomerBiz.selectAllFun();
+			int indexCustomer = tblCustomers.size()-1;
+			
+			for (int i = 1; i <= indexCustomer; i++) {
+				
+				if(robotNo.equals("All")){
+					
+					tblCustomer = tblCustomers.get(i);
+					tblRSNows = tblRSNowBiz.selectByCustomerNameByModelName(tblCustomer.getCustomername(),modelName);
+					
+					tblCustomer.setId(tblCustomers.get(i).getId());
+					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+					tblCustomer.setTblRSNows(tblRSNows);
+					int indexTblRSNow = tblRSNows.size();
+					for (int j = 0; j < indexTblRSNow; j++) {
+						int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
+						int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+						
+						productivity = df.format((double)runCount/allCount);
+						
+						tblRSNows.get(j).setEfficiency(productivity);
+					}
+					
+					customerMap.put(tblCustomer.getCustomername(),tblCustomer);
+					
+				}else{
+					
+					tblCustomer = tblCustomers.get(i);
+					tblRSNows = tblRSNowBiz.selectByCustomerNameByType(tblCustomer.getCustomername(),modelName,robotNo);
+					
+					tblCustomer.setId(tblCustomers.get(i).getId());
+					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+					tblCustomer.setTblRSNows(tblRSNows);
+					int indexTblRSNow = tblRSNows.size();
+					for (int j = 0; j < indexTblRSNow; j++) {
+						int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
+						int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+						
+						productivity = df.format((double)runCount/allCount);
+						
+						tblRSNows.get(j).setEfficiency(productivity);
+					}
+					customerMap.put(tblCustomer.getCustomername(),tblCustomer);
+				}
+			}
+
+			//tblRSByHours = tblRsByHourBiz.selectByStatusFun();
+			
+			map.put("flag", "1");
+			map.put("tblCustomers", customerMap);
+			//map.put("tblRSByHours", tblRSByHours);
+			map.put("NumMap", NumMap);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
 	@RequestMapping("/selectRSByHour")
 	public @ResponseBody Map selectRSByHour(String apikey){
 		

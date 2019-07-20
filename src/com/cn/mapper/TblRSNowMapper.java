@@ -12,4 +12,8 @@ public interface TblRSNowMapper {
 
 	List<TblRSNow> selectByCustomer(@Param("customername")String customername);
 
+	List<TblRSNow> selectByCustomerByType(@Param("customername")String customername, @Param("modelName")String modelName, @Param("robotNo")String robotNo);
+
+	List<TblRSNow> selectByCustomerByMdoelName(@Param("customername")String customername, @Param("modelName")String modelName);
+
 }

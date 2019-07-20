@@ -73,6 +73,12 @@
 	where z.RobotStatus = 'ERROR' and z.ErrorTimes>30 or z.RobotStatus='STANDBY' and z.StandbyTimes >10
   </select>
   
+  <select id="selectModelNameFun" resultType="String">
+  	SELECT ModelName FROM Model_Type
+  </select>
   
+  <select id="selectRobotNoFun" resultType="String">
+  	SELECT Robot_Status_Now.RobotNo FROM Robot_Status_Now where ModelName = #{modelname}
+  </select>
   
 </mapper>

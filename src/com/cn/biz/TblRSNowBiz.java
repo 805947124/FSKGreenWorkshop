@@ -28,6 +28,16 @@ public class TblRSNowBiz {
 		
 	}
 
+	public List<TblRSNow> selectByCustomerNameByType(String customername, String modelName, String robotNo) {
+		List<TblRSNow> tblRSNows = tblRSNowMapper.selectByCustomerByType(customername,modelName,robotNo);
+		return tblRSNows;
+	}
+
+	public List<TblRSNow> selectByCustomerNameByModelName(String customername, String modelName) {
+		List<TblRSNow> tblRSNows = tblRSNowMapper.selectByCustomerByMdoelName(customername,modelName);
+		return tblRSNows;
+	}
+
 	
 	
 	
