@@ -5,6 +5,8 @@ import com.cn.entity.TblRSByHour;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface TblRSByHourMapper {
     int insert(TblRSByHour record);
 
@@ -26,5 +28,17 @@ public interface TblRSByHourMapper {
 
 	List<String> selectRobotNoFun(String modelName);
 
+<<<<<<< HEAD
 	Date selectByHourMaxDate();
+=======
+	List<TblRSByHour> selectAllRobotNoByCustomerName(@Param("customername")String customername);
+
+	List<TblRSByHour> selectAllRunRobotNoByCustomerName(@Param("customername")String customername);
+
+	List<TblRSByHour> selectAllStanbyRobotNoByCustomerName(@Param("customername")String customername);
+
+	List<TblRSByHour> selectAllErrorRobotNoByCustomerName(@Param("customername")String customername);
+
+	List<TblRSByHour> selectAllShutdownRobotNoByCustomerName(@Param("customername")String customername);
+>>>>>>> c56f8335a42fcc737447cd2393eaed965c021992
 }

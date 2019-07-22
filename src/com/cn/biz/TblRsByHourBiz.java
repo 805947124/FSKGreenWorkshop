@@ -61,10 +61,36 @@ public class TblRsByHourBiz {
 		return RobotNo;
 	}
 
+<<<<<<< HEAD
 	public Date selectMaxDate() {
 		// TODO Auto-generated method stub
 		Date date = tblRSByHourMapper.selectByHourMaxDate();
 		return date;
+=======
+	public List<TblRSByHour> selectAllRobotNoByCustomerName(String customername) {
+		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllRobotNoByCustomerName(customername);
+		return tblRsByHour;
+	}
+
+	public List<TblRSByHour> selectAllRunRobotNoByCustomerName(String customername) {
+		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllRunRobotNoByCustomerName(customername);
+		return tblRsByHour;
+	}
+
+	public List<TblRSByHour> selectAllStanbyRobotNoByCustomerName(String customername) {
+		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllStanbyRobotNoByCustomerName(customername);
+		return tblRsByHour;
+	}
+
+	public List<TblRSByHour> selectAllErrorRobotNoByCustomerName(String customername) {
+		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllErrorRobotNoByCustomerName(customername);
+		return tblRsByHour;
+	}
+
+	public List<TblRSByHour> selectAllShutdownRobotNoByCustomerName(String customername) {
+		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllShutdownRobotNoByCustomerName(customername);
+		return tblRsByHour;
+>>>>>>> c56f8335a42fcc737447cd2393eaed965c021992
 	}
 	
 	
