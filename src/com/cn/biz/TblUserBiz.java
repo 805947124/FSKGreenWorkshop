@@ -21,9 +21,5 @@ public class TblUserBiz {
 		}else {
 			return null;
 		}
-		
 	}
-	
-	
-
 }

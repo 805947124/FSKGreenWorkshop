@@ -35,7 +35,6 @@ public class TblRSTimeBiz {
 		return num;
 	}
 	
-	
 	public Integer selectByRobotNoTypeFun(String area, String building, String floor,String startTime, String overTime) {
 		Integer num = tblRSTimeMapper.selectRobotNoType(area,building,floor,startTime,overTime);
 		return num;
@@ -62,10 +61,4 @@ public class TblRSTimeBiz {
 		Integer numInteger = tblRSTimeMapper.selectRobotAllCount(robotno);
 		return numInteger;
 	}
-	
-	
-	
-	
-	
-	
 }

@@ -26,8 +26,4 @@ public interface TblRSTimeMapper {
 
 	Integer selectRobotAllCount(String robotno);
 	
-	
-	
-	
-	
 }
