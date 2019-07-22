@@ -126,7 +126,7 @@ public class TblRsByHourController {
 	}
 	
 	/**
-	 * 根据Customername区分查询所有正在运行手臂信息的接口
+	 * 根据Customername区分查询所有  正在运行  手臂信息的接口
 	 * @param apikey
 	 * @return
 	 */
@@ -153,6 +153,47 @@ public class TblRsByHourController {
 			for (int i = 0; i <= indexCustomer; i++){
 				tblCustomer = tblCustomers.get(i);
 				tblRSByHour = tblRsByHourBiz.selectAllRunRobotNoByCustomerName(tblCustomer.getCustomername());
+				
+				tblCustomer.setId(tblCustomers.get(i).getId());
+				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+				tblCustomer.setTblRsByHour(tblRSByHour);
+			}
+			map.put("flag", "1");
+			map.put("tblCustomers", tblCustomers);
+			map.put("msg", msg);
+		}
+		
+		return map;
+	}
+	
+	/**
+	 * 根据Customername区分查询所有  待机  手臂信息的接口
+	 * @param apikey
+	 * @return
+	 */
+	@RequestMapping("/selectAllStanbyRobotNo")
+	public @ResponseBody Map selectAllStanbyRobotNo(String apikey){
+		
+		Map map = new HashMap();
+		Map customerMap = new HashMap();
+		String msg = "";
+		
+		List<TblCustomer> tblCustomers = null;
+		List<TblRSByHour> tblRSByHour = new ArrayList<TblRSByHour>();
+		
+		TblCustomer tblCustomer = null;
+		
+		if (!apikey.equals("nnjj_0944547748")){
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else{
+			tblCustomers = tblCustomerBiz.selectAllFun();
+			int indexCustomer = tblCustomers.size()-1;
+			
+			for (int i = 0; i <= indexCustomer; i++){
+				tblCustomer = tblCustomers.get(i);
+				tblRSByHour = tblRsByHourBiz.selectAllStanbyRobotNoByCustomerName(tblCustomer.getCustomername());
 				
 				tblCustomer.setId(tblCustomers.get(i).getId());
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
