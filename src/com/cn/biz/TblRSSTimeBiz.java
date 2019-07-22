@@ -18,5 +18,4 @@ public class TblRSSTimeBiz {
 		List<TblRSSTime> tblRSSTimes = tblRSSTimeMapper.selectAll();
 		return tblRSSTimes;
 	}
-
 }

@@ -24,8 +24,6 @@ public class TblRSNowBiz {
 		// TODO Auto-generated method stub
 		List<TblRSNow> tblRSNows = tblRSNowMapper.selectByCustomer(customername);
 		return tblRSNows;
-		
-		
 	}
 
 	public List<TblRSNow> selectByCustomerNameByType(String customername, String modelName, String robotNo) {
@@ -38,7 +36,4 @@ public class TblRSNowBiz {
 		return tblRSNows;
 	}
 
-	
-	
-	
 }

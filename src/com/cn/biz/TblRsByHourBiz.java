@@ -61,12 +61,12 @@ public class TblRsByHourBiz {
 		return RobotNo;
 	}
 
-
 	public Date selectMaxDate() {
 		// TODO Auto-generated method stub
 		Date date = tblRSByHourMapper.selectByHourMaxDate();
 		return date;
 	}
+
 	public List<TblRSByHour> selectAllRobotNoByCustomerName(String customername) {
 		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllRobotNoByCustomerName(customername);
 		return tblRsByHour;
@@ -91,12 +91,4 @@ public class TblRsByHourBiz {
 		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllShutdownRobotNoByCustomerName(customername);
 		return tblRsByHour;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }
