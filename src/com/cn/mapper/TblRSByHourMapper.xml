@@ -105,6 +105,15 @@
 	select c.id  from Customer_Name c where c.CustomerName='${customername}') group by a.RobotNo)
   </select>
   
+  <select id="selectAllShutdownRobotNoByCustomerName" resultMap="BaseResultMap">
+  	select * from (select * from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
+	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
+	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z 
+	where z.RobotStatus = 'ERROR' and z.ErrorTimes>30 or z.RobotStatus='STANDBY' and z.StandbyTimes >10 ) as g 
+	where g.RobotNo in( select a.RobotNo from Robot_Info a where a.CustomerName=(
+	select c.id  from Customer_Name c where c.CustomerName='${customername}') group by a.RobotNo)
+  </select>
+  
   <select id="selectModelNameFun" resultType="String">
   	SELECT ModelName FROM Model_Type
   </select>

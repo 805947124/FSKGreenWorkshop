@@ -79,6 +79,11 @@ public class TblRsByHourBiz {
 		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllErrorRobotNoByCustomerName(customername);
 		return tblRsByHour;
 	}
+
+	public List<TblRSByHour> selectAllShutdownRobotNoByCustomerName(String customername) {
+		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllShutdownRobotNoByCustomerName(customername);
+		return tblRsByHour;
+	}
 	
 	
 	
