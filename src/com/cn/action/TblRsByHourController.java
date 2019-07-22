@@ -121,7 +121,6 @@ public class TblRsByHourController {
 			map.put("tblCustomers", tblCustomers);
 			map.put("msg", msg);
 		}
-		
 		return map;
 	}
 	
@@ -162,7 +161,6 @@ public class TblRsByHourController {
 			map.put("tblCustomers", tblCustomers);
 			map.put("msg", msg);
 		}
-		
 		return map;
 	}
 	
@@ -203,7 +201,46 @@ public class TblRsByHourController {
 			map.put("tblCustomers", tblCustomers);
 			map.put("msg", msg);
 		}
+		return map;
+	}
+	
+	/**
+	 * 根据Customername区分查询所有  故障  手臂信息的接口
+	 * @param apikey
+	 * @return
+	 */
+	@RequestMapping("/selectAllErrorRobotNo")
+	public @ResponseBody Map selectAllErrorRobotNo(String apikey){
 		
+		Map map = new HashMap();
+		Map customerMap = new HashMap();
+		String msg = "";
+		
+		List<TblCustomer> tblCustomers = null;
+		List<TblRSByHour> tblRSByHour = new ArrayList<TblRSByHour>();
+		
+		TblCustomer tblCustomer = null;
+		
+		if (!apikey.equals("nnjj_0944547748")){
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else{
+			tblCustomers = tblCustomerBiz.selectAllFun();
+			int indexCustomer = tblCustomers.size()-1;
+			
+			for (int i = 0; i <= indexCustomer; i++){
+				tblCustomer = tblCustomers.get(i);
+				tblRSByHour = tblRsByHourBiz.selectAllErrorRobotNoByCustomerName(tblCustomer.getCustomername());
+				
+				tblCustomer.setId(tblCustomers.get(i).getId());
+				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+				tblCustomer.setTblRsByHour(tblRSByHour);
+			}
+			map.put("flag", "1");
+			map.put("tblCustomers", tblCustomers);
+			map.put("msg", msg);
+		}
 		return map;
 	}
 	
