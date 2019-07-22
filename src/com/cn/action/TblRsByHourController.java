@@ -86,6 +86,42 @@ public class TblRsByHourController {
 		return map;
 	}
 	
+	@RequestMapping("/selectAllRobotNo")
+	public @ResponseBody Map selectAllRobotNo(String apikey){
+		
+		Map map = new HashMap();
+		Map customerMap = new HashMap();
+		String msg = "";
+		
+		List<TblCustomer> tblCustomers = null;
+		List<TblRSByHour> tblRSByHour = new ArrayList<TblRSByHour>();
+		
+		TblCustomer tblCustomer = null;
+		
+		if (!apikey.equals("nnjj_0944547748")){
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else{
+			tblCustomers = tblCustomerBiz.selectAllFun();
+			int indexCustomer = tblCustomers.size()-1;
+			
+			for (int i = 0; i <= indexCustomer; i++){
+				tblCustomer = tblCustomers.get(i);
+				tblRSByHour = tblRsByHourBiz.selectAllRobotNoByCustomerName(tblCustomer.getCustomername());
+				
+				tblCustomer.setId(tblCustomers.get(i).getId());
+				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+				tblCustomer.setTblRsByHour(tblRSByHour);
+			}
+			map.put("flag", "1");
+			map.put("tblCustomers", tblCustomers);
+			map.put("msg", msg);
+		}
+		
+		return map;
+	}
+	
 	/**
 	 * Robot查询机械手按区域划分列表
 	 * @param apikey
