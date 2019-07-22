@@ -2,10 +2,17 @@ package com.cn.action;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.plaf.FontUIResource;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Magenta;
@@ -106,7 +113,7 @@ public class TblRsByHourController {
 		TblCustomer tblCustomer = null;
 		List<TblRSNow> tblRSNows =new ArrayList<TblRSNow>();
 		DecimalFormat df = new DecimalFormat("0.00");
-		String productivity = "";
+		double productivity = 0.00;
 		
 		if (!apikey.equals("nnjj_0944547748")) {
 			msg = "非法请求！";
@@ -133,9 +140,9 @@ public class TblRsByHourController {
 						 allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
 					}
 					if (runCount==0&& allCount==0) {
-						productivity = "0";
+						productivity = 0.00;
 					}else {
-						productivity = df.format((double)runCount/allCount);
+						productivity = (double)runCount/allCount;
 					}
 					
 					
@@ -149,6 +156,153 @@ public class TblRsByHourController {
 			
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	
+	/**
+	 * Robot查询效率监控页面机械手效率排行
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotRanking")
+	public @ResponseBody Map selectByRobotRanking(String apikey){
+		
+		Map map = new HashMap();
+		Map robotNoMap = new HashMap();
+		String msg = "";
+		List<TblRSNow> tblRSNows = null;
+		
+		double productivity = 0.00;
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+
+				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
+				int indexTblRSNow = tblRSNows.size();
+				for (int j = 0; j < indexTblRSNow; j++) {
+					int runCount=0;
+					int allCount=0;
+					
+					if (tblRSNows!=null) {
+						 runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
+						 allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+					}
+					if (runCount==0&& allCount==0) {
+						productivity = 0.00;
+					}else {
+						productivity = (double)runCount/allCount;
+					}
+					
+					tblRSNows.get(j).setEfficiency(productivity);
+				}
+				
+				Collections.sort(tblRSNows, new Comparator<TblRSNow>(){
+		            /*
+		             * int compare(Person p1, Person p2) 返回一个基本类型的整型，
+		             * 返回负数表示：p1 小于p2，
+		             * 返回0 表示：p1和p2相等，
+		             * 返回正数表示：p1大于p2
+		             */
+					@Override
+					public int compare(TblRSNow o1, TblRSNow o2) {
+						  //按照Person的年龄进行升序排列
+		                if(o1.getEfficiency() < o2.getEfficiency()){
+		                    return 1;
+		                }
+		                if(o1.getEfficiency() == o2.getEfficiency()){
+		                    return 0;
+		                }
+		                return -1;
+					}
+		        });
+		
+				
+			map.put("flag", "1");
+			map.put("tblRSNows", tblRSNows);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	
+	
+	/**
+	 * Robot查询效率监控页面按时间折线图排行
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotRankingDate")
+	public @ResponseBody Map selectByRobotRankingDate(String apikey){
+		
+		Map map = new HashMap();
+		String msg = "";
+		List<TblRSNow> tblRSNows = null;
+		Date date  = new Date();
+		date = tblRsByHourBiz.selectMaxDate();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(calendar.DATE, -7);
+		date=calendar.getTime();
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println(f.format(date));
+		double productivity = 0.00;
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+
+				/*tblRSNows = tblRSNowBiz.selectByRSNoweFun();
+				int indexTblRSNow = tblRSNows.size();
+				for (int j = 0; j < indexTblRSNow; j++) {
+					int runCount=0;
+					int allCount=0;
+					
+					if (tblRSNows!=null) {
+						 runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
+						 allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+					}
+					if (runCount==0&& allCount==0) {
+						productivity = 0.00;
+					}else {
+						productivity = (double)runCount/allCount;
+					}
+					
+					tblRSNows.get(j).setEfficiency(productivity);
+				}
+				
+				Collections.sort(tblRSNows, new Comparator<TblRSNow>(){
+		            
+		             * int compare(Person p1, Person p2) 返回一个基本类型的整型，
+		             * 返回负数表示：p1 小于p2，
+		             * 返回0 表示：p1和p2相等，
+		             * 返回正数表示：p1大于p2
+		             
+					@Override
+					public int compare(TblRSNow o1, TblRSNow o2) {
+						  //按照Person的年龄进行升序排列
+		                if(o1.getEfficiency() < o2.getEfficiency()){
+		                    return 1;
+		                }
+		                if(o1.getEfficiency() == o2.getEfficiency()){
+		                    return 0;
+		                }
+		                return -1;
+					}
+		        });*/
+		
+				
+			map.put("flag", "1");
+			//map.put("tblRSNows", tblRSNows);
 			map.put("msg", msg);
 		}
 		return map;
@@ -224,7 +378,7 @@ public class TblRsByHourController {
 		List<TblRSNow> tblRSNows =new ArrayList<TblRSNow>();
 		TblRSNow tblRSNow = null;
 		DecimalFormat df = new DecimalFormat("0.00");
-		String productivity = "";
+		double productivity = 0.00;
 		
 		if (!apikey.equals("nnjj_0944547748")) {
 			msg = "非法请求！";
@@ -249,7 +403,7 @@ public class TblRsByHourController {
 						int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
 						int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
 						
-						productivity = df.format((double)runCount/allCount);
+						productivity =(double)runCount/allCount;
 						
 						tblRSNows.get(j).setEfficiency(productivity);
 					}
@@ -269,7 +423,7 @@ public class TblRsByHourController {
 						int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
 						int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
 						
-						productivity = df.format((double)runCount/allCount);
+						productivity = (double)runCount/allCount;
 						
 						tblRSNows.get(j).setEfficiency(productivity);
 					}

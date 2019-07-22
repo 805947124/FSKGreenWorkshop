@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.mapper.TblRobotInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cn.entity.TblRobotInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="RobotNo" jdbcType="NVARCHAR" property="robotno" />
+    <result column="Number" jdbcType="NVARCHAR" property="number" />
+    <result column="ModelType" jdbcType="INTEGER" property="modeltype" />
+    <result column="CustomerName" jdbcType="INTEGER" property="customername" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Robot_Info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.entity.TblRobotInfo">
+    insert into Robot_Info (id, RobotNo, Number, 
+      ModelType, CustomerName)
+    values (#{id,jdbcType=INTEGER}, #{robotno,jdbcType=NVARCHAR}, #{number,jdbcType=NVARCHAR}, 
+      #{modeltype,jdbcType=INTEGER}, #{customername,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.cn.entity.TblRobotInfo">
+    update Robot_Info
+    set RobotNo = #{robotno,jdbcType=NVARCHAR},
+      Number = #{number,jdbcType=NVARCHAR},
+      ModelType = #{modeltype,jdbcType=INTEGER},
+      CustomerName = #{customername,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, RobotNo, Number, ModelType, CustomerName
+    from Robot_Info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, RobotNo, Number, ModelType, CustomerName
+    from Robot_Info
+  </select>
+  
+  <select id="selectByName" resultMap="BaseResultMap">
+    select a.RobotNo from Robot_Info a where a.CustomerName=(
+select c.id  from Customer_Name c where c.CustomerName=#{customername}) group by a.RobotNo
+  </select>
+</mapper>

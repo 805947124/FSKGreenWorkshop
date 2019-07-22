@@ -1,5 +1,6 @@
 package com.cn.biz;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class TblRsByHourBiz {
 	public List selectRobotNoFun(String modelName) {
 		List<String> RobotNo = tblRSByHourMapper.selectRobotNoFun(modelName);
 		return RobotNo;
+	}
+
+	public Date selectMaxDate() {
+		// TODO Auto-generated method stub
+		Date date = tblRSByHourMapper.selectByHourMaxDate();
+		return date;
 	}
 	
 	

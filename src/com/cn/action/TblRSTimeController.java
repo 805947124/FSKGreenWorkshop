@@ -93,14 +93,6 @@ public class TblRSTimeController {
 			map.put("msg", "∑«∑®«Î«Û£°");
 		}else {
 			
-			/*try {
-				startTime = new String(startTime.getBytes("ISO-8859-1"), "utf-8");
-				overTime = new String(overTime.getBytes("ISO-8859-1"), "utf-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			//tblRSTimes = tblRSTimeBiz.selectByRSTimeFun();
 			Integer robotNo = tblRSTimeBiz.selectByRobotNoFun();
 			Integer robotNoCount = tblRSTimeBiz.RobotNoCountTypeFun(area,building,floor,startTime,overTime);
 			Integer robotNoRunCount = tblRSTimeBiz.RobotNoRunCountTypeFun(area,building,floor,startTime,overTime);

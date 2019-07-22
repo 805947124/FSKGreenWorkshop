@@ -23,7 +23,7 @@ public class TblRSNow {
 
     private String robotstatus;
     
-    private String efficiency;
+    private double efficiency;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getRecordTime() {
@@ -98,13 +98,13 @@ public class TblRSNow {
         this.robotstatus = robotstatus;
     }
     
-    
+	
 
-	public String getEfficiency() {
+	public double getEfficiency() {
 		return efficiency;
 	}
 
-	public void setEfficiency(String efficiency) {
+	public void setEfficiency(double efficiency) {
 		this.efficiency = efficiency;
 	}
 
@@ -114,7 +114,6 @@ public class TblRSNow {
 				+ ", robotno=" + robotno + ", building=" + building + ", floor=" + floor + ", area=" + area
 				+ ", errorinfo=" + errorinfo + ", robotstatus=" + robotstatus + "]";
 	}
-    
     
     
 }

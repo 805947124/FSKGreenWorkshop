@@ -81,4 +81,8 @@
   	SELECT Robot_Status_Now.RobotNo FROM Robot_Status_Now where ModelName = #{modelname}
   </select>
   
+  <select id="selectByHourMaxDate" resultType="java.util.Date">
+  	select max(Date) from Robot_Status_ByHour
+  </select>
+  
 </mapper>
