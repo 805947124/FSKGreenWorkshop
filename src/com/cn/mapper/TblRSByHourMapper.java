@@ -27,4 +27,6 @@ public interface TblRSByHourMapper {
 	List<String> selectRobotNoFun(String modelName);
 
 	List<TblRSByHour> selectAllRobotNoByCustomerName(@Param("customername")String customername);
+
+	List<TblRSByHour> selectAllRunRobotNoByCustomerName(@Param("customername")String customername);
 }
