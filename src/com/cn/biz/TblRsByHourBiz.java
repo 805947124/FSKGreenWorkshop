@@ -91,4 +91,10 @@ public class TblRsByHourBiz {
 		List<TblRSByHour> tblRsByHour = tblRSByHourMapper.selectAllShutdownRobotNoByCustomerName(customername);
 		return tblRsByHour;
 	}
+
+	public List<TblRSByHour> selectByCustomerName(String customername) {
+		// TODO Auto-generated method stub
+		List<TblRSByHour> tblRSByHours = tblRSByHourMapper.selectByCunstomerName(customername);
+		return tblRSByHours;
+	}
 }

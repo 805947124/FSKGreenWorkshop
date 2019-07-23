@@ -292,7 +292,7 @@ public class TblRsByHourController {
 	}
 	
 	/**
-	 * Robot查询机械手按区域划分列表
+	 * Robot查询机械手状态按区域划分列表
 	 * @param apikey
 	 * @return map
 	 * @throws ParseException
@@ -310,6 +310,7 @@ public class TblRsByHourController {
 
 		TblCustomer tblCustomer = null;
 		List<TblRSNow> tblRSNows =new ArrayList<TblRSNow>();
+		List<TblRSByHour> tblRSByHours = null;
 		DecimalFormat df = new DecimalFormat("0.00");
 		double productivity = 0.00;
 		
@@ -323,34 +324,12 @@ public class TblRsByHourController {
 
 			for (int i = 0; i <= indexCustomer; i++) {
 				tblCustomer = tblCustomers.get(i);
-				tblRSNows = tblRSNowBiz.selectByCustomerName(tblCustomer.getCustomername());
-				
+				tblRSByHours = tblRsByHourBiz.selectByCustomerName(tblCustomer.getCustomername());
 				tblCustomer.setId(tblCustomers.get(i).getId());
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+				tblCustomer.setTblRsByHour(tblRSByHours);
 				tblCustomer.setTblRSNows(tblRSNows);
-				int indexTblRSNow = tblRSNows.size();
-				for (int j = 0; j < indexTblRSNow; j++) {
-					int runCount=0;
-					int allCount=0;
-					
-					if (tblRSNows!=null) {
-						 runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
-						 allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
-					}
-					if (runCount==0&& allCount==0) {
-						productivity = 0.00;
-					}else {
-						productivity = (double)runCount/allCount;
-					}
-					
-					
-					
-					tblRSNows.get(j).setEfficiency(productivity);
 				}
-				
-			}
-
-			//tblRSByHours = tblRsByHourBiz.selectByStatusFun();
 			
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
