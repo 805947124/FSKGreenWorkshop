@@ -609,12 +609,11 @@ public class TblRsByHourController {
 		Map robotNoMap = new HashMap();
 		String msg = "";
 		
-		
-		List<TblRSByHour> tblRSByHours = null;
 		List<TblCustomer> tblCustomers = null;
+
 		TblCustomer tblCustomer = null;
 		List<TblRSNow> tblRSNows =new ArrayList<TblRSNow>();
-		TblRSNow tblRSNow = null;
+		List<TblRSByHour> tblRSByHours = null;
 		DecimalFormat df = new DecimalFormat("0.00");
 		double productivity = 0.00;
 		
@@ -626,7 +625,7 @@ public class TblRsByHourController {
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
 			
-			for (int i = 1; i <= indexCustomer; i++) {
+			for (int i = 0; i <= indexCustomer; i++) {
 				
 				if(robotNo.equals("All")){
 					
@@ -635,18 +634,8 @@ public class TblRsByHourController {
 					
 					tblCustomer.setId(tblCustomers.get(i).getId());
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+					tblCustomer.setTblRsByHour(tblRSByHours);
 					tblCustomer.setTblRSNows(tblRSNows);
-					int indexTblRSNow = tblRSNows.size();
-					for (int j = 0; j < indexTblRSNow; j++) {
-						int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
-						int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
-						
-						productivity =(double)runCount/allCount;
-						
-						tblRSNows.get(j).setEfficiency(productivity);
-					}
-					
-					customerMap.put(tblCustomer.getCustomername(),tblCustomer);
 					
 				}else{
 					
@@ -655,27 +644,50 @@ public class TblRsByHourController {
 					
 					tblCustomer.setId(tblCustomers.get(i).getId());
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
+					tblCustomer.setTblRsByHour(tblRSByHours);
 					tblCustomer.setTblRSNows(tblRSNows);
-					int indexTblRSNow = tblRSNows.size();
-					for (int j = 0; j < indexTblRSNow; j++) {
-						int runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
-						int allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
-						
-						productivity = (double)runCount/allCount;
-						
-						tblRSNows.get(j).setEfficiency(productivity);
-					}
-					customerMap.put(tblCustomer.getCustomername(),tblCustomer);
 				}
 			}
-
-			//tblRSByHours = tblRsByHourBiz.selectByStatusFun();
+			map.put("flag", "1");
+			map.put("tblCustomers", tblCustomers);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	/**
+	 * 查询运行得分接口
+	 * @param apikey
+	 * @param robotNo
+	 * @return
+	 */
+	@RequestMapping("/selectRunScore")
+	public @ResponseBody Map selectRunScore(String apikey,String robotNo){
+		
+		Map map = new HashMap();
+		String msg = "";
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else{
+			
+			Double RunTimes = tblRsByHourBiz.selectRunTimes(robotNo);
+			Double StandbyTimes = tblRsByHourBiz.selectStandbyTimes(robotNo);
+			Double ErrorTimes = tblRsByHourBiz.selectErrorTimes(robotNo);
+			
+			Double RunScore = RunTimes/(RunTimes+StandbyTimes+ErrorTimes);
+			
+			System.out.println("运行时间："+RunTimes+"/n待机时间："+StandbyTimes+"/n停机时间："+ErrorTimes+"/n运行得分："+RunScore);
 			
 			map.put("flag", "1");
-			map.put("tblCustomers", customerMap);
-			//map.put("tblRSByHours", tblRSByHours);
-			map.put("NumMap", NumMap);
 			map.put("msg", msg);
+			map.put("robotNo", robotNo);
+			map.put("RunTimes", RunTimes);
+			map.put("StandbyTimes", StandbyTimes);
+			map.put("ErrorTimes", ErrorTimes);
+			map.put("RunScore", RunScore);
 		}
 		return map;
 	}

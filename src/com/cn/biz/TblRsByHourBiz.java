@@ -98,6 +98,7 @@ public class TblRsByHourBiz {
 		return tblRSByHours;
 	}
 
+
 	public Integer RobotNoRunTimeCountFun() {
 		// TODO Auto-generated method stub
 		Integer runTime = tblRSByHourMapper.selectByRunTimeCount();
@@ -127,5 +128,19 @@ public class TblRsByHourBiz {
 	public Integer RobotNoErroTimeTypeCountFun(String robotno) {
 		Integer ErroTime = tblRSByHourMapper.selectByErroTimeTypeCount(robotno);
 		return ErroTime;
+	}
+	public Double selectRunTimes(String robotNo) {
+		Double runTimes = tblRSByHourMapper.selectRunTimes(robotNo);
+		return runTimes;
+	}
+
+	public Double selectStandbyTimes(String robotNo) {
+		Double StandbyTimes = tblRSByHourMapper.selectStandbyTimes(robotNo);
+		return StandbyTimes;
+	}
+
+	public Double selectErrorTimes(String robotNo) {
+		Double ErrorTimes = tblRSByHourMapper.selectErrorTimes(robotNo);
+		return ErrorTimes;
 	}
 }
