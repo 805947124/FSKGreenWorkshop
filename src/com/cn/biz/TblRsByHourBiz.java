@@ -97,4 +97,19 @@ public class TblRsByHourBiz {
 		List<TblRSByHour> tblRSByHours = tblRSByHourMapper.selectByCunstomerName(customername);
 		return tblRSByHours;
 	}
+
+	public Double selectRunTimes(String robotNo) {
+		Double runTimes = tblRSByHourMapper.selectRunTimes(robotNo);
+		return runTimes;
+	}
+
+	public Double selectStandbyTimes(String robotNo) {
+		Double StandbyTimes = tblRSByHourMapper.selectStandbyTimes(robotNo);
+		return StandbyTimes;
+	}
+
+	public Double selectErrorTimes(String robotNo) {
+		Double ErrorTimes = tblRSByHourMapper.selectErrorTimes(robotNo);
+		return ErrorTimes;
+	}
 }

@@ -601,6 +601,43 @@ public class TblRsByHourController {
 		return map;
 	}
 	
+	/**
+	 * 查询运行得分接口
+	 * @param apikey
+	 * @param robotNo
+	 * @return
+	 */
+	@RequestMapping("/selectRunScore")
+	public @ResponseBody Map selectRunScore(String apikey,String robotNo){
+		
+		Map map = new HashMap();
+		String msg = "";
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else{
+			
+			Double RunTimes = tblRsByHourBiz.selectRunTimes(robotNo);
+			Double StandbyTimes = tblRsByHourBiz.selectStandbyTimes(robotNo);
+			Double ErrorTimes = tblRsByHourBiz.selectErrorTimes(robotNo);
+			
+			Double RunScore = RunTimes/(RunTimes+StandbyTimes+ErrorTimes);
+			
+			System.out.println("运行时间："+RunTimes+"/n待机时间："+StandbyTimes+"/n停机时间："+ErrorTimes+"/n运行得分："+RunScore);
+			
+			map.put("flag", "1");
+			map.put("msg", msg);
+			map.put("robotNo", robotNo);
+			map.put("RunTimes", RunTimes);
+			map.put("StandbyTimes", StandbyTimes);
+			map.put("ErrorTimes", ErrorTimes);
+			map.put("RunScore", RunScore);
+		}
+		return map;
+	}
+	
 	@RequestMapping("/selectRSByHour")
 	public @ResponseBody Map selectRSByHour(String apikey){
 		
