@@ -26,9 +26,11 @@ import com.cn.biz.TblRsByHourBiz;
 import com.cn.biz.TblCustomerBiz;
 import com.cn.biz.TblRSNowBiz;
 import com.cn.biz.TblRSTimeBiz;
+import com.cn.biz.TblRTWorkInfoBiz;
 import com.cn.entity.TblCustomer;
 import com.cn.entity.TblRSByHour;
 import com.cn.entity.TblRSNow;
+import com.cn.entity.TblRTWorkInfo;
 import com.cn.entity.TblRobotInfo;
 
 @Controller
@@ -45,6 +47,8 @@ public class TblRsByHourController {
 	private TblRSNowBiz tblRSNowBiz;
 	@Autowired
 	private TblRSTimeBiz tblRSTimeBiz;
+	@Autowired
+	private TblRTWorkInfoBiz tblRTWorkInfoBiz;
 	
 	/**
 	 * Robot查询状态数
@@ -364,17 +368,17 @@ public class TblRsByHourController {
 				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
 				int indexTblRSNow = tblRSNows.size();
 				for (int j = 0; j < indexTblRSNow; j++) {
-					int runCount=0;
-					int allCount=0;
+					Integer runCount=0;
+					Integer standbyCount=0;
+					Integer erroCount=0;
 					
 					if (tblRSNows!=null) {
-						 runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
-						 allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
+						 runCount = tblRsByHourBiz.selectRobotRunTimeCount(tblRSNows.get(j).getRobotno());
+						 standbyCount = tblRsByHourBiz.RobotNoStandbyTimeTypeCountFun(tblRSNows.get(j).getRobotno());
+						 erroCount = tblRsByHourBiz.RobotNoErroTimeTypeCountFun(tblRSNows.get(j).getRobotno());
 					}
-					if (runCount==0&& allCount==0) {
-						productivity = 0.00;
-					}else {
-						productivity = (double)runCount/allCount;
+					if (runCount!=null || standbyCount!=null || erroCount!=null) {
+						productivity = (double)runCount/(runCount+standbyCount+erroCount);
 					}
 					
 					tblRSNows.get(j).setEfficiency(productivity);
@@ -480,6 +484,56 @@ public class TblRsByHourController {
 				
 			map.put("flag", "1");
 			//map.put("tblRSNows", tblRSNows);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	
+	/**
+	 * Robot查询效率监控页面产出得分
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotOutput")
+	public @ResponseBody Map selectByRobotOutput(String apikey,String robotno){
+		
+		Map map = new HashMap();
+		String msg = "";
+		List<TblRSNow> tblRSNows = null;
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date startDate  = new Date();
+		Date endDate = new Date();
+		startDate = tblRsByHourBiz.selectMaxDate();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate);
+		calendar.add(calendar.DATE,0);
+		startDate=calendar.getTime();
+		
+		System.out.println(f.format(startDate));
+		
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(startDate);
+		calendar2.set(Calendar.HOUR,23);
+		calendar2.set(Calendar.MINUTE,59);
+		calendar2.set(Calendar.SECOND,59);
+		calendar2.add(calendar.DATE,0);
+		endDate = calendar2.getTime();
+		System.out.println(f.format(endDate));
+		double productivity = 0.00;
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+
+			Integer passNum = tblRTWorkInfoBiz.selectPassNumFun(robotno,f.format(startDate),f.format(endDate));
+		
+				
+			map.put("flag", "1");
+			map.put("passNum", passNum);
 			map.put("msg", msg);
 		}
 		return map;

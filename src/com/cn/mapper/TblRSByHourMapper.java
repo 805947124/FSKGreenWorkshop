@@ -41,4 +41,19 @@ public interface TblRSByHourMapper {
 	List<TblRSByHour> selectAllShutdownRobotNoByCustomerName(@Param("customername")String customername);
 
 	List<TblRSByHour> selectByCunstomerName(@Param("customername")String customername);
+	
+
+	Integer selectByRunTimeCount();
+
+	Integer selectByStandbyTimeCount();
+
+	Integer selectByErroTimeCount();
+
+	Integer selectByRunTimeTypeCount(String robotno);
+
+	Integer selectByStandbyTimeTypeCount(String robotno);
+
+	Integer selectByErroTimeTypeCount(String robotno);
+	
+	
 }

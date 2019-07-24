@@ -54,7 +54,7 @@
   	select COUNT(*) from Robot_Status_Time
   </select>
   
-  <select id="selectRobotNoRunCount" resultType="int">
+  <select id="selectByRunTimeCount" resultType="Integer">
   	select COUNT(*) from Robot_Status_Time a where a.TimeFlag ='RUNNING'
   </select>
   
@@ -64,20 +64,33 @@
 		and StartTime between #{startTime} and #{overTime}
   </select>
   
-  <select id="selectRobotNoCountType" resultType="Integer" parameterType="String">
-  	select COUNT(*) from Robot_Status_Time where Area = '${area}' 
-  		and Building = '${building}' 
-  		and Floor = '${floor}' 
-		and StartTime between '${startTime}' and '${overTime}'
-  </select>
   
   <select id="selectRobotNoRunCountType" resultType="Integer" parameterType="String">
-  	select COUNT(*) from Robot_Status_Time a where a.TimeFlag ='RUNNING' 
-  		and a.Area = '${area}'
+  	select sum(a.RunTimes) from Robot_Status_ByHour a  where  
+  		 a.Area = '${area}'
   		and a.Building = '${building}' 
   		and a.Floor = '${floor}' 
-		and a.StartTime between '${startTime}' and '${overTime}'
+		and a.Record_Time between '${startTime}' and '${overTime}'
   </select>
+  
+  <select id="selectRobotNoStandbyTimeCountType" resultType="Integer" parameterType="String">
+  	select sum(a.StandbyTimes) from Robot_Status_ByHour a   where  
+  		 a.Area = '${area}'
+  		and a.Building = '${building}' 
+  		and a.Floor = '${floor}' 
+		and a.Record_Time between '${startTime}' and '${overTime}'
+  </select>
+  
+  <select id="selectRobotNoErroTimeCountType" resultType="Integer" parameterType="String">
+  	select sum(a.ErrorTimes) from Robot_Status_ByHour a   where  
+  		 a.Area = '${area}'
+  		and a.Building = '${building}' 
+  		and a.Floor = '${floor}' 
+		and a.Record_Time between '${startTime}' and '${overTime}'
+  </select>
+  
+  
+  
   
   <select id="selectRobotRunCount" resultType="int">
   	select COUNT(*) from Robot_Status_Time a where a.TimeFlag ='RUNNING' and a.RobotNo = #{robotno}

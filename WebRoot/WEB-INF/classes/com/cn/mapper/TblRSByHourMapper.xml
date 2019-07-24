@@ -136,4 +136,39 @@
 	where c.CustomerName='${customername}') group by a.RobotNo)
   </select>
   
+  
+  
+  
+  
+  <select id="selectByRunTimeCount" resultType="Integer">
+  	select sum(a.RunTimes) from Robot_Status_ByHour a
+  </select>
+  
+  <select id="selectByStandbyTimeCount" resultType="Integer">
+  	select sum(a.StandbyTimes) from Robot_Status_ByHour a
+  	
+  </select>
+  
+  <select id="selectByErroTimeCount" resultType="Integer">
+  	select sum(a.ErrorTimes) from Robot_Status_ByHour a
+  </select>
+  
+  
+  
+  <select id="selectByRunTimeTypeCount" resultType="Integer">
+  	select sum(a.RunTimes) from Robot_Status_ByHour a
+  	where a.RobotNo = #{robotno}
+  </select>
+  
+  <select id="selectByStandbyTimeTypeCount" resultType="Integer">
+  	select sum(a.StandbyTimes) from Robot_Status_ByHour a
+  	where a.RobotNo = #{robotno}
+  </select>
+  
+  <select id="selectByErroTimeTypeCount" resultType="Integer">
+  	select sum(a.ErrorTimes) from Robot_Status_ByHour a
+  	where a.RobotNo = #{robotno}
+  </select>
+  
+  
 </mapper>

@@ -61,4 +61,16 @@ public class TblRSTimeBiz {
 		Integer numInteger = tblRSTimeMapper.selectRobotAllCount(robotno);
 		return numInteger;
 	}
+
+	public Integer RobotNoStandbyTimeCountTypeFun(String area, String building, String floor, String startTime,
+			String overTime) {
+		Integer num = tblRSTimeMapper.selectRobotNoStandbyTimeCountType(area,building,floor,startTime,overTime);
+		return num;
+	}
+
+	public Integer RobotNoErroTimeCountTypeFun(String area, String building, String floor, String startTime,
+			String overTime) {
+		Integer num = tblRSTimeMapper.selectRobotNoErroTimeCountType(area,building,floor,startTime,overTime);
+		return num;
+	}
 }

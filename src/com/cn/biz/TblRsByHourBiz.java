@@ -97,4 +97,35 @@ public class TblRsByHourBiz {
 		List<TblRSByHour> tblRSByHours = tblRSByHourMapper.selectByCunstomerName(customername);
 		return tblRSByHours;
 	}
+
+	public Integer RobotNoRunTimeCountFun() {
+		// TODO Auto-generated method stub
+		Integer runTime = tblRSByHourMapper.selectByRunTimeCount();
+		return runTime;
+	}
+
+	public Integer RobotNoStandbyTimeCountFun() {
+		Integer stadbyTime = tblRSByHourMapper.selectByStandbyTimeCount();
+		return stadbyTime;
+	}
+
+	public Integer RobotNoErroTimeCountFun() {
+		Integer ErroTime = tblRSByHourMapper.selectByErroTimeCount();
+		return ErroTime;
+	}
+
+	public int selectRobotRunTimeCount(String robotno) {
+		Integer runTime = tblRSByHourMapper.selectByRunTimeTypeCount(robotno);
+		return runTime;
+	}
+	
+	public Integer RobotNoStandbyTimeTypeCountFun(String robotno) {
+		Integer stadbyTime = tblRSByHourMapper.selectByStandbyTimeTypeCount(robotno);
+		return stadbyTime;
+	}
+
+	public Integer RobotNoErroTimeTypeCountFun(String robotno) {
+		Integer ErroTime = tblRSByHourMapper.selectByErroTimeTypeCount(robotno);
+		return ErroTime;
+	}
 }

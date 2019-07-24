@@ -38,4 +38,8 @@
     SFCErrNum, RepairTime, Put_NG, FirstPS_NG, Put_OK, Date_Time, Station, Model
     from Robot_Tester_WorkInfo
   </select>
+  
+  <select id="selectPassNum" resultType="Integer" parameterType="String">
+    SELECT sum(a.PassNum) from Robot_Tester_WorkInfo a where a.RobotNo='${robotno}' and a.Date_Time between '${starDate}' and '${endDate}'
+  </select>
 </mapper>

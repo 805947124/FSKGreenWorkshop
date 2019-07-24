@@ -25,5 +25,9 @@ public interface TblRSTimeMapper {
 	Integer selectRobotRunCount(String robotno);
 
 	Integer selectRobotAllCount(String robotno);
+
+	Integer selectRobotNoStandbyTimeCountType(@Param("area")String area, @Param("building")String building, @Param("floor")String floor, @Param("startTime")String startTime,@Param("overTime")String overTime);
+
+	Integer selectRobotNoErroTimeCountType(@Param("area")String area, @Param("building")String building, @Param("floor")String floor, @Param("startTime")String startTime,@Param("overTime")String overTime);
 	
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cn.biz.TblRSTimeBiz;
+import com.cn.biz.TblRsByHourBiz;
 import com.cn.entity.TblRSNow;
 import com.cn.entity.TblRSTime;
 
@@ -22,6 +23,9 @@ public class TblRSTimeController {
 
 	@Autowired
 	private TblRSTimeBiz tblRSTimeBiz;
+	
+	@Autowired
+	private TblRsByHourBiz TblRsByHourBiz;
 	
 	/**
 	 * 查询所有机械手数量及首页效率
@@ -33,7 +37,7 @@ public class TblRSTimeController {
 		
 		Map map = new HashMap();
 		List<TblRSTime> tblRSTimes = null;
-		String productivity="";
+		double productivity=0.00;
 		if (!apikey.equals("nnjj_0944547748")) {
 					
 			map.put("flag", "0");
@@ -41,19 +45,20 @@ public class TblRSTimeController {
 		}else {
 			//tblRSTimes = tblRSTimeBiz.selectByRSTimeFun();
 			int robotNo = tblRSTimeBiz.selectByRobotNoFun();
-			int robotNoCount = tblRSTimeBiz.RobotNoCountFun();
-			int robotNoRunCount = tblRSTimeBiz.RobotNoRunCountFun();
 			
-			DecimalFormat df = new DecimalFormat("0.000");
-			productivity = df.format((double)robotNoRunCount/robotNoCount);
+			Integer robotNoRunCount = TblRsByHourBiz.RobotNoRunTimeCountFun();
+			Integer robotNoStandbyTimeCount = TblRsByHourBiz.RobotNoStandbyTimeCountFun();
+			Integer robotNoErroTimeCount = TblRsByHourBiz.RobotNoErroTimeCountFun();
+			
+			productivity = (double)robotNoRunCount/(robotNoRunCount+robotNoStandbyTimeCount+robotNoErroTimeCount);
 			map = new HashMap();
 			
 			map.put("flag", "1");
 			map.put("robotNo", robotNo);
-			map.put("robotNoCount", robotNoCount);
 			map.put("robotNoRunCount", robotNoRunCount);
+			map.put("robotNoStandbyTimeCount", robotNoStandbyTimeCount);
+			map.put("robotNoErroTimeCount", robotNoErroTimeCount);
 			map.put("productivity", productivity);
-			map.put("tblRSTimes", tblRSTimes);
 			
 			
 		}
@@ -86,27 +91,38 @@ public class TblRSTimeController {
 		String floor = BF[1];
 
 		Map map = new HashMap();
-		String productivity="";
+		double productivity=0.00;
 		if (!apikey.equals("nnjj_0944547748")) {
 					
 			map.put("flag", "0");
 			map.put("msg", "非法请求！");
 		}else {
 			
+			
+
+			
+			
+			
+			
 			Integer robotNo = tblRSTimeBiz.selectByRobotNoFun();
-			Integer robotNoCount = tblRSTimeBiz.RobotNoCountTypeFun(area,building,floor,startTime,overTime);
+			
 			Integer robotNoRunCount = tblRSTimeBiz.RobotNoRunCountTypeFun(area,building,floor,startTime,overTime);
+			Integer robotNoStandbyTimeCount = tblRSTimeBiz.RobotNoStandbyTimeCountTypeFun(area,building,floor,startTime,overTime);
+			Integer robotNoErroTimeCount = tblRSTimeBiz.RobotNoErroTimeCountTypeFun(area,building,floor,startTime,overTime);
 			
-			System.out.println("总数："+robotNo+"所有记录数："+robotNoCount+"运行记录数："+robotNoRunCount);
+			if (robotNoRunCount!=null || robotNoStandbyTimeCount!=null || robotNoErroTimeCount!=null) {
+				productivity = (double)robotNoRunCount/(robotNoRunCount+robotNoStandbyTimeCount+robotNoErroTimeCount);
+
+			}
 			
-			DecimalFormat df = new DecimalFormat("0.000");
-			productivity = df.format((double)robotNoRunCount/robotNoCount);
+			
 			map = new HashMap();
 			
 			map.put("flag", "1");
 			map.put("robotNo", robotNo);
-			map.put("robotNoCount", robotNoCount);
 			map.put("robotNoRunCount", robotNoRunCount);
+			map.put("robotNoStandbyTimeCount", robotNoStandbyTimeCount);
+			map.put("robotNoErroTimeCount", robotNoErroTimeCount);
 			map.put("productivity", productivity);
 		}
 		return map;
