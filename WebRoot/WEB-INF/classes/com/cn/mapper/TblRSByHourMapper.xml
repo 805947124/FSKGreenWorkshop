@@ -136,8 +136,6 @@
 	where c.CustomerName='${customername}') group by a.RobotNo)
   </select>
   
-<<<<<<< HEAD
-  
   
   
   
@@ -172,7 +170,7 @@
   </select>
   
   
-=======
+  
   <select id="selectRunTimes" resultType="Double">
   	SELECT sum(RunTimes) from Robot_Status_ByHour where Date = (select Max(Date) from Robot_Status_ByHour) and RobotNo = '${robotNo}'
   </select>
@@ -185,5 +183,4 @@
   	SELECT sum(ErrorTimes) from Robot_Status_ByHour where Date = (select Max(Date) from Robot_Status_ByHour) and RobotNo = '${robotNo}'
   </select>
   
->>>>>>> 61b5448bfbfab972efb72f31cc8ff8d8cdc2467c
 </mapper>
