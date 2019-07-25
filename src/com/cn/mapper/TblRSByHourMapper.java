@@ -63,4 +63,6 @@ public interface TblRSByHourMapper {
 
 	Double selectErrorTimes(@Param("robotNo")String robotNo);
 
+	List<TblRSByHour> selectRobotNoRunTimeTrend(@Param("robotNo")String robotNo);
+
 }

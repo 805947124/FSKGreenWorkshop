@@ -692,6 +692,32 @@ public class TblRsByHourController {
 		return map;
 	}
 	
+	/**
+	 * 手臂运行时间趋势接口
+	 * @param apikey
+	 * @param robotNo
+	 * @return
+	 */
+	@RequestMapping("/selectRobotNoRunTimeTrend")
+	public @ResponseBody Map selectRobotNoRunTimeTrend(String apikey,String robotNo){
+		
+		Map map = new HashMap();
+		List<TblRSByHour> tblRSByHours = new ArrayList<TblRSByHour>();
+		String msg = "";
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else{
+			tblRSByHours = tblRsByHourBiz.selectRobotNoRunTimeTrend(robotNo);
+			map.put("flag", "1");
+			map.put("msg", msg);
+			map.put("tblRSByHours", tblRSByHours);
+		}
+		return map;
+	}
+	
 	@RequestMapping("/selectRSByHour")
 	public @ResponseBody Map selectRSByHour(String apikey){
 		

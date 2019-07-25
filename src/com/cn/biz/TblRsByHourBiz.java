@@ -143,4 +143,9 @@ public class TblRsByHourBiz {
 		Double ErrorTimes = tblRSByHourMapper.selectErrorTimes(robotNo);
 		return ErrorTimes;
 	}
+
+	public List<TblRSByHour> selectRobotNoRunTimeTrend(String robotNo) {
+		List<TblRSByHour> RobotNoRunTimeTrend = tblRSByHourMapper.selectRobotNoRunTimeTrend(robotNo);
+		return RobotNoRunTimeTrend;
+	}
 }
