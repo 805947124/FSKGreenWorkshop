@@ -32,6 +32,7 @@ import com.cn.entity.TblRSByHour;
 import com.cn.entity.TblRSNow;
 import com.cn.entity.TblRTWorkInfo;
 import com.cn.entity.TblRobotInfo;
+import com.cn.util.TblRankingDate;
 
 @Controller
 @RequestMapping("/rsByHour")
@@ -364,13 +365,13 @@ public class TblRsByHourController {
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
-
+				Integer runCount=0;
+				Integer standbyCount=0;
+				Integer erroCount=0;
 				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
 				int indexTblRSNow = tblRSNows.size();
 				for (int j = 0; j < indexTblRSNow; j++) {
-					Integer runCount=0;
-					Integer standbyCount=0;
-					Integer erroCount=0;
+					
 					
 					if (tblRSNows!=null) {
 						 runCount = tblRsByHourBiz.selectRobotRunTimeCount(tblRSNows.get(j).getRobotno());
@@ -380,6 +381,17 @@ public class TblRsByHourController {
 					if (runCount!=null || standbyCount!=null || erroCount!=null) {
 						productivity = (double)runCount/(runCount+standbyCount+erroCount);
 					}
+					String strRobot = tblRSNows.get(j).getRobotno();
+					
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSNows.get(j).setShortName(strRobot);
 					
 					tblRSNows.get(j).setEfficiency(productivity);
 				}
@@ -415,7 +427,7 @@ public class TblRsByHourController {
 	
 	
 	/**
-	 * Robot查询效率监控页面按时间折线图排行
+	 * Robot查询效率监控页面按一周日期折线图查询
 	 * @param apikey
 	 * @return map
 	 * @throws ParseException
@@ -427,63 +439,85 @@ public class TblRsByHourController {
 		String msg = "";
 		List<TblRSNow> tblRSNows = null;
 		Date date  = new Date();
-		date = tblRsByHourBiz.selectMaxDate();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.add(calendar.DATE, -7);
-		date=calendar.getTime();
-		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println(f.format(date));
-		double productivity = 0.00;
+		Date endDate =new Date();
 		
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		date = tblRsByHourBiz.selectMaxDate();
+		
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendar2 = calendar.getInstance();
+		
+		calendar.setTime(date);
+		calendar2.setTime(date);
+		
+		List<String> StartdateList =new ArrayList<String>();
+		List<String> enddateList = new ArrayList<String>();
+		
+		calendar.add(calendar.DATE, 0);
+		
+		calendar2.set(Calendar.HOUR,23);
+		calendar2.set(Calendar.MINUTE,59);
+		calendar2.set(Calendar.SECOND,59);
+		calendar2.add(calendar.DATE,0);
+		
+		endDate = calendar2.getTime();
+		enddateList.add(f.format(endDate));
+		
+		date=calendar.getTime();
+		StartdateList.add(f.format(date));
+		
+		for (int i = 0; i < 6; i++) {
+			
+			calendar.add(calendar.DATE, -1);
+			date=calendar.getTime();
+			StartdateList.add(f.format(date));
+		}
+		
+		for (int i = 0; i < 6; i++) {
+			
+			calendar2.add(calendar.DATE, -1);
+			endDate=calendar2.getTime();
+			enddateList.add(f.format(endDate));
+		}
+		
+		double productivity = 0.00;
+		double runTimes = 0.0;
+		double erroTimes = 0.0;
+		double standbyTimes = 0.0;
+		
+		List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
+		TblRankingDate tblRankingDate = null;
 		if (!apikey.equals("nnjj_0944547748")) {
 			msg = "非法请求！";
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
-
-				/*tblRSNows = tblRSNowBiz.selectByRSNoweFun();
-				int indexTblRSNow = tblRSNows.size();
-				for (int j = 0; j < indexTblRSNow; j++) {
-					int runCount=0;
-					int allCount=0;
-					
-					if (tblRSNows!=null) {
-						 runCount = tblRSTimeBiz.selectRobotRunCount(tblRSNows.get(j).getRobotno());
-						 allCount = tblRSTimeBiz.selectRobotAllCount(tblRSNows.get(j).getRobotno());
-					}
-					if (runCount==0&& allCount==0) {
-						productivity = 0.00;
+			int num = StartdateList.size();
+			
+			for (int i = 0; i < StartdateList.size(); i++) {
+				runTimes = tblRsByHourBiz.selectRunTimesFun(StartdateList.get(i),enddateList.get(i));
+				erroTimes = tblRsByHourBiz.selectErrorTimesFun(StartdateList.get(i),enddateList.get(i));
+				standbyTimes = tblRsByHourBiz.selectStandbyTimesFun(StartdateList.get(i),enddateList.get(i));	
+				
+				if (runTimes!=0 || erroTimes!=0 || standbyTimes!=0) {
+					if (runTimes+erroTimes+standbyTimes==0) {
+						productivity=0.00;
 					}else {
-						productivity = (double)runCount/allCount;
+						productivity =runTimes/(runTimes+erroTimes+standbyTimes);
+
 					}
-					
-					tblRSNows.get(j).setEfficiency(productivity);
 				}
 				
-				Collections.sort(tblRSNows, new Comparator<TblRSNow>(){
-		            
-		             * int compare(Person p1, Person p2) 返回一个基本类型的整型，
-		             * 返回负数表示：p1 小于p2，
-		             * 返回0 表示：p1和p2相等，
-		             * 返回正数表示：p1大于p2
-		             
-					@Override
-					public int compare(TblRSNow o1, TblRSNow o2) {
-						  //按照Person的年龄进行升序排列
-		                if(o1.getEfficiency() < o2.getEfficiency()){
-		                    return 1;
-		                }
-		                if(o1.getEfficiency() == o2.getEfficiency()){
-		                    return 0;
-		                }
-		                return -1;
-					}
-		        });*/
-		
+				tblRankingDate = new TblRankingDate(StartdateList.get(i), productivity);
+				tblRankingDates.add(tblRankingDate);
+				
+			}
+			
+			
 				
 			map.put("flag", "1");
-			//map.put("tblRSNows", tblRSNows);
+			map.put("tblRankingDates", tblRankingDates);
 			map.put("msg", msg);
 		}
 		return map;
@@ -530,10 +564,23 @@ public class TblRsByHourController {
 		}else {
 
 			Integer passNum = tblRTWorkInfoBiz.selectPassNumFun(robotno,f.format(startDate),f.format(endDate));
-		
-				
+			Integer putNg = tblRTWorkInfoBiz.selectputNgFun(robotno,f.format(startDate),f.format(endDate));
+			Integer failNum = tblRTWorkInfoBiz.selectfailNumFun(robotno,f.format(startDate),f.format(endDate));	
+			
+			if (passNum!=null || putNg!=null || failNum!=null) {
+				if (passNum+putNg+failNum==0) {
+					productivity=0.00;
+				}else {
+					productivity = (double)passNum/(passNum+putNg+failNum);
+
+				}
+			}
+			
 			map.put("flag", "1");
+			map.put("productivity", productivity);
 			map.put("passNum", passNum);
+			map.put("putNg", putNg);
+			map.put("failNum", failNum);
 			map.put("msg", msg);
 		}
 		return map;

@@ -183,4 +183,16 @@
   	SELECT sum(ErrorTimes) from Robot_Status_ByHour where Date = (select Max(Date) from Robot_Status_ByHour) and RobotNo = '${robotNo}'
   </select>
   
+  
+  <select id="selectRunTimesFun" resultType="Double">
+  	select sum(a.RunTimes) from Robot_Status_ByHour a where a.Record_Time between '${startDate}' and '${endDate}'
+  </select>
+  <select id="selectErrorTimesFun" resultType="Double">
+	select sum(a.ErrorTimes) from Robot_Status_ByHour a where a.Record_Time between '${startDate}' and '${endDate}'
+  </select>
+  <select id="selectStandbyTimesFun" resultType="Double">
+  	select sum(a.StandbyTimes) from Robot_Status_ByHour a where a.Record_Time between '${startDate}' and '${endDate}'
+  </select>
+  
+  
 </mapper>

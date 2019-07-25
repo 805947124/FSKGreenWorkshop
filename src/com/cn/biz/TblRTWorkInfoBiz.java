@@ -16,4 +16,14 @@ public class TblRTWorkInfoBiz {
 		Integer passNum = tblRTWorkInfoMapper.selectPassNum(robotno,starDate,endDate);
 		return passNum;
 	}
+
+	public Integer selectputNgFun(String robotno, String starDate, String endDate) {
+		Integer putNg = tblRTWorkInfoMapper.selectPutNg(robotno,starDate,endDate);
+		return putNg;
+	}
+
+	public Integer selectfailNumFun(String robotno, String starDate, String endDate) {
+		Integer failNum = tblRTWorkInfoMapper.selectFailNum(robotno,starDate,endDate);
+		return failNum;
+	}
 }

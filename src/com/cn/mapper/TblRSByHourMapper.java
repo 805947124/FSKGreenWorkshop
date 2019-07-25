@@ -62,5 +62,13 @@ public interface TblRSByHourMapper {
 	Double selectStandbyTimes(@Param("robotNo")String robotNo);
 
 	Double selectErrorTimes(@Param("robotNo")String robotNo);
+	
+	
+
+	Double selectRunTimesFun(@Param("startDate")String startDate,@Param("endDate")String endDate);
+
+	Double selectErrorTimesFun(@Param("startDate")String startDate,@Param("endDate")String endDate);
+
+	Double selectStandbyTimesFun(@Param("startDate")String startDate,@Param("endDate")String endDate);
 
 }

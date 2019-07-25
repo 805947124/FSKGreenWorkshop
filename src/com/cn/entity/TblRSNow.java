@@ -24,6 +24,8 @@ public class TblRSNow {
     private String robotstatus;
     
     private double efficiency;
+    
+    private String shortName;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getRecordTime() {
@@ -106,6 +108,17 @@ public class TblRSNow {
 
 	public void setEfficiency(double efficiency) {
 		this.efficiency = efficiency;
+	}
+	
+	
+	
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
 	@Override

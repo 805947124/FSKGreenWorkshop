@@ -143,4 +143,19 @@ public class TblRsByHourBiz {
 		Double ErrorTimes = tblRSByHourMapper.selectErrorTimes(robotNo);
 		return ErrorTimes;
 	}
+
+	public double selectRunTimesFun(String startDate, String endDate) {
+		Double runTimes = tblRSByHourMapper.selectRunTimesFun(startDate,endDate);
+		return runTimes;
+	}
+
+	public double selectErrorTimesFun(String startDate, String endDate) {
+		Double errorTimes = tblRSByHourMapper.selectErrorTimesFun(startDate,endDate);
+		return errorTimes;
+	}
+
+	public double selectStandbyTimesFun(String startDate, String endDate) {
+		Double standbyTimes = tblRSByHourMapper.selectStandbyTimesFun(startDate,endDate);
+		return standbyTimes;
+	}
 }

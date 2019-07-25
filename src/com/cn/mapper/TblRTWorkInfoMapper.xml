@@ -42,4 +42,12 @@
   <select id="selectPassNum" resultType="Integer" parameterType="String">
     SELECT sum(a.PassNum) from Robot_Tester_WorkInfo a where a.RobotNo='${robotno}' and a.Date_Time between '${starDate}' and '${endDate}'
   </select>
+  
+  <select id="selectPutNg" resultType="Integer" parameterType="String">
+    SELECT sum(a.Put_NG) from Robot_Tester_WorkInfo a where a.RobotNo='${robotno}' and a.Date_Time between '${starDate}' and '${endDate}'
+  </select>
+  
+  <select id="selectFailNum" resultType="Integer" parameterType="String">
+    SELECT sum(a.FailNum) from Robot_Tester_WorkInfo a where a.RobotNo='${robotno}' and a.Date_Time between '${starDate}' and '${endDate}'
+  </select>
 </mapper>
