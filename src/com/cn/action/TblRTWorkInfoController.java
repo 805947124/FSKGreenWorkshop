@@ -68,9 +68,6 @@ public class TblRTWorkInfoController {
 		}
 		
 		Integer PassNum = 0;
-		Integer FailNum = 0;
-		Integer Put_NG = 0;
-		double productivity = 0.00;
 		
 		TblProduceByHour tblProduceByHour = null;
 		List<TblProduceByHour> tblProduceByHours = new ArrayList<TblProduceByHour>();
@@ -83,18 +80,8 @@ public class TblRTWorkInfoController {
 			
 			for(int i = 0;i < startDateList.size();i++){
 				PassNum = tblRTWorkInfoBiz.selectPassNumbyHour(RobotNo,startDateList.get(i),endDateList.get(i));
-				FailNum = tblRTWorkInfoBiz.selectFailNumbyHour(RobotNo,startDateList.get(i),endDateList.get(i));
-				Put_NG = tblRTWorkInfoBiz.selectPut_NGbyHour(RobotNo,startDateList.get(i),endDateList.get(i));
 				
-				if (PassNum !=null || FailNum !=null || Put_NG !=null) {
-					if (PassNum+PassNum+PassNum==0) {
-						productivity=0.00;
-					}else {
-						productivity =(double)PassNum/(PassNum+FailNum+Put_NG);
-					}
-				}
-				
-				tblProduceByHour = new TblProduceByHour(RobotNo, i, PassNum, productivity);
+				tblProduceByHour = new TblProduceByHour(RobotNo, i, PassNum);
 				tblProduceByHours.add(tblProduceByHour);
 			}
 			map.put("flag", "1");
