@@ -50,4 +50,21 @@
   <select id="selectFailNum" resultType="Integer" parameterType="String">
     SELECT sum(a.FailNum) from Robot_Tester_WorkInfo a where a.RobotNo='${robotno}' and a.Date_Time between '${starDate}' and '${endDate}'
   </select>
+  
+  <select id="selectMaxDate" resultType="java.util.Date">
+  	select  Max(Date_Time)Date_Time  from Robot_Tester_WorkInfo
+  </select>
+  
+  <select id="selectPassNumbyHour" resultType="Integer" parameterType="String">
+    select  sum(PassNum)PassNum  from Robot_Tester_WorkInfo where RobotNo = '${robotno}' and  Date_Time between '${startDate}' and '${endDate}'
+  </select>
+  
+  <select id="selectFailNumbyHour" resultType="Integer" parameterType="String">
+    select  sum(FailNum)FailNum  from Robot_Tester_WorkInfo where RobotNo = '${robotno}' and  Date_Time between '${startDate}' and '${endDate}'
+  </select>
+  
+  <select id="selectPut_NGbyHour" resultType="Integer" parameterType="String">
+    select  sum(Put_NG)Put_NG  from Robot_Tester_WorkInfo where RobotNo = '${robotno}' and  Date_Time between '${startDate}' and '${endDate}'
+  </select>
+  
 </mapper>
