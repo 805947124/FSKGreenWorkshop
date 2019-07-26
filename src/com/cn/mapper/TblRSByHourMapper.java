@@ -73,4 +73,10 @@ public interface TblRSByHourMapper {
 
 	List<TblRSByHour> selectRobotNoRunTimeTrend(@Param("robotNo")String robotNo);
 
+	Double selectRunTimesTypeFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("robotno")String robotno);
+
+	Double selectErrorTimesTypeFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("robotno")String robotno);
+
+	Double selectStandbyTimesTypeFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("robotno")String robotno);
+
 }

@@ -525,6 +525,104 @@ public class TblRsByHourController {
 	
 	
 	/**
+	 * Robot查询效率监控页面按一周日期折线图查询
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotRankingDateType")
+	public @ResponseBody Map selectByRobotRankingDateType(String apikey,String robotno){
+		
+		Map map = new HashMap();
+		String msg = "";
+		List<TblRSNow> tblRSNows = null;
+		Date date  = new Date();
+		Date endDate =new Date();
+		
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		date = tblRsByHourBiz.selectMaxDate();
+		
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendar2 = Calendar.getInstance();
+		
+		calendar.setTime(date);
+		calendar2.setTime(date);
+		
+		List<String> StartdateList =new ArrayList<String>();
+		List<String> enddateList = new ArrayList<String>();
+		
+		calendar.add(calendar.DATE, 0);
+		
+		calendar2.set(Calendar.HOUR,23);
+		calendar2.set(Calendar.MINUTE,59);
+		calendar2.set(Calendar.SECOND,59);
+		calendar2.add(calendar.DATE,0);
+		
+		endDate = calendar2.getTime();
+		enddateList.add(f.format(endDate));
+		
+		date=calendar.getTime();
+		StartdateList.add(f.format(date));
+		
+		for (int i = 0; i < 6; i++) {
+			
+			calendar.add(calendar.DATE, -1);
+			date=calendar.getTime();
+			StartdateList.add(f.format(date));
+		}
+		
+		for (int i = 0; i < 6; i++) {
+			
+			calendar2.add(calendar.DATE, -1);
+			endDate=calendar2.getTime();
+			enddateList.add(f.format(endDate));
+		}
+		
+		double productivity = 0.00;
+		double runTimes = 0.0;
+		double erroTimes = 0.0;
+		double standbyTimes = 0.0;
+		
+		List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
+		TblRankingDate tblRankingDate = null;
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+			int num = StartdateList.size();
+			
+			for (int i = 0; i < StartdateList.size(); i++) {
+				runTimes = tblRsByHourBiz.selectRunTimesTypeFun(StartdateList.get(i),enddateList.get(i),robotno);
+				erroTimes = tblRsByHourBiz.selectErrorTimesTypeFun(StartdateList.get(i),enddateList.get(i),robotno);
+				standbyTimes = tblRsByHourBiz.selectStandbyTimesTypeFun(StartdateList.get(i),enddateList.get(i),robotno);	
+				
+				if (runTimes!=0 || erroTimes!=0 || standbyTimes!=0) {
+					if (runTimes+erroTimes+standbyTimes==0) {
+						productivity=0.00;
+					}else {
+						productivity =runTimes/(runTimes+erroTimes+standbyTimes);
+
+					}
+				}
+				
+				tblRankingDate = new TblRankingDate(StartdateList.get(i), productivity);
+				tblRankingDates.add(tblRankingDate);
+				
+			}
+			
+			
+				
+			map.put("flag", "1");
+			map.put("tblRankingDates", tblRankingDates);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	
+	/**
 	 * Robot查询效率监控页面产出得分
 	 * @param apikey
 	 * @return map

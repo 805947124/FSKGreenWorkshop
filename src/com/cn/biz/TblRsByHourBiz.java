@@ -164,4 +164,20 @@ public class TblRsByHourBiz {
 		return RobotNoRunTimeTrend;
 
 	}
+	
+
+	public double selectRunTimesTypeFun(String startDate, String endDate, String robotno) {
+		Double runTimes = tblRSByHourMapper.selectRunTimesTypeFun(startDate,endDate,robotno);
+		return runTimes;
+	}
+
+	public double selectErrorTimesTypeFun(String startDate, String endDate, String robotno) {
+		Double errorTimes = tblRSByHourMapper.selectErrorTimesTypeFun(startDate,endDate,robotno);
+		return errorTimes;
+	}
+
+	public double selectStandbyTimesTypeFun(String startDate, String endDate, String robotno) {
+		Double standbyTimes = tblRSByHourMapper.selectStandbyTimesTypeFun(startDate,endDate,robotno);
+		return standbyTimes;
+	}
 }
