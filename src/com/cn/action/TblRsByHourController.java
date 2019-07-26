@@ -406,7 +406,7 @@ public class TblRsByHourController {
 					@Override
 					public int compare(TblRSNow o1, TblRSNow o2) {
 						  //按照Person的年龄进行升序排列
-		                if(o1.getEfficiency() < o2.getEfficiency()){
+		                if(o1.getEfficiency() > o2.getEfficiency()){
 		                    return 1;
 		                }
 		                if(o1.getEfficiency() == o2.getEfficiency()){

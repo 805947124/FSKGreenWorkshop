@@ -42,35 +42,36 @@
   <select id="selectByRobotNo" resultType="int">
   	select COUNT(*) from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
 	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
-	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z
+	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z where z.RobotNo like '%CPEB04%'
   </select>
+  
   
   <select id="selectByRunRobotNo" resultType="int">
   	select COUNT(*) from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
 	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
 	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z 
-	where z.RobotStatus = 'RUNNING'
+	where z.RobotNo like '%CPEB04%' and z.RobotStatus = 'RUNNING'
   </select>
   
   <select id="selectByStanbyRobotNo" resultType="int">
   	select COUNT(*) from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
 	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
 	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z 
-	where z.RobotStatus = 'STANDBY' and z.StandbyTimes &lt;= 10
+	where z.RobotNo like '%CPEB04%' and z.RobotStatus = 'STANDBY' and z.StandbyTimes &lt;= 10
   </select>
   
   <select id="selectByErroRobotNo" resultType="int">
   	select COUNT(*) from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
 	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
 	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z 
-	where z.RobotStatus = 'ERROR' and z.ErrorTimes &lt;= 30
+	where z.RobotNo like '%CPEB04%' and z.RobotStatus = 'ERROR' and z.ErrorTimes &lt;= 30
   </select>
   
   <select id="selectByShutdownRobotNo" resultType="int">
   	select COUNT(*) from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
 	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
 	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z 
-	where z.RobotStatus = 'ERROR' and z.ErrorTimes>30 or z.RobotStatus='STANDBY' and z.StandbyTimes >10
+	where z.RobotNo like '%CPEB04%' and z.RobotStatus = 'ERROR' and z.ErrorTimes>30 or z.RobotStatus='STANDBY' and z.StandbyTimes >10
   </select>
  
   <select id="selectAllRobotNoByCustomerName" resultMap="BaseResultMap">

@@ -168,16 +168,29 @@ public class TblRsByHourBiz {
 
 	public double selectRunTimesTypeFun(String startDate, String endDate, String robotno) {
 		Double runTimes = tblRSByHourMapper.selectRunTimesTypeFun(startDate,endDate,robotno);
-		return runTimes;
+		if (runTimes==null) {
+			return 0.0;
+		}else {
+			return runTimes;
+		}
+		
 	}
 
 	public double selectErrorTimesTypeFun(String startDate, String endDate, String robotno) {
 		Double errorTimes = tblRSByHourMapper.selectErrorTimesTypeFun(startDate,endDate,robotno);
-		return errorTimes;
+		if (errorTimes==null) {
+			return 0.0;
+		}else {
+			return errorTimes;
+		}
 	}
 
 	public double selectStandbyTimesTypeFun(String startDate, String endDate, String robotno) {
 		Double standbyTimes = tblRSByHourMapper.selectStandbyTimesTypeFun(startDate,endDate,robotno);
-		return standbyTimes;
+		if (standbyTimes==null) {
+			return 0.0;
+		}else {
+			return standbyTimes;
+		}
 	}
 }
