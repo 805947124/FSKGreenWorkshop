@@ -85,4 +85,8 @@
 	where w.Date_Time between '${startTime}' and '${endTime}' and w.RobotNo = '${robotNo}' and w.TesterNum = '${fixName}' and w.RepairTime &lt;&gt; '0'
   </select>
   
+  <select id="selectNewDayTimeByHour" resultType="java.util.Date">
+  	select Max(Date_Time) from Robot_Tester_WorkInfo where RobotNo = '${robotNo}' and TesterNum = '${fixName}' and Date_Time between '${startTime}' and '${endTime}'
+  </select>
+  
 </mapper>

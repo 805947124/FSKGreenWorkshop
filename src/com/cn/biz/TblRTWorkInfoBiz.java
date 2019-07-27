@@ -70,4 +70,9 @@ public class TblRTWorkInfoBiz {
 		Integer RepairNum = tblRTWorkInfoMapper.selectTesterRepairNum(startTime,endTime,robotNo,FixName);
 		return RepairNum;
 	}
+
+	public Date selectNewDayTimeByHour(String robotNo, int FixName, String startTime, String endTime) {
+		Date NewHourTime = tblRTWorkInfoMapper.selectNewDayTimeByHour(robotNo,FixName,startTime,endTime);
+		return NewHourTime;
+	}
 }

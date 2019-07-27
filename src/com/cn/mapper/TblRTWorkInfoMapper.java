@@ -35,4 +35,6 @@ public interface TblRTWorkInfoMapper {
 	TblWorkInfoSumData selectWorkInfoSum(@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("robotNo")String robotNo, @Param("fixName")int fixName);
 
 	Integer selectTesterRepairNum(@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("robotNo")String robotNo, @Param("fixName")int fixName);
+
+	Date selectNewDayTimeByHour(@Param("robotNo")String robotNo, @Param("fixName")int fixName, @Param("startTime")String startTime, @Param("endTime")String endTime);
 }
