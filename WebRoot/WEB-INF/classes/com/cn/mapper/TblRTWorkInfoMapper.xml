@@ -67,4 +67,22 @@
     select  sum(Put_NG)Put_NG  from Robot_Tester_WorkInfo where RobotNo = '${robotno}' and  Date_Time between '${startDate}' and '${endDate}'
   </select>
   
+  <select id="selectNewDayTimeByDay" resultType="java.util.Date">
+  	select Max(Date_Time) from Robot_Tester_WorkInfo where RobotNo = '${robotno}' and TesterNum = '${FixName}'
+  </select>
+  
+  <select id="selectTesterStatus" resultType="com.cn.entity.TblTesterStatus">
+  	select Tester_IP,status,PassNum from Robot_Tester_WorkInfo where Date_Time = '${strNewDayTime}' and RobotNo = '${robotno}' and TesterNum = '${FixName}'
+  </select>
+  
+  <select id="selectWorkInfoSum" resultType="com.cn.entity.TblWorkInfoSumData">
+  	SELECT sum(w.RepairTime)/60 RepairTime,sum(w.PassNum) PassNum,sum(w.Put_NG) Put_NG,sum(w.FailNum) FailNum,sum(w.SFCErrNum) SFCErrNum,sum(w.FirstPS_NG) FirstPS_NG,sum(w.Put_OK) Put_OK  FROM Robot_Tester_WorkInfo w 
+	where w.Date_Time between '${startTime}' and '${endTime}' and w.RobotNo = '${robotNo}' and w.TesterNum = '${fixName}'
+  </select>
+  
+  <select id="selectTesterRepairNum" resultType="Integer">
+  	SELECT count(*)  FROM Robot_Tester_WorkInfo w 
+	where w.Date_Time between '${startTime}' and '${endTime}' and w.RobotNo = '${robotNo}' and w.TesterNum = '${fixName}' and w.RepairTime &lt;&gt; '0'
+  </select>
+  
 </mapper>
