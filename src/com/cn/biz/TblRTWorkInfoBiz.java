@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cn.entity.TblTesterStatus;
+import com.cn.entity.TblWorkInfoSumData;
 import com.cn.mapper.TblRTWorkInfoMapper;
 
 @Service
@@ -47,5 +49,30 @@ public class TblRTWorkInfoBiz {
 	public Integer selectPut_NGbyHour(String robotNo, String startDate, String endDate) {
 		Integer Put_NG = tblRTWorkInfoMapper.selectPut_NGbyHour(robotNo,startDate,endDate);
 		return Put_NG;
+	}
+
+	public Date selectNewDayTimeByDay(String robotNo, int FixName) {
+		Date NewDayTime = tblRTWorkInfoMapper.selectNewDayTimeByDay(robotNo,FixName);
+		return NewDayTime;
+	}
+
+	public TblTesterStatus selectTesterStatus(String strNewDayTime,String robotNo, int FixName) {
+		TblTesterStatus tblTesterStatus = tblRTWorkInfoMapper.selectTesterStatus(strNewDayTime,robotNo,FixName);
+		return tblTesterStatus;
+	}
+
+	public TblWorkInfoSumData selectWorkInfoSum(String startTime, String endTime, String robotNo, int FixName) {
+		TblWorkInfoSumData tblWorkInfoSumData = tblRTWorkInfoMapper.selectWorkInfoSum(startTime,endTime,robotNo,FixName);
+		return tblWorkInfoSumData;
+	}
+
+	public Integer selectTesterRepairNum(String startTime, String endTime, String robotNo, int FixName) {
+		Integer RepairNum = tblRTWorkInfoMapper.selectTesterRepairNum(startTime,endTime,robotNo,FixName);
+		return RepairNum;
+	}
+
+	public Date selectNewDayTimeByHour(String robotNo, int FixName, String startTime, String endTime) {
+		Date NewHourTime = tblRTWorkInfoMapper.selectNewDayTimeByHour(robotNo,FixName,startTime,endTime);
+		return NewHourTime;
 	}
 }
