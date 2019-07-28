@@ -44,11 +44,11 @@ public interface TblRSByHourMapper {
 
 	
 
-	Integer selectByRunTimeCount();
+	Double selectByRunTimeCount();
 
-	Integer selectByStandbyTimeCount();
+	Double selectByStandbyTimeCount();
 
-	Integer selectByErroTimeCount();
+	Double selectByErroTimeCount();
 
 	Double selectByRunTimeTypeCount(@Param("robotno")String robotno, @Param("startDate")String startDate, @Param("finishDate")String finishDate);
 

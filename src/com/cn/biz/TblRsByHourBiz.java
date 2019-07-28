@@ -99,19 +99,19 @@ public class TblRsByHourBiz {
 	}
 
 
-	public Integer RobotNoRunTimeCountFun() {
+	public Double RobotNoRunTimeCountFun() {
 		// TODO Auto-generated method stub
-		Integer runTime = tblRSByHourMapper.selectByRunTimeCount();
+		Double runTime = tblRSByHourMapper.selectByRunTimeCount();
 		return runTime;
 	}
 
-	public Integer RobotNoStandbyTimeCountFun() {
-		Integer stadbyTime = tblRSByHourMapper.selectByStandbyTimeCount();
+	public Double RobotNoStandbyTimeCountFun() {
+		Double stadbyTime = tblRSByHourMapper.selectByStandbyTimeCount();
 		return stadbyTime;
 	}
 
-	public Integer RobotNoErroTimeCountFun() {
-		Integer ErroTime = tblRSByHourMapper.selectByErroTimeCount();
+	public Double RobotNoErroTimeCountFun() {
+		Double ErroTime = tblRSByHourMapper.selectByErroTimeCount();
 		return ErroTime;
 	}
 
@@ -145,17 +145,17 @@ public class TblRsByHourBiz {
 	}
 
 	
-	public double selectRunTimesFun(String startDate, String endDate) {
+	public Double selectRunTimesFun(String startDate, String endDate) {
 		Double runTimes = tblRSByHourMapper.selectRunTimesFun(startDate,endDate);
 		return runTimes;
 	}
 
-	public double selectErrorTimesFun(String startDate, String endDate) {
+	public Double selectErrorTimesFun(String startDate, String endDate) {
 		Double errorTimes = tblRSByHourMapper.selectErrorTimesFun(startDate,endDate);
 		return errorTimes;
 	}
 
-	public double selectStandbyTimesFun(String startDate, String endDate) {
+	public Double selectStandbyTimesFun(String startDate, String endDate) {
 		Double standbyTimes = tblRSByHourMapper.selectStandbyTimesFun(startDate,endDate);
 		return standbyTimes;
 	}

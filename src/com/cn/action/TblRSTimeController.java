@@ -46,11 +46,13 @@ public class TblRSTimeController {
 			//tblRSTimes = tblRSTimeBiz.selectByRSTimeFun();
 			int robotNo = tblRSTimeBiz.selectByRobotNoFun();
 			
-			Integer robotNoRunCount = TblRsByHourBiz.RobotNoRunTimeCountFun();
-			Integer robotNoStandbyTimeCount = TblRsByHourBiz.RobotNoStandbyTimeCountFun();
-			Integer robotNoErroTimeCount = TblRsByHourBiz.RobotNoErroTimeCountFun();
+			Double robotNoRunCount = TblRsByHourBiz.RobotNoRunTimeCountFun();
+			Double robotNoStandbyTimeCount = TblRsByHourBiz.RobotNoStandbyTimeCountFun();
+			Double robotNoErroTimeCount = TblRsByHourBiz.RobotNoErroTimeCountFun();
 			
-			productivity = (double)robotNoRunCount/(robotNoRunCount+robotNoStandbyTimeCount+robotNoErroTimeCount);
+			if (robotNoRunCount!=null||robotNoStandbyTimeCount!=null||robotNoErroTimeCount!=null||(robotNoRunCount+robotNoStandbyTimeCount+robotNoErroTimeCount)!=0) {
+				productivity = robotNoRunCount/(robotNoRunCount+robotNoStandbyTimeCount+robotNoErroTimeCount);
+			}
 			map = new HashMap();
 			
 			map.put("flag", "1");

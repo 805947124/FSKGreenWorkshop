@@ -140,17 +140,17 @@
   
   
   
-  <select id="selectByRunTimeCount" resultType="Integer">
-  	select sum(a.RunTimes) from Robot_Status_ByHour a
+  <select id="selectByRunTimeCount" resultType="Double">
+  	select sum(a.RunTimes) from Robot_Status_ByHour a where a.Date =(select MAX(Date) from Robot_Status_ByHour)
   </select>
   
-  <select id="selectByStandbyTimeCount" resultType="Integer">
-  	select sum(a.StandbyTimes) from Robot_Status_ByHour a
+  <select id="selectByStandbyTimeCount" resultType="Double">
+  	select sum(a.StandbyTimes) from Robot_Status_ByHour a where a.Date =(select MAX(Date) from Robot_Status_ByHour)
   	
   </select>
   
-  <select id="selectByErroTimeCount" resultType="Integer">
-  	select sum(a.ErrorTimes) from Robot_Status_ByHour a
+  <select id="selectByErroTimeCount" resultType="Double">
+  	select sum(a.ErrorTimes) from Robot_Status_ByHour a where a.Date =(select MAX(Date) from Robot_Status_ByHour)
   </select>
   
   

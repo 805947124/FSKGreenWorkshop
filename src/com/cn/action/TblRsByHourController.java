@@ -499,12 +499,25 @@ public class TblRsByHourController {
 					tblRankingDates.add(tblRankingDate);
 					}*/
 					
+					
+					String strRobot = tblRSNows.get(j).getRobotno();
+					
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSNows.get(j).setShortName(strRobot);
+					
 					tblRSNows.get(j).setTblRSByHour(tblRSByHours);
 				}
 					
 				
 			map.put("flag", "1");
-			map.put("tblRSNows", tblRSNows);
+			map.put("tblRSNowsList", tblRSNows);
 			map.put("msg", msg);
 		}
 		return map;
@@ -596,14 +609,14 @@ public class TblRsByHourController {
 		date=calendar.getTime();
 		StartdateList.add(f.format(date));
 		
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 14; i++) {
 			
 			calendar.add(calendar.DATE, -1);
 			date=calendar.getTime();
 			StartdateList.add(f.format(date));
 		}
 		
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 14; i++) {
 			
 			calendar2.add(calendar.DATE, -1);
 			endDate=calendar2.getTime();
@@ -611,9 +624,9 @@ public class TblRsByHourController {
 		}
 		
 		double productivity = 0.00;
-		double runTimes = 0.0;
-		double erroTimes = 0.0;
-		double standbyTimes = 0.0;
+		Double runTimes = 0.0;
+		Double erroTimes = 0.0;
+		Double standbyTimes = 0.0;
 		
 		List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
 		TblRankingDate tblRankingDate = null;
@@ -629,7 +642,7 @@ public class TblRsByHourController {
 				erroTimes = tblRsByHourBiz.selectErrorTimesFun(StartdateList.get(i),enddateList.get(i));
 				standbyTimes = tblRsByHourBiz.selectStandbyTimesFun(StartdateList.get(i),enddateList.get(i));	
 				
-				if (runTimes!=0 || erroTimes!=0 || standbyTimes!=0) {
+				if (runTimes!=null || erroTimes!=null || standbyTimes!=null) {
 					if (runTimes+erroTimes+standbyTimes==0) {
 						productivity=0.00;
 					}else {
@@ -694,14 +707,14 @@ public class TblRsByHourController {
 		date=calendar.getTime();
 		StartdateList.add(f.format(date));
 		
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 14; i++) {
 			
 			calendar.add(calendar.DATE, -1);
 			date=calendar.getTime();
 			StartdateList.add(f.format(date));
 		}
 		
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 14; i++) {
 			
 			calendar2.add(calendar.DATE, -1);
 			endDate=calendar2.getTime();
