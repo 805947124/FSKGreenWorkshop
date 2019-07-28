@@ -453,7 +453,7 @@ public class TblRsByHourController {
 	}
 	
 	/**
-	 * Robot查询效率追溯每小时运行效率趋势图
+	 * 按日期查询默认所有手臂一天24小时运行时间趋势
 	 * @param apikey
 	 * @return map
 	 * @throws ParseException
@@ -467,8 +467,9 @@ public class TblRsByHourController {
 		List<TblRSNow> tblRSNows = null;
 		TblRSNow tblRSNow = null;
 		List<TblRSByHour> tblRSByHours =null;
-		TblRankingDate tblRankingDate = null;
-		List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
+		
+		
+		
 		
 		double productivity = 0.00;
 		
@@ -483,21 +484,71 @@ public class TblRsByHourController {
 				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
 				String roobot = "";
 				int indexTblRSNow = tblRSNows.size();
+				String datei = "";
+				
+				double num = 0.0;
 				for (int j = 0; j < indexTblRSNow; j++) {
 					tblRSNow =tblRSNows.get(j);
-
 					tblRSByHours = tblRsByHourBiz.selectByDateAndRobotNo(tblRSNow.getRobotno(),startDate);
-					
-					
+					/*List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
+					int indeHour =  tblRSByHours.size();
+					for (int i = 0; i <indeHour; i++) {
+					num = tblRSByHours.get(i).getRuntimes()/60;
+					datei = i+"";
+					TblRankingDate tblRankingDate = new TblRankingDate(datei, num);
+					tblRankingDates.add(tblRankingDate);
+					}*/
 					
 					tblRSNows.get(j).setTblRSByHour(tblRSByHours);
-					
 				}
-				
 					
 				
 			map.put("flag", "1");
 			map.put("tblRSNows", tblRSNows);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	
+	/**
+	 * 按日期查询单个手臂号一天24小时运行时间趋势
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotHourRankingType")
+	public @ResponseBody Map selectByRobotHourRankingType(String apikey,String robotno,String startDate) throws ParseException{
+		
+		Map map = new HashMap();
+		Map robotNoMap = new HashMap();
+		String msg = "";
+		List<TblRSNow> tblRSNows = null;
+		TblRSNow tblRSNow = null;
+		List<TblRSByHour> tblRSByHours =null;
+		
+		
+		double productivity = 0.00;
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+					tblRSByHours = tblRsByHourBiz.selectByDateAndRobotNo(robotno,startDate);
+					/*List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
+					int indeHour =  tblRSByHours.size();
+					for (int i = 0; i <indeHour; i++) {
+					num = tblRSByHours.get(i).getRuntimes()/60;
+					datei = i+"";
+					TblRankingDate tblRankingDate = new TblRankingDate(datei, num);
+					tblRankingDates.add(tblRankingDate);
+					}*/
+				
+					
+				
+			map.put("flag", "1");
+			map.put("tblRSByHours", tblRSByHours);
 			map.put("msg", msg);
 		}
 		return map;
