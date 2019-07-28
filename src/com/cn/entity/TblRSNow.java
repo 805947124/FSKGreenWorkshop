@@ -1,7 +1,9 @@
 package com.cn.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import com.cn.util.TblRankingDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class TblRSNow {
@@ -26,6 +28,10 @@ public class TblRSNow {
     private double efficiency;
     
     private String shortName;
+    
+    private List<TblRankingDate> TblRankingDate;
+    private List<TblRSByHour> TblRSByHour;
+    
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getRecordTime() {
@@ -119,6 +125,27 @@ public class TblRSNow {
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
+	}
+
+	
+	
+	public List<TblRankingDate> getTblRankingDate() {
+		return TblRankingDate;
+	}
+
+	public void setTblRankingDate(List<TblRankingDate> tblRankingDate) {
+		TblRankingDate = tblRankingDate;
+	}
+	
+	
+	
+
+	public List<TblRSByHour> getTblRSByHour() {
+		return TblRSByHour;
+	}
+
+	public void setTblRSByHour(List<TblRSByHour> tblRSByHour) {
+		TblRSByHour = tblRSByHour;
 	}
 
 	@Override

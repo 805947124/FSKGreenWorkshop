@@ -356,7 +356,36 @@ public class TblRsByHourController {
 		Map map = new HashMap();
 		Map robotNoMap = new HashMap();
 		String msg = "";
+		
+		Date date  = new Date();
+		Date endDate =new Date();
+		
 		List<TblRSNow> tblRSNows = null;
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		date = tblRsByHourBiz.selectMaxDate();
+		
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendar2 = Calendar.getInstance();
+		
+		calendar.setTime(date);
+		calendar2.setTime(date);
+		
+		calendar.add(calendar.DATE, 0);
+		
+		calendar2.set(Calendar.HOUR,23);
+		calendar2.set(Calendar.MINUTE,59);
+		calendar2.set(Calendar.SECOND,59);
+		calendar2.add(calendar.DATE,0);
+		
+		date=calendar.getTime();
+		String startDate = f.format(date);
+		
+		endDate = calendar2.getTime();
+		String finishDate =f.format(endDate);
+		
+		
+		
+		
 		
 		double productivity = 0.00;
 		
@@ -365,18 +394,18 @@ public class TblRsByHourController {
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
-				Integer runCount=0;
-				Integer standbyCount=0;
-				Integer erroCount=0;
+				Double runCount=0.0;
+				Double standbyCount=0.0;
+				Double erroCount=0.0;
 				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
 				int indexTblRSNow = tblRSNows.size();
 				for (int j = 0; j < indexTblRSNow; j++) {
 					
 					
 					if (tblRSNows!=null) {
-						 runCount = tblRsByHourBiz.selectRobotRunTimeCount(tblRSNows.get(j).getRobotno());
-						 standbyCount = tblRsByHourBiz.RobotNoStandbyTimeTypeCountFun(tblRSNows.get(j).getRobotno());
-						 erroCount = tblRsByHourBiz.RobotNoErroTimeTypeCountFun(tblRSNows.get(j).getRobotno());
+						 runCount = tblRsByHourBiz.selectRobotRunTimeCount(tblRSNows.get(j).getRobotno(),startDate,finishDate);
+						 standbyCount = tblRsByHourBiz.RobotNoStandbyTimeTypeCountFun(tblRSNows.get(j).getRobotno(),startDate,finishDate);
+						 erroCount = tblRsByHourBiz.RobotNoErroTimeTypeCountFun(tblRSNows.get(j).getRobotno(),startDate,finishDate);
 					}
 					if (runCount!=null || standbyCount!=null || erroCount!=null) {
 						productivity = (double)runCount/(runCount+standbyCount+erroCount);
@@ -392,7 +421,6 @@ public class TblRsByHourController {
 					}
 					
 					tblRSNows.get(j).setShortName(strRobot);
-					
 					tblRSNows.get(j).setEfficiency(productivity);
 				}
 				
@@ -416,7 +444,7 @@ public class TblRsByHourController {
 					}
 		        });
 		
-				
+			System.out.println("开始时间："+startDate+"\n结束时间："+finishDate);
 			map.put("flag", "1");
 			map.put("tblRSNows", tblRSNows);
 			map.put("msg", msg);
@@ -424,6 +452,56 @@ public class TblRsByHourController {
 		return map;
 	}
 	
+	/**
+	 * Robot查询效率追溯每小时运行效率趋势图
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotHourRanking")
+	public @ResponseBody Map selectByRobotHourRanking(String apikey,String startDate) throws ParseException{
+		
+		Map map = new HashMap();
+		Map robotNoMap = new HashMap();
+		String msg = "";
+		List<TblRSNow> tblRSNows = null;
+		TblRSNow tblRSNow = null;
+		List<TblRSByHour> tblRSByHours =null;
+		TblRankingDate tblRankingDate = null;
+		List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
+		
+		double productivity = 0.00;
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+				Double runCount=0.0;
+				Double standbyCount=0.0;
+				Double erroCount=0.0;
+				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
+				String roobot = "";
+				int indexTblRSNow = tblRSNows.size();
+				for (int j = 0; j < indexTblRSNow; j++) {
+					tblRSNow =tblRSNows.get(j);
+
+					tblRSByHours = tblRsByHourBiz.selectByDateAndRobotNo(tblRSNow.getRobotno(),startDate);
+					
+					
+					
+					tblRSNows.get(j).setTblRSByHour(tblRSByHours);
+					
+				}
+				
+					
+				
+			map.put("flag", "1");
+			map.put("tblRSNows", tblRSNows);
+			map.put("msg", msg);
+		}
+		return map;
+	}
 	
 	
 	/**

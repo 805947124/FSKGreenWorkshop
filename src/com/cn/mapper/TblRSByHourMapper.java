@@ -50,11 +50,11 @@ public interface TblRSByHourMapper {
 
 	Integer selectByErroTimeCount();
 
-	Integer selectByRunTimeTypeCount(String robotno);
+	Double selectByRunTimeTypeCount(@Param("robotno")String robotno, @Param("startDate")String startDate, @Param("finishDate")String finishDate);
 
-	Integer selectByStandbyTimeTypeCount(String robotno);
+	Double selectByStandbyTimeTypeCount(@Param("robotno")String robotno, @Param("startDate")String startDate, @Param("finishDate")String finishDate);
 
-	Integer selectByErroTimeTypeCount(String robotno);
+	Double selectByErroTimeTypeCount(@Param("robotno")String robotno, @Param("startDate")String startDate, @Param("finishDate")String finishDate);
 	
 
 	Double selectRunTimes(@Param("robotNo")String robotNo);
@@ -78,5 +78,7 @@ public interface TblRSByHourMapper {
 	Double selectErrorTimesTypeFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("robotno")String robotno);
 
 	Double selectStandbyTimesTypeFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("robotno")String robotno);
+
+	List<TblRSByHour> selectDateAndRobotNo(@Param("robotno")String robotno, @Param("startDate")String startDate);
 
 }

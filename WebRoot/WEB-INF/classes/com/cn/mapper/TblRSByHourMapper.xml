@@ -155,19 +155,19 @@
   
   
   
-  <select id="selectByRunTimeTypeCount" resultType="Integer">
+  <select id="selectByRunTimeTypeCount" resultType="Double">
   	select sum(a.RunTimes) from Robot_Status_ByHour a
-  	where a.RobotNo = #{robotno}
+  	where a.RobotNo = '${robotno}' and a.Record_Time between '${startDate}' and '${finishDate}'
   </select>
   
-  <select id="selectByStandbyTimeTypeCount" resultType="Integer">
+  <select id="selectByStandbyTimeTypeCount" resultType="Double">
   	select sum(a.StandbyTimes) from Robot_Status_ByHour a
-  	where a.RobotNo = #{robotno}
+  	where a.RobotNo = '${robotno}' and a.Record_Time between '${startDate}' and '${finishDate}'
   </select>
   
-  <select id="selectByErroTimeTypeCount" resultType="Integer">
+  <select id="selectByErroTimeTypeCount" resultType="Double">
   	select sum(a.ErrorTimes) from Robot_Status_ByHour a
-  	where a.RobotNo = #{robotno}
+  	where a.RobotNo = '${robotno}' and a.Record_Time between '${startDate}' and '${finishDate}'
   </select>
   
   
@@ -214,5 +214,13 @@
   	select sum(a.StandbyTimes) from Robot_Status_ByHour a where a.Record_Time between '${startDate}' and '${endDate}' and a.RobotNo='${robotno}'
   </select>
 
+
+
+<select id="selectDateAndRobotNo" resultMap="BaseResultMap">
+  	select c.RobotNo,c.RunTimes,c.StandbyTimes,c.ErrorTimes,c.Hour from 
+(select * from (select * from Robot_Status_ByHour a 
+where a.RobotNo ='${robotno}' and a.Date = '${startDate}' )as b) as c 
+group by c.RobotNo,c.RunTimes,c.StandbyTimes,c.ErrorTimes,c.Hour order by c.Hour asc
+  </select>
   
 </mapper>

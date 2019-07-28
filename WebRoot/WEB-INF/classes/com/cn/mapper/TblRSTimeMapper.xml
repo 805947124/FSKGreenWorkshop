@@ -47,7 +47,7 @@
   
   <select id="selectRobotNo" resultType="int">
   	select COUNT(*) from Robot_Status_Time a where exists(select * from (select RobotNo,MAX(starttime) as FTime from Robot_status_time group by RobotNo)
-		x where x.RobotNo = a.RobotNo and a.starttime = x.FTime)
+		x where x.RobotNo = a.RobotNo and a.starttime = x.FTime) and a.RobotNo like '%CPEB04%'
   </select>
   
   <select id="selectRobotNoCount" resultType="int">

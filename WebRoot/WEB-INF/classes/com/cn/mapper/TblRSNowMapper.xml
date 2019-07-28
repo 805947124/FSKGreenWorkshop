@@ -25,7 +25,7 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select Record_Time, ModelName, StationName, RobotNo, Building, Floor, Area, ErrorInfo, 
     RobotStatus
-    from Robot_Status_Now
+    from Robot_Status_Now a where a.RobotNo like'%CPEB04%'
   </select>
   
   <select id="selectByCustomer" resultMap="BaseResultMap">
