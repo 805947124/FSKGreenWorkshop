@@ -998,6 +998,18 @@ public class TblRsByHourController {
 			map.put("msg", msg);
 		}else{
 			tblRSByHours = tblRsByHourBiz.selectRobotNoRunTimeTrend(robotNo);
+			String modelname = tblRSByHours.get(1).getModelname();
+			
+			if(tblRSByHours.size() < 24){
+				for(int i = tblRSByHours.size();i <= 24;i++){
+					TblRSByHour tblRSByHour = new TblRSByHour();
+					tblRSByHour.setHour(String.valueOf(i));
+					tblRSByHour.setModelname(modelname);
+					tblRSByHour.setRobotno(robotNo);
+					tblRSByHours.add(tblRSByHour);
+				}
+			}
+			
 			map.put("flag", "1");
 			map.put("msg", msg);
 			map.put("tblRSByHours", tblRSByHours);
