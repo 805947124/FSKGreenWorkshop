@@ -70,25 +70,25 @@
   </select>
   
   <select id="selectNewDayTimeByDay" resultType="java.util.Date">
-  	select Max(Date_Time) from Robot_Tester_WorkInfo where RobotNo = '${robotno}' and TesterNum = '${FixName}'
+  	select Max(Date_Time) from Robot_Tester_WorkInfo where RobotNo = '${robotno}'
   </select>
   
   <select id="selectTesterStatus" resultType="com.cn.entity.TblTesterStatus">
-  	select Tester_IP,status,PassNum from Robot_Tester_WorkInfo where Date_Time = '${strNewDayTime}' and RobotNo = '${robotno}' and TesterNum = '${FixName}'
+  	select Tester_IP,status,PassNum from Robot_Tester_WorkInfo where Date_Time = '${strNewDayTime}' and RobotNo = '${robotno}' and TesterNum in(select TesterNum from Robot_Tester_WorkInfo where RobotNo = '${robotno}') order by TesterNum
   </select>
   
   <select id="selectWorkInfoSum" resultType="com.cn.entity.TblWorkInfoSumData">
-  	SELECT sum(w.RepairTime)/60 RepairTime,sum(w.PassNum) PassNum,sum(w.Put_NG) Put_NG,sum(w.FailNum) FailNum,sum(w.SFCErrNum) SFCErrNum,sum(w.FirstPS_NG) FirstPS_NG,sum(w.Put_OK) Put_OK  FROM Robot_Tester_WorkInfo w 
-	where w.Date_Time between '${startTime}' and '${endTime}' and w.RobotNo = '${robotNo}' and w.TesterNum = '${fixName}'
+  	SELECT TesterNum,sum(w.RepairTime)/60 RepairTime,sum(w.PassNum) PassNum,sum(w.Put_NG) Put_NG,sum(w.FailNum) FailNum,sum(w.SFCErrNum) SFCErrNum,sum(w.FirstPS_NG) FirstPS_NG,sum(w.Put_OK) Put_OK  FROM Robot_Tester_WorkInfo w 
+	where w.Date_Time between '${startTime}' and '${endTime}' and w.RobotNo = '${robotNo}' group by TesterNum order by TesterNum
   </select>
   
-  <select id="selectTesterRepairNum" resultType="Integer">
-  	SELECT count(*)  FROM Robot_Tester_WorkInfo w 
-	where w.Date_Time between '${startTime}' and '${endTime}' and w.RobotNo = '${robotNo}' and w.TesterNum = '${fixName}' and w.RepairTime &lt;&gt; '0'
+  <select id="selectTesterRepairNum" resultType="com.cn.entity.RepairNum">
+  	SELECT w.TesterNum,count(RepairTime)RepairNum  FROM Robot_Tester_WorkInfo w 
+	where w.Date_Time between '${startTime}' and '${endTime}' and w.RobotNo = '${robotNo}' and w.RepairTime &gt; '0' group by TesterNum order by w.TesterNum
   </select>
   
   <select id="selectNewDayTimeByHour" resultType="java.util.Date">
-  	select Max(Date_Time) from Robot_Tester_WorkInfo where RobotNo = '${robotNo}' and TesterNum = '${fixName}' and Date_Time between '${startTime}' and '${endTime}'
+  	select Max(Date_Time) from Robot_Tester_WorkInfo where RobotNo = '${robotNo}' and Date_Time between '${startTime}' and '${endTime}'
   </select>
   
 </mapper>
