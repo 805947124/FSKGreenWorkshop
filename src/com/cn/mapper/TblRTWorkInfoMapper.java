@@ -1,5 +1,6 @@
 package com.cn.mapper;
 
+import com.cn.entity.RepairNum;
 import com.cn.entity.TblRTWorkInfo;
 import com.cn.entity.TblTesterStatus;
 import com.cn.entity.TblWorkInfoSumData;
@@ -28,13 +29,13 @@ public interface TblRTWorkInfoMapper {
 
 	Integer selectPut_NGbyHour(@Param("robotno")String robotno, @Param("startDate")String starDate, @Param("endDate")String endDate);
 
-	Date selectNewDayTimeByDay(@Param("robotno")String robotNo, @Param("FixName")int fixName);
+	Date selectNewDayTimeByDay(@Param("robotno")String robotNo);
 
-	TblTesterStatus selectTesterStatus(@Param("strNewDayTime")String strNewDayTime, @Param("robotno")String robotNo, @Param("FixName")int fixName);
+	List<TblTesterStatus> selectTesterStatus(@Param("strNewDayTime")String strNewDayTime, @Param("robotno")String robotNo);
 
-	TblWorkInfoSumData selectWorkInfoSum(@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("robotNo")String robotNo, @Param("fixName")int fixName);
+	List<TblWorkInfoSumData> selectWorkInfoSum(@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("robotNo")String robotNo);
 
-	Integer selectTesterRepairNum(@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("robotNo")String robotNo, @Param("fixName")int fixName);
+	List<RepairNum> selectTesterRepairNum(@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("robotNo")String robotNo);
 
-	Date selectNewDayTimeByHour(@Param("robotNo")String robotNo, @Param("fixName")int fixName, @Param("startTime")String startTime, @Param("endTime")String endTime);
+	Date selectNewDayTimeByHour(@Param("robotNo")String robotNo, @Param("startTime")String startTime, @Param("endTime")String endTime);
 }

@@ -3,6 +3,8 @@ package com.cn.action;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cn.biz.TblRTWorkInfoBiz;
+import com.cn.entity.RepairNum;
 import com.cn.entity.TblProduceByHour;
 import com.cn.entity.TblRobotDataInfo;
 import com.cn.entity.TblTesterStatus;
@@ -131,9 +134,10 @@ public class TblRTWorkInfoController {
 		date = calendar2.getTime();
 		endTime = f.format(date);
 		
+		String TesterNum;
 		Integer Tester_Status;
 		double RepairTime;
-		Integer RepairNum;
+		Integer RepairNum = 0;
 		Integer PassNum;
 		Integer Put_NG;
 		Integer FailNum;
@@ -145,11 +149,11 @@ public class TblRTWorkInfoController {
 		double PS_NG = 0.00;
 		double PUT_NG = 0.00;
 		
-		TblTesterStatus tblTesterStatus = null;
 		TblRobotDataInfo tblRobotDataInfo = null;
-		TblWorkInfoSumData tblWorkInfoSumData = null;
+		List<TblTesterStatus> tblTesterStatus = new ArrayList<TblTesterStatus>();
+		List<TblWorkInfoSumData> tblWorkInfoSumDatas = new ArrayList<TblWorkInfoSumData>();
+		List<RepairNum> RepairNums = new ArrayList<RepairNum>();
 		List<TblRobotDataInfo> tblRobotDataInfos = new ArrayList<TblRobotDataInfo>();
-		
 		
 		if (!apikey.equals("nnjj_0944547748")) {
 			msg = "∑«∑®«Î«Û£°";
@@ -157,38 +161,50 @@ public class TblRTWorkInfoController {
 			map.put("msg", msg);
 		}else {
 			
-			for(int i = 1;i<=12;i++){
-				Date newDayTime = tblRTWorkInfoBiz.selectNewDayTimeByDay(RobotNo,i);
-				String strNewDayTime = f.format(newDayTime);
+			Date newDayTime = tblRTWorkInfoBiz.selectNewDayTimeByDay(RobotNo);
+			String strNewDayTime = f.format(newDayTime);
+			
+			tblTesterStatus = tblRTWorkInfoBiz.selectTesterStatus(strNewDayTime,RobotNo);
+			tblWorkInfoSumDatas = tblRTWorkInfoBiz.selectWorkInfoSum(startTime,endTime,RobotNo);
+			RepairNums = tblRTWorkInfoBiz.selectTesterRepairNum(startTime,endTime,RobotNo);
+			
+			for(int i = 0;i < tblTesterStatus.size();i++){
 				
-				tblTesterStatus = tblRTWorkInfoBiz.selectTesterStatus(strNewDayTime,RobotNo,i);
-				
-				if(tblTesterStatus.getStatus().equals("OffLine") && tblTesterStatus.getPassNum() == 0){
+				if(tblTesterStatus.get(i).getStatus().equals("OffLine") && tblTesterStatus.get(i).getPassNum() == 0){
 					Tester_Status = 0;
 				}else{
 					Tester_Status = 1;
 				}
 				
-				tblWorkInfoSumData = tblRTWorkInfoBiz.selectWorkInfoSum(startTime,endTime,RobotNo,i);
-				RepairTime = tblWorkInfoSumData.getRepairTime();
-				PassNum = tblWorkInfoSumData.getPassNum();
-				Put_NG = tblWorkInfoSumData.getPut_NG();
-				Put_OK = tblWorkInfoSumData.getPut_OK();
-				FailNum = tblWorkInfoSumData.getFailNum();
-				SFCErrNum = tblWorkInfoSumData.getSFCErrNum();
-				FirstPS_NG = tblWorkInfoSumData.getFirstPS_NG();
-				OUTPUT = tblWorkInfoSumData.getPassNum();
+				TesterNum = tblWorkInfoSumDatas.get(i).getTesterNum();
+				RepairTime = tblWorkInfoSumDatas.get(i).getRepairTime();
+				PassNum = tblWorkInfoSumDatas.get(i).getPassNum();
+				Put_NG = tblWorkInfoSumDatas.get(i).getPut_NG();
+				Put_OK = tblWorkInfoSumDatas.get(i).getPut_OK();
+				FailNum = tblWorkInfoSumDatas.get(i).getFailNum();
+				SFCErrNum = tblWorkInfoSumDatas.get(i).getSFCErrNum();
+				FirstPS_NG = tblWorkInfoSumDatas.get(i).getFirstPS_NG();
+				OUTPUT = tblWorkInfoSumDatas.get(i).getPassNum();
 				INPUT = PassNum+Put_NG+FailNum;
 				
 				if(Put_NG+Put_OK != 0){
 					PS_NG = (double)FirstPS_NG/((double)Put_NG+(double)Put_OK);
 					PUT_NG = (double)Put_NG/((double)Put_NG+(double)Put_OK);
+				}else{
+					PS_NG = 0.00;
+					PUT_NG = 0.00;
 				}
 				
-				RepairNum = tblRTWorkInfoBiz.selectTesterRepairNum(startTime,endTime,RobotNo,i);
-				
-				tblRobotDataInfo = new TblRobotDataInfo(i, tblTesterStatus.getTester_IP(), Tester_Status,RepairTime , RepairNum, INPUT, OUTPUT, FailNum, SFCErrNum, PS_NG, PUT_NG);
+				for(int j = 0;j < RepairNums.size();j++){
+					if(tblWorkInfoSumDatas.get(i).getTesterNum().equals(RepairNums.get(j).getTesterNum())){
+						RepairNum = RepairNums.get(j).getRepairNum();
+						System.out.println("--------------------------------TesterNum:"+tblWorkInfoSumDatas.get(i).getTesterNum());
+						System.out.println("---------------------------------RepairNum:"+RepairNum);
+					}
+				}
+				tblRobotDataInfo = new TblRobotDataInfo(TesterNum, tblTesterStatus.get(i).getTester_IP(), Tester_Status,RepairTime ,RepairNum, INPUT, OUTPUT, FailNum, SFCErrNum, PS_NG, PUT_NG);
 				tblRobotDataInfos.add(tblRobotDataInfo);
+				RepairNum = 0;
 			}
 			
 			map.put("flag", "1");
@@ -238,9 +254,10 @@ public class TblRTWorkInfoController {
 		endTime = f.format(date);
 		System.out.println("---------------------------------endTime:"+endTime);
 		
+		String TesterNum;
 		Integer Tester_Status;
 		double RepairTime;
-		Integer RepairNum;
+		Integer RepairNum = 0;
 		Integer PassNum;
 		Integer Put_NG;
 		Integer FailNum;
@@ -252,9 +269,10 @@ public class TblRTWorkInfoController {
 		double PS_NG = 0.00;
 		double PUT_NG = 0.00;
 		
-		TblTesterStatus tblTesterStatus = null;
 		TblRobotDataInfo tblRobotDataInfo = null;
-		TblWorkInfoSumData tblWorkInfoSumData = null;
+		List<TblTesterStatus> tblTesterStatus = new ArrayList<TblTesterStatus>();
+		List<TblWorkInfoSumData> tblWorkInfoSumDatas = new ArrayList<TblWorkInfoSumData>();
+		List<RepairNum> RepairNums = new ArrayList<RepairNum>();
 		List<TblRobotDataInfo> tblRobotDataInfos = new ArrayList<TblRobotDataInfo>();
 		
 		if (!apikey.equals("nnjj_0944547748")) {
@@ -262,39 +280,53 @@ public class TblRTWorkInfoController {
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
-			for(int i = 1;i<=12;i++){
-				Date newHourTime = tblRTWorkInfoBiz.selectNewDayTimeByHour(RobotNo,i,startTime,endTime);
-				String strNewHourTime = f.format(newHourTime);
+			
+			Date newHourTime = tblRTWorkInfoBiz.selectNewDayTimeByHour(RobotNo,startTime,endTime);
+			String strNewHourTime = f.format(newHourTime);
+			
+			tblTesterStatus = tblRTWorkInfoBiz.selectTesterStatus(strNewHourTime,RobotNo);
+			tblWorkInfoSumDatas = tblRTWorkInfoBiz.selectWorkInfoSum(startTime,endTime,RobotNo);
+			RepairNums = tblRTWorkInfoBiz.selectTesterRepairNum(startTime,endTime,RobotNo);
+			
+			for(int i = 0;i < tblTesterStatus.size();i++){
 				
-				tblTesterStatus = tblRTWorkInfoBiz.selectTesterStatus(strNewHourTime,RobotNo,i);
-				
-				if(tblTesterStatus.getStatus().equals("OffLine") && tblTesterStatus.getPassNum() == 0){
+				if(tblTesterStatus.get(i).getStatus().equals("OffLine") && tblTesterStatus.get(i).getPassNum() == 0){
 					Tester_Status = 0;
 				}else{
 					Tester_Status = 1;
 				}
 				
-				tblWorkInfoSumData = tblRTWorkInfoBiz.selectWorkInfoSum(startTime,endTime,RobotNo,i);
-				RepairTime = tblWorkInfoSumData.getRepairTime();
-				PassNum = tblWorkInfoSumData.getPassNum();
-				Put_NG = tblWorkInfoSumData.getPut_NG();
-				Put_OK = tblWorkInfoSumData.getPut_OK();
-				FailNum = tblWorkInfoSumData.getFailNum();
-				SFCErrNum = tblWorkInfoSumData.getSFCErrNum();
-				FirstPS_NG = tblWorkInfoSumData.getFirstPS_NG();
-				OUTPUT = tblWorkInfoSumData.getPassNum();
+				TesterNum = tblWorkInfoSumDatas.get(i).getTesterNum();
+				RepairTime = tblWorkInfoSumDatas.get(i).getRepairTime();
+				PassNum = tblWorkInfoSumDatas.get(i).getPassNum();
+				Put_NG = tblWorkInfoSumDatas.get(i).getPut_NG();
+				Put_OK = tblWorkInfoSumDatas.get(i).getPut_OK();
+				FailNum = tblWorkInfoSumDatas.get(i).getFailNum();
+				SFCErrNum = tblWorkInfoSumDatas.get(i).getSFCErrNum();
+				FirstPS_NG = tblWorkInfoSumDatas.get(i).getFirstPS_NG();
+				OUTPUT = tblWorkInfoSumDatas.get(i).getPassNum();
 				INPUT = PassNum+Put_NG+FailNum;
 				
 				if(Put_NG+Put_OK != 0){
 					PS_NG = (double)FirstPS_NG/((double)Put_NG+(double)Put_OK);
 					PUT_NG = (double)Put_NG/((double)Put_NG+(double)Put_OK);
+				}else{
+					PS_NG = 0.00;
+					PUT_NG = 0.00;
 				}
 				
-				RepairNum = tblRTWorkInfoBiz.selectTesterRepairNum(startTime,endTime,RobotNo,i);
-				
-				tblRobotDataInfo = new TblRobotDataInfo(i, tblTesterStatus.getTester_IP(), Tester_Status,RepairTime , RepairNum, INPUT, OUTPUT, FailNum, SFCErrNum, PS_NG, PUT_NG);
-				tblRobotDataInfos.add(tblRobotDataInfo);	
+				for(int j = 0;j < RepairNums.size();j++){
+					if(tblWorkInfoSumDatas.get(i).getTesterNum().equals(RepairNums.get(j).getTesterNum())){
+						RepairNum = RepairNums.get(j).getRepairNum();
+						System.out.println("--------------------------------TesterNum:"+tblWorkInfoSumDatas.get(i).getTesterNum());
+						System.out.println("---------------------------------RepairNum:"+RepairNum);
+					}
+				}
+				tblRobotDataInfo = new TblRobotDataInfo(TesterNum, tblTesterStatus.get(i).getTester_IP(), Tester_Status,RepairTime ,RepairNum, INPUT, OUTPUT, FailNum, SFCErrNum, PS_NG, PUT_NG);
+				tblRobotDataInfos.add(tblRobotDataInfo);
+				RepairNum = 0;
 			}
+			
 			map.put("flag", "1");
 			map.put("tblRobotDataInfos", tblRobotDataInfos);
 			map.put("msg", msg);

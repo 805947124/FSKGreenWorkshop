@@ -1,10 +1,12 @@
 package com.cn.biz;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cn.entity.RepairNum;
 import com.cn.entity.TblTesterStatus;
 import com.cn.entity.TblWorkInfoSumData;
 import com.cn.mapper.TblRTWorkInfoMapper;
@@ -51,28 +53,28 @@ public class TblRTWorkInfoBiz {
 		return Put_NG;
 	}
 
-	public Date selectNewDayTimeByDay(String robotNo, int FixName) {
-		Date NewDayTime = tblRTWorkInfoMapper.selectNewDayTimeByDay(robotNo,FixName);
+	public Date selectNewDayTimeByDay(String robotNo) {
+		Date NewDayTime = tblRTWorkInfoMapper.selectNewDayTimeByDay(robotNo);
 		return NewDayTime;
 	}
 
-	public TblTesterStatus selectTesterStatus(String strNewDayTime,String robotNo, int FixName) {
-		TblTesterStatus tblTesterStatus = tblRTWorkInfoMapper.selectTesterStatus(strNewDayTime,robotNo,FixName);
+	public List<TblTesterStatus> selectTesterStatus(String strNewDayTime,String robotNo) {
+		List<TblTesterStatus> tblTesterStatus = tblRTWorkInfoMapper.selectTesterStatus(strNewDayTime,robotNo);
 		return tblTesterStatus;
 	}
 
-	public TblWorkInfoSumData selectWorkInfoSum(String startTime, String endTime, String robotNo, int FixName) {
-		TblWorkInfoSumData tblWorkInfoSumData = tblRTWorkInfoMapper.selectWorkInfoSum(startTime,endTime,robotNo,FixName);
+	public List<TblWorkInfoSumData> selectWorkInfoSum(String startTime, String endTime, String robotNo) {
+		List<TblWorkInfoSumData> tblWorkInfoSumData = tblRTWorkInfoMapper.selectWorkInfoSum(startTime,endTime,robotNo);
 		return tblWorkInfoSumData;
 	}
 
-	public Integer selectTesterRepairNum(String startTime, String endTime, String robotNo, int FixName) {
-		Integer RepairNum = tblRTWorkInfoMapper.selectTesterRepairNum(startTime,endTime,robotNo,FixName);
+	public List<RepairNum> selectTesterRepairNum(String startTime, String endTime, String robotNo) {
+		List<RepairNum> RepairNum = tblRTWorkInfoMapper.selectTesterRepairNum(startTime,endTime,robotNo);
 		return RepairNum;
 	}
 
-	public Date selectNewDayTimeByHour(String robotNo, int FixName, String startTime, String endTime) {
-		Date NewHourTime = tblRTWorkInfoMapper.selectNewDayTimeByHour(robotNo,FixName,startTime,endTime);
+	public Date selectNewDayTimeByHour(String robotNo, String startTime, String endTime) {
+		Date NewHourTime = tblRTWorkInfoMapper.selectNewDayTimeByHour(robotNo,startTime,endTime);
 		return NewHourTime;
 	}
 }

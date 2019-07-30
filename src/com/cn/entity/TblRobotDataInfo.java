@@ -1,7 +1,7 @@
 package com.cn.entity;
 
 public class TblRobotDataInfo {
-	private Integer FixName;
+	private String FixName;
 	private String Tester_IP;
 	private Integer Tester_Status;
 	private double RepairTime;
@@ -13,7 +13,7 @@ public class TblRobotDataInfo {
 	private double PS_NG;
 	private double PUT_NG;
 	
-	public TblRobotDataInfo(Integer fixName, String tester_IP, Integer tester_Status, double repairTime,
+	public TblRobotDataInfo(String fixName, String tester_IP, Integer tester_Status, double repairTime,
 			Integer repairNum, Integer iNPUT, Integer oUTPUT, Integer failNum, Integer sFCErrNum, double pS_NG,
 			double pUT_NG) {
 		super();
@@ -30,11 +30,11 @@ public class TblRobotDataInfo {
 		PUT_NG = pUT_NG;
 	}
 
-	public Integer getFixName() {
+	public String getFixName() {
 		return FixName;
 	}
 
-	public void setFixName(Integer fixName) {
+	public void setFixName(String fixName) {
 		FixName = fixName;
 	}
 

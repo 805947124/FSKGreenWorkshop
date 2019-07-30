@@ -1,6 +1,7 @@
 package com.cn.entity;
 
 public class TblWorkInfoSumData {
+	private String TesterNum;
 	private double RepairTime;
 	private Integer PassNum;
 	private Integer Put_NG;
@@ -8,6 +9,14 @@ public class TblWorkInfoSumData {
 	private Integer SFCErrNum;
 	private Integer FirstPS_NG;
 	private Integer Put_OK = 0;
+	
+	
+	public String getTesterNum() {
+		return TesterNum;
+	}
+	public void setTesterNum(String testerNum) {
+		TesterNum = testerNum;
+	}
 	public double getRepairTime() {
 		return RepairTime;
 	}
