@@ -1,5 +1,6 @@
 package com.cn.mapper;
 
+import com.cn.entity.TblProduceByHour;
 import com.cn.entity.TblRTWorkInfo;
 import com.cn.entity.TblTesterStatus;
 import com.cn.entity.TblWorkInfoSumData;
@@ -22,7 +23,7 @@ public interface TblRTWorkInfoMapper {
 
 	Date selectMaxDate();
 
-	Integer selectPassNumbyHour(@Param("robotno")String robotno, @Param("startDate")String starDate, @Param("endDate")String endDate);
+	List<TblProduceByHour> selectPassNumbyHour(@Param("robotno")String robotno, @Param("startDate")String starDate, @Param("endDate")String endDate);
 
 	Integer selectFailNumbyHour(@Param("robotno")String robotno, @Param("startDate")String starDate, @Param("endDate")String endDate);
 

@@ -55,8 +55,10 @@
   	select  Max(Date_Time)Date_Time  from Robot_Tester_WorkInfo
   </select>
   
-  <select id="selectPassNumbyHour" resultType="Integer" parameterType="String">
-    select  sum(PassNum)PassNum  from Robot_Tester_WorkInfo where RobotNo = '${robotno}' and  Date_Time between '${startDate}' and '${endDate}'
+  <select id="selectPassNumbyHour" resultType="com.cn.entity.TblProduceByHour" parameterType="String">
+    select a.RobotNo, sum(PassNum)PassNum,DATEPART(HH,a.Date_Time)hour from Robot_Tester_WorkInfo a
+    where RobotNo = '${robotno}' and  Date_Time between '${startDate}' and '${endDate}'
+     group by a.RobotNo, DATEPART(HH,a.Date_Time) order by hour
   </select>
   
   <select id="selectFailNumbyHour" resultType="Integer" parameterType="String">

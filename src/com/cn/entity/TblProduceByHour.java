@@ -3,15 +3,10 @@ package com.cn.entity;
 public class TblProduceByHour {
 	
 	private String RobotNo;
-	private int hour;
 	private Integer PassNum;
+	private Integer hour;
 	
-	public TblProduceByHour(String robotNo, int hour, Integer passNum) {
-		super();
-		RobotNo = robotNo;
-		this.hour = hour;
-		PassNum = passNum;
-	}
+	
 	public String getRobotNo() {
 		return RobotNo;
 	}

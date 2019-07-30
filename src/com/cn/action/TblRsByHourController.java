@@ -469,8 +469,6 @@ public class TblRsByHourController {
 		List<TblRSByHour> tblRSByHours =null;
 		
 		
-		
-		
 		double productivity = 0.00;
 		
 		if (!apikey.equals("nnjj_0944547748")) {
@@ -1001,7 +999,7 @@ public class TblRsByHourController {
 			String modelname = tblRSByHours.get(1).getModelname();
 			
 			if(tblRSByHours.size() < 24){
-				for(int i = tblRSByHours.size();i <= 24;i++){
+				for(int i = tblRSByHours.size();i < 24;i++){
 					TblRSByHour tblRSByHour = new TblRSByHour();
 					tblRSByHour.setHour(String.valueOf(i));
 					tblRSByHour.setModelname(modelname);

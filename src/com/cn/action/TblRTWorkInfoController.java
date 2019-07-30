@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cn.biz.TblRTWorkInfoBiz;
 import com.cn.entity.TblProduceByHour;
+import com.cn.entity.TblRSByHour;
 import com.cn.entity.TblRobotDataInfo;
 import com.cn.entity.TblTesterStatus;
 import com.cn.entity.TblWorkInfoSumData;
@@ -51,43 +52,47 @@ public class TblRTWorkInfoController {
 		List<String> startDateList =new ArrayList<String>();
 		List<String> endDateList = new ArrayList<String>();
 		
-		for(int i = 0;i < 24;i++){
+		
 			calendar.add(calendar.DATE, 0);
-			calendar.set(Calendar.HOUR_OF_DAY,i);
+			calendar.set(Calendar.HOUR_OF_DAY,0);
 			calendar.set(Calendar.MINUTE,0);
 			calendar.set(Calendar.SECOND,0);
 			date = calendar.getTime();
 			startDateList.add(f.format(date));
-		}
 		
-		for(int i = 0;i < 24;i++){
-			calendar2.add(calendar2.DATE, 0);
-			calendar2.set(Calendar.HOUR_OF_DAY,i);
-			calendar2.set(Calendar.MINUTE,59);
-			calendar2.set(Calendar.SECOND,59);
+	
+			calendar2.add(calendar2.DATE, 1);
+			calendar2.set(Calendar.HOUR_OF_DAY,0);
+			calendar2.set(Calendar.MINUTE,0);
+			calendar2.set(Calendar.SECOND,0);
 			date = calendar2.getTime();
 			endDateList.add(f.format(date));
-		}
+		
 		
 		Integer PassNum = 0;
 		
-		TblProduceByHour tblProduceByHour = null;
-		List<TblProduceByHour> tblProduceByHours = new ArrayList<TblProduceByHour>();
+		List<TblProduceByHour> tblProduceByHour = null;
 		
 		if (!apikey.equals("nnjj_0944547748")) {
 			msg = "∑«∑®«Î«Û£°";
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
+			int indexDate = startDateList.size();
+	
+			tblProduceByHour = tblRTWorkInfoBiz.selectPassNumbyHour(RobotNo,
+							startDateList.get(0),endDateList.get(0));
 			
-			for(int i = 0;i < startDateList.size();i++){
-				PassNum = tblRTWorkInfoBiz.selectPassNumbyHour(RobotNo,startDateList.get(i),endDateList.get(i));
-				
-				tblProduceByHour = new TblProduceByHour(RobotNo, i, PassNum);
-				tblProduceByHours.add(tblProduceByHour);
+			if(tblProduceByHour.size() < 24){
+				for(int i = tblProduceByHour.size();i < 24;i++){
+					TblProduceByHour tblProduceByHour2 = new TblProduceByHour();
+					tblProduceByHour2.setHour(i);
+					tblProduceByHour.add(tblProduceByHour2);
+				}
 			}
+		
 			map.put("flag", "1");
-			map.put("tblProduceByHours", tblProduceByHours);
+			map.put("tblProduceByHours", tblProduceByHour);
 			map.put("msg", msg);
 		}
 		return map;
@@ -157,9 +162,11 @@ public class TblRTWorkInfoController {
 			map.put("msg", msg);
 		}else {
 			
+			Date newDayTime = tblRTWorkInfoBiz.selectNewDayTimeByDay(RobotNo,1);
+			String strNewDayTime = f.format(newDayTime);
+			
 			for(int i = 1;i<=12;i++){
-				Date newDayTime = tblRTWorkInfoBiz.selectNewDayTimeByDay(RobotNo,i);
-				String strNewDayTime = f.format(newDayTime);
+				
 				
 				tblTesterStatus = tblRTWorkInfoBiz.selectTesterStatus(strNewDayTime,RobotNo,i);
 				

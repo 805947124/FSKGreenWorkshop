@@ -1,10 +1,12 @@
 package com.cn.biz;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cn.entity.TblProduceByHour;
 import com.cn.entity.TblTesterStatus;
 import com.cn.entity.TblWorkInfoSumData;
 import com.cn.mapper.TblRTWorkInfoMapper;
@@ -36,9 +38,9 @@ public class TblRTWorkInfoBiz {
 		return date;
 	}
 
-	public Integer selectPassNumbyHour(String robotNo, String startDate, String endDate) {
-		Integer PassNum = tblRTWorkInfoMapper.selectPassNumbyHour(robotNo,startDate,endDate);
-		return PassNum;
+	public List<TblProduceByHour> selectPassNumbyHour(String robotNo, String startDate, String endDate) {
+		List<TblProduceByHour> tblProduceByHours = tblRTWorkInfoMapper.selectPassNumbyHour(robotNo,startDate,endDate);
+		return tblProduceByHours;
 	}
 
 	public Integer selectFailNumbyHour(String robotNo, String startDate, String endDate) {
