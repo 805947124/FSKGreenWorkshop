@@ -917,7 +917,7 @@ public class TblRsByHourController {
 				if(robotNo.equals("All")){
 					
 					tblCustomer = tblCustomers.get(i);
-					tblRSNows = tblRSNowBiz.selectByCustomerNameByModelName(tblCustomer.getCustomername(),modelName);
+					tblRSByHours = tblRsByHourBiz.selectByCustomerNameByModelName(tblCustomer.getCustomername(),modelName);
 					
 					tblCustomer.setId(tblCustomers.get(i).getId());
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
@@ -927,7 +927,7 @@ public class TblRsByHourController {
 				}else{
 					
 					tblCustomer = tblCustomers.get(i);
-					tblRSNows = tblRSNowBiz.selectByCustomerNameByType(tblCustomer.getCustomername(),modelName,robotNo);
+					tblRSByHours = tblRsByHourBiz.selectByCustomerNameByType(tblCustomer.getCustomername(),modelName,robotNo);
 					
 					tblCustomer.setId(tblCustomers.get(i).getId());
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());

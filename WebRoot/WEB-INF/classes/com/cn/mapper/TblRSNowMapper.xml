@@ -32,23 +32,5 @@
     select * from Robot_Status_Now b where b.RobotNo in( select a.RobotNo from Robot_Info a where a.CustomerName=(
 	select c.id  from Customer_Name c where c.CustomerName='${customername}') group by a.RobotNo)
   </select>
-  
-  <select id="selectByCustomerByType" resultMap="BaseResultMap">
-    select * from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
-	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
-	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z 
-	where z.RobotNo in( select a.RobotNo from Robot_Info a 
-	where a.CustomerName=(select c.id  from Customer_Name c 
-	where c.CustomerName='${customername}') group by a.RobotNo) and ModelName = '${modelName}' and RobotNo = '${robotNo}'
-  </select>
-  
-  <select id="selectByCustomerByMdoelName" resultMap="BaseResultMap">
-    select * from (select y.*,k.RobotStatus from (select *  from Robot_Status_ByHour a 
-	where exists(select * from (select RobotNo,MAX(b.Record_Time) as FTime from Robot_Status_ByHour b group by RobotNo) x 
-	where x.RobotNo = a.RobotNo and a.Record_Time = x.FTime))y,Robot_Status_Now k where y.RobotNo=k.RobotNo) as z 
-	where z.RobotNo in( select a.RobotNo from Robot_Info a 
-	where a.CustomerName=(select c.id  from Customer_Name c 
-	where c.CustomerName='${customername}') group by a.RobotNo) and ModelName = '${modelName}'
-  </select>
-  
+
 </mapper>

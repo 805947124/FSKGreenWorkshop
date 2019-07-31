@@ -199,4 +199,14 @@ public class TblRsByHourBiz {
 		List<TblRSByHour> tblRSByHours = tblRSByHourMapper.selectDateAndRobotNo(robotno,startDate);
 		return tblRSByHours;
 	}
+
+	public List<TblRSByHour> selectByCustomerNameByModelName(String customername, String modelName) {
+		List<TblRSByHour> tblRSByHour = tblRSByHourMapper.selectByCustomerByMdoelName(customername,modelName);
+		return tblRSByHour;
+	}
+
+	public List<TblRSByHour> selectByCustomerNameByType(String customername, String modelName, String robotNo) {
+		List<TblRSByHour> tblRSByHour = tblRSByHourMapper.selectByCustomerByType(customername,modelName,robotNo);
+		return tblRSByHour;
+	}
 }
