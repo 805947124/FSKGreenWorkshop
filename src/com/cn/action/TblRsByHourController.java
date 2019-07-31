@@ -868,7 +868,9 @@ public class TblRsByHourController {
 			map.put("flag", "0");
 			map.put("msg", "∑«∑®«Î«Û£°");
 		}else {
+			
 			RobotNo = tblRsByHourBiz.selectRobotNoFun(modelName);
+			RobotNo.add("All");
 			
 			map = new HashMap();
 			
