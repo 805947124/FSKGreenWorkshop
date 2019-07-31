@@ -51,4 +51,17 @@
 	where c.CustomerName='${customername}') group by a.RobotNo) and ModelName = '${modelName}'
   </select>
   
+  
+  <select id="selectByModelName" resultMap="BaseResultMap">
+    select Record_Time, ModelName, StationName, RobotNo, Building, Floor, Area, ErrorInfo, 
+    RobotStatus
+    from Robot_Status_Now a where a.RobotNo like'%CPEB04%' and a.ModelName=#{modelName}
+  </select>
+  
+  <select id="selectByRobotNo" resultMap="BaseResultMap">
+    select Record_Time, ModelName, StationName, RobotNo, Building, Floor, Area, ErrorInfo, 
+    RobotStatus
+    from Robot_Status_Now a where a.RobotNo = #{robotno}
+  </select>
+  
 </mapper>

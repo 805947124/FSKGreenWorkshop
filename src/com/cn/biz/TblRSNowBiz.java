@@ -36,4 +36,16 @@ public class TblRSNowBiz {
 		return tblRSNows;
 	}
 
+	public List<TblRSNow> selectByRSNoweModelFun(String modelName) {
+		// TODO Auto-generated method stub
+		List<TblRSNow> tblRSNows = tblRSNowMapper.selectByModelName(modelName);
+		return tblRSNows;
+	}
+
+	public List<TblRSNow> selectByRSNoweRobotnoFun(String robotno) {
+		// TODO Auto-generated method stub
+		List<TblRSNow> tblRSNows = tblRSNowMapper.selectByRobotNo(robotno);
+		return tblRSNows;
+	}
+
 }

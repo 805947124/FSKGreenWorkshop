@@ -425,12 +425,113 @@ public class TblRsByHourController {
 				}
 				
 				Collections.sort(tblRSNows, new Comparator<TblRSNow>(){
-		            /*
-		             * int compare(Person p1, Person p2) 返回一个基本类型的整型，
-		             * 返回负数表示：p1 小于p2，
-		             * 返回0 表示：p1和p2相等，
-		             * 返回正数表示：p1大于p2
-		             */
+					@Override
+					public int compare(TblRSNow o1, TblRSNow o2) {
+						  //按照Person的年龄进行升序排列
+		                if(o1.getEfficiency() > o2.getEfficiency()){
+		                    return 1;
+		                }
+		                if(o1.getEfficiency() == o2.getEfficiency()){
+		                    return 0;
+		                }
+		                return -1;
+					}
+		        });
+		
+			System.out.println("开始时间："+startDate+"\n结束时间："+finishDate);
+			map.put("flag", "1");
+			map.put("tblRSNows", tblRSNows);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	/**
+	 * Robot查询效率监控页面机械手效率排行筛选机种或单个手臂
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotAndModelRanking")
+	public @ResponseBody Map selectByRobotAndModelRanking(String apikey,String modelName,String robotno){
+		
+		Map map = new HashMap();
+		Map robotNoMap = new HashMap();
+		String msg = "";
+		
+		Date date  = new Date();
+		Date endDate =new Date();
+		
+		List<TblRSNow> tblRSNows = null;
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		date = tblRsByHourBiz.selectMaxDate();
+		
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendar2 = Calendar.getInstance();
+		
+		calendar.setTime(date);
+		calendar2.setTime(date);
+		
+		calendar.add(calendar.DATE, 0);
+		
+		calendar2.set(Calendar.HOUR,23);
+		calendar2.set(Calendar.MINUTE,59);
+		calendar2.set(Calendar.SECOND,59);
+		calendar2.add(calendar.DATE,0);
+		
+		date=calendar.getTime();
+		String startDate = f.format(date);
+		
+		endDate = calendar2.getTime();
+		String finishDate =f.format(endDate);
+		
+		
+		
+		
+		
+		double productivity = 0.00;
+		
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+				Double runCount=0.0;
+				Double standbyCount=0.0;
+				Double erroCount=0.0;
+				if (robotno.equals("All")) {
+					tblRSNows = tblRSNowBiz.selectByRSNoweModelFun(modelName);
+				}else {
+					tblRSNows = tblRSNowBiz.selectByRSNoweRobotnoFun(robotno);
+				}
+				
+				int indexTblRSNow = tblRSNows.size();
+				for (int j = 0; j < indexTblRSNow; j++) {
+					
+					
+					if (tblRSNows!=null) {
+						 runCount = tblRsByHourBiz.selectRobotRunTimeCount(tblRSNows.get(j).getRobotno(),startDate,finishDate);
+						 standbyCount = tblRsByHourBiz.RobotNoStandbyTimeTypeCountFun(tblRSNows.get(j).getRobotno(),startDate,finishDate);
+						 erroCount = tblRsByHourBiz.RobotNoErroTimeTypeCountFun(tblRSNows.get(j).getRobotno(),startDate,finishDate);
+					}
+					if (runCount!=null || standbyCount!=null || erroCount!=null) {
+						productivity = (double)runCount/(runCount+standbyCount+erroCount);
+					}
+					String strRobot = tblRSNows.get(j).getRobotno();
+					
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSNows.get(j).setShortName(strRobot);
+					tblRSNows.get(j).setEfficiency(productivity);
+				}
+				
+				Collections.sort(tblRSNows, new Comparator<TblRSNow>(){
 					@Override
 					public int compare(TblRSNow o1, TblRSNow o2) {
 						  //按照Person的年龄进行升序排列
@@ -488,15 +589,6 @@ public class TblRsByHourController {
 				for (int j = 0; j < indexTblRSNow; j++) {
 					tblRSNow =tblRSNows.get(j);
 					tblRSByHours = tblRsByHourBiz.selectByDateAndRobotNo(tblRSNow.getRobotno(),startDate);
-					/*List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
-					int indeHour =  tblRSByHours.size();
-					for (int i = 0; i <indeHour; i++) {
-					num = tblRSByHours.get(i).getRuntimes()/60;
-					datei = i+"";
-					TblRankingDate tblRankingDate = new TblRankingDate(datei, num);
-					tblRankingDates.add(tblRankingDate);
-					}*/
-					
 					
 					String strRobot = tblRSNows.get(j).getRobotno();
 					
@@ -546,18 +638,8 @@ public class TblRsByHourController {
 			map.put("flag", "0");
 			map.put("msg", msg);
 		}else {
-					tblRSByHours = tblRsByHourBiz.selectByDateAndRobotNo(robotno,startDate);
-					/*List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
-					int indeHour =  tblRSByHours.size();
-					for (int i = 0; i <indeHour; i++) {
-					num = tblRSByHours.get(i).getRuntimes()/60;
-					datei = i+"";
-					TblRankingDate tblRankingDate = new TblRankingDate(datei, num);
-					tblRankingDates.add(tblRankingDate);
-					}*/
-				
-					
-				
+			tblRSByHours = tblRsByHourBiz.selectByDateAndRobotNo(robotno,startDate);
+
 			map.put("flag", "1");
 			map.put("tblRSByHours", tblRSByHours);
 			map.put("msg", msg);
