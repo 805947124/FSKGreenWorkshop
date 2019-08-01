@@ -326,7 +326,7 @@ public class TblRsByHourController {
 		}else {
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
-
+			int indexByHour = 0;
 			for (int i = 0; i <= indexCustomer; i++) {
 				tblCustomer = tblCustomers.get(i);
 				tblRSByHours = tblRsByHourBiz.selectByCustomerName(tblCustomer.getCustomername());
@@ -334,7 +334,29 @@ public class TblRsByHourController {
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 				tblCustomer.setTblRsByHour(tblRSByHours);
 				tblCustomer.setTblRSNows(tblRSNows);
+				indexByHour = tblRSByHours.size();
+				for (int j = 0; j < indexByHour; j++) {
+					String strRobot = tblRSByHours.get(j).getRobotno();
+
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else if(str[1].equals("13H096FT006")) {
+						str = strRobot.split("FT");
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSByHours.get(j).setShortName(strRobot);
 				}
+
+				}
+			
+			
+			
+			
 			
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
@@ -383,10 +405,6 @@ public class TblRsByHourController {
 		endDate = calendar2.getTime();
 		String finishDate =f.format(endDate);
 		
-		
-		
-		
-		
 		double productivity = 0.00;
 		
 		if (!apikey.equals("nnjj_0944547748")) {
@@ -400,7 +418,6 @@ public class TblRsByHourController {
 				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
 				int indexTblRSNow = tblRSNows.size();
 				for (int j = 0; j < indexTblRSNow; j++) {
-					
 					
 					if (tblRSNows!=null) {
 						 runCount = tblRsByHourBiz.selectRobotRunTimeCount(tblRSNows.get(j).getRobotno(),startDate,finishDate);
@@ -560,7 +577,7 @@ public class TblRsByHourController {
 	 * @throws ParseException
 	 */
 	@RequestMapping("/selectByRobotHourRanking")
-	public @ResponseBody Map selectByRobotHourRanking(String apikey,String startDate) throws ParseException{
+	public @ResponseBody Map selectByRobotHourRanking(String apikey,String startDate,String modelName) throws ParseException{
 		
 		Map map = new HashMap();
 		Map robotNoMap = new HashMap();
@@ -580,7 +597,12 @@ public class TblRsByHourController {
 				Double runCount=0.0;
 				Double standbyCount=0.0;
 				Double erroCount=0.0;
-				tblRSNows = tblRSNowBiz.selectByRSNoweFun();
+				if (modelName.equals("All")) {
+					tblRSNows = tblRSNowBiz.selectByRSNoweFun();
+				}else {
+					tblRSNows = tblRSNowBiz.selectByRSNoweModelFun(modelName);
+				}
+				
 				String roobot = "";
 				int indexTblRSNow = tblRSNows.size();
 				String datei = "";
@@ -646,6 +668,7 @@ public class TblRsByHourController {
 		}
 		return map;
 	}
+	
 	
 	
 	/**
@@ -747,7 +770,118 @@ public class TblRsByHourController {
 	
 	
 	/**
-	 * Robot查询效率监控页面按一周日期折线图查询
+	 * Robot查询效率监控页面按一周日期单一手臂或按机种查询折线图查询
+	 * @param apikey
+	 * @return map
+	 * @throws ParseException
+	 */
+	@RequestMapping("/selectByRobotAndModelRankingDate")
+	public @ResponseBody Map selectByRobotAndModelRankingDate(String apikey,String modelName,String robotno){
+		
+		Map map = new HashMap();
+		String msg = "";
+		List<TblRSNow> tblRSNows = null;
+		Date date  = new Date();
+		Date endDate =new Date();
+		
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		date = tblRsByHourBiz.selectMaxDate();
+		
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendar2 = Calendar.getInstance();
+		
+		calendar.setTime(date);
+		calendar2.setTime(date);
+		
+		List<String> StartdateList =new ArrayList<String>();
+		List<String> enddateList = new ArrayList<String>();
+		
+		calendar.add(calendar.DATE, 0);
+		
+		calendar2.set(Calendar.HOUR,23);
+		calendar2.set(Calendar.MINUTE,59);
+		calendar2.set(Calendar.SECOND,59);
+		calendar2.add(calendar.DATE,0);
+		
+		endDate = calendar2.getTime();
+		enddateList.add(f.format(endDate));
+		
+		date=calendar.getTime();
+		StartdateList.add(f.format(date));
+		
+		for (int i = 0; i < 14; i++) {
+			
+			calendar.add(calendar.DATE, -1);
+			date=calendar.getTime();
+			StartdateList.add(f.format(date));
+		}
+		
+		for (int i = 0; i < 14; i++) {
+			
+			calendar2.add(calendar.DATE, -1);
+			endDate=calendar2.getTime();
+			enddateList.add(f.format(endDate));
+		}
+		
+		double productivity = 0.00;
+		double runTimes = 0.0;
+		double erroTimes = 0.0;
+		double standbyTimes = 0.0;
+		
+		List<TblRankingDate> tblRankingDates = new ArrayList<TblRankingDate>();
+		TblRankingDate tblRankingDate = null;
+		if (!apikey.equals("nnjj_0944547748")) {
+			msg = "非法请求！";
+			map.put("flag", "0");
+			map.put("msg", msg);
+		}else {
+			int num = StartdateList.size();
+			if (robotno.equals("All")) {
+				for (int i = 0; i < StartdateList.size(); i++) {
+					runTimes = tblRsByHourBiz.selectRunTimesModelFun(StartdateList.get(i),enddateList.get(i),modelName);
+					erroTimes = tblRsByHourBiz.selectErrorTimesModelFun(StartdateList.get(i),enddateList.get(i),modelName);
+					standbyTimes = tblRsByHourBiz.selectStandbyTimesModelFun(StartdateList.get(i),enddateList.get(i),modelName);	
+					
+					if (runTimes!=0 || erroTimes!=0 || standbyTimes!=0) {
+						if (runTimes+erroTimes+standbyTimes==0) {
+							productivity=0.00;
+						}else {
+							productivity =runTimes/(runTimes+erroTimes+standbyTimes);
+						}
+					}
+					tblRankingDate = new TblRankingDate(StartdateList.get(i), productivity);
+					tblRankingDates.add(tblRankingDate);
+				}
+			}else {
+				for (int i = 0; i < StartdateList.size(); i++) {
+					runTimes = tblRsByHourBiz.selectRunTimesTypeFun(StartdateList.get(i),enddateList.get(i),robotno);
+					erroTimes = tblRsByHourBiz.selectErrorTimesTypeFun(StartdateList.get(i),enddateList.get(i),robotno);
+					standbyTimes = tblRsByHourBiz.selectStandbyTimesTypeFun(StartdateList.get(i),enddateList.get(i),robotno);	
+					
+					if (runTimes!=0 || erroTimes!=0 || standbyTimes!=0) {
+						if (runTimes+erroTimes+standbyTimes==0) {
+							productivity=0.00;
+						}else {
+							productivity =runTimes/(runTimes+erroTimes+standbyTimes);
+						}
+					}
+					tblRankingDate = new TblRankingDate(StartdateList.get(i), productivity);
+					tblRankingDates.add(tblRankingDate);
+				}
+			}
+			
+				
+			map.put("flag", "1");
+			map.put("tblRankingDates", tblRankingDates);
+			map.put("msg", msg);
+		}
+		return map;
+	}
+	
+	
+	/**
+	 * Robot查询效率监控页面按一周日期单一手臂折线图查询
 	 * @param apikey
 	 * @return map
 	 * @throws ParseException
@@ -825,16 +959,11 @@ public class TblRsByHourController {
 						productivity=0.00;
 					}else {
 						productivity =runTimes/(runTimes+erroTimes+standbyTimes);
-
 					}
 				}
-				
 				tblRankingDate = new TblRankingDate(StartdateList.get(i), productivity);
 				tblRankingDates.add(tblRankingDate);
-				
 			}
-			
-			
 				
 			map.put("flag", "1");
 			map.put("tblRankingDates", tblRankingDates);
@@ -950,6 +1079,7 @@ public class TblRsByHourController {
 			map.put("flag", "0");
 			map.put("msg", "非法请求！");
 		}else {
+			
 			RobotNo = tblRsByHourBiz.selectRobotNoFun(modelName);
 			
 			map = new HashMap();
@@ -997,7 +1127,7 @@ public class TblRsByHourController {
 				if(robotNo.equals("All")){
 					
 					tblCustomer = tblCustomers.get(i);
-					tblRSNows = tblRSNowBiz.selectByCustomerNameByModelName(tblCustomer.getCustomername(),modelName);
+					tblRSByHours = tblRsByHourBiz.selectByCustomerNameByModelName(tblCustomer.getCustomername(),modelName);
 					
 					tblCustomer.setId(tblCustomers.get(i).getId());
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
@@ -1007,7 +1137,7 @@ public class TblRsByHourController {
 				}else{
 					
 					tblCustomer = tblCustomers.get(i);
-					tblRSNows = tblRSNowBiz.selectByCustomerNameByType(tblCustomer.getCustomername(),modelName,robotNo);
+					tblRSByHours = tblRsByHourBiz.selectByCustomerNameByType(tblCustomer.getCustomername(),modelName,robotNo);
 					
 					tblCustomer.setId(tblCustomers.get(i).getId());
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());

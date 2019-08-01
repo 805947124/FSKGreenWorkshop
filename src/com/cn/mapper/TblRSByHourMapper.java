@@ -81,4 +81,16 @@ public interface TblRSByHourMapper {
 
 	List<TblRSByHour> selectDateAndRobotNo(@Param("robotno")String robotno, @Param("startDate")String startDate);
 
+	List<TblRSByHour> selectByCustomerByMdoelName(@Param("customername")String customername, @Param("modelName")String modelName);
+
+	List<TblRSByHour> selectByCustomerByType(@Param("customername")String customername, @Param("modelName")String modelName, @Param("robotNo")String robotNo);
+
+	Double selectRunTimesModelFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("modelName")String modelName);
+
+	Double selectErrorTimesModelFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("modelName")String modelName);
+
+	Double selectStandByTimesModelFun(@Param("startDate")String startDate,@Param("endDate")String endDate, @Param("modelName")String modelName);
+
+	List<TblRSByHour> selectDateAndModelName(@Param("modelName")String modelName, @Param("startDate")String startDate);
+
 }

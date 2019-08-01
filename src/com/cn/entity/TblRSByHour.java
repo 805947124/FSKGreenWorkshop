@@ -30,6 +30,8 @@ public class TblRSByHour {
     private String hour;
     
     private String RobotStatus;
+    
+    private String shortName;
 
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getRecordTime() {
@@ -136,6 +138,16 @@ public class TblRSByHour {
 	public void setRobotStatus(String robotStatus) {
 		RobotStatus = robotStatus;
 	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	
     
     
     

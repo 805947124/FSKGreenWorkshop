@@ -199,4 +199,47 @@ public class TblRsByHourBiz {
 		List<TblRSByHour> tblRSByHours = tblRSByHourMapper.selectDateAndRobotNo(robotno,startDate);
 		return tblRSByHours;
 	}
+
+	public List<TblRSByHour> selectByCustomerNameByModelName(String customername, String modelName) {
+		List<TblRSByHour> tblRSByHour = tblRSByHourMapper.selectByCustomerByMdoelName(customername,modelName);
+		return tblRSByHour;
+	}
+
+	public List<TblRSByHour> selectByCustomerNameByType(String customername, String modelName, String robotNo) {
+		List<TblRSByHour> tblRSByHour = tblRSByHourMapper.selectByCustomerByType(customername,modelName,robotNo);
+		return tblRSByHour;
+	}
+
+	public double selectRunTimesModelFun(String startDate, String endDate, String modelName) {
+		Double runTimes = tblRSByHourMapper.selectRunTimesModelFun(startDate,endDate,modelName);
+		if (runTimes==null) {
+			return 0.0;
+		}else {
+			return runTimes;
+		}
+	}
+
+	public double selectErrorTimesModelFun(String startDate, String endDate, String modelName) {
+		Double errorTimes = tblRSByHourMapper.selectErrorTimesModelFun(startDate,endDate,modelName);
+		if (errorTimes==null) {
+			return 0.0;
+		}else {
+			return errorTimes;
+		}
+	}
+
+	public double selectStandbyTimesModelFun(String startDate, String endDate, String modelName) {
+		Double standByTimes = tblRSByHourMapper.selectStandByTimesModelFun(startDate,endDate,modelName);
+		if (standByTimes==null) {
+			return 0.0;
+		}else {
+			return standByTimes;
+		}
+	}
+
+	public List<TblRSByHour> selectByDateAndModelName(String modelName, String startDate) {
+		// TODO Auto-generated method stub
+				List<TblRSByHour> tblRSByHours = tblRSByHourMapper.selectDateAndModelName(modelName,startDate);
+				return tblRSByHours;
+	}
 }
