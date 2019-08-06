@@ -120,6 +120,7 @@ public class TblRsByHourController {
 		}else{
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
+			int indexByHour = 0;
 			
 			for (int i = 0; i <= indexCustomer; i++){
 				tblCustomer = tblCustomers.get(i);
@@ -128,6 +129,23 @@ public class TblRsByHourController {
 				tblCustomer.setId(tblCustomers.get(i).getId());
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 				tblCustomer.setTblRsByHour(tblRSByHour);
+				indexByHour = tblRSByHour.size();
+				for (int j = 0; j < indexByHour; j++) {
+					String strRobot = tblRSByHour.get(j).getRobotno();
+
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else if(str[1].equals("13H096FT006")) {
+						str = strRobot.split("FT");
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSByHour.get(j).setShortName(strRobot);
+				}
 			}
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
@@ -160,6 +178,7 @@ public class TblRsByHourController {
 		}else{
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
+			int indexByHour = 0;
 			
 			for (int i = 0; i <= indexCustomer; i++){
 				tblCustomer = tblCustomers.get(i);
@@ -168,6 +187,23 @@ public class TblRsByHourController {
 				tblCustomer.setId(tblCustomers.get(i).getId());
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 				tblCustomer.setTblRsByHour(tblRSByHour);
+				indexByHour = tblRSByHour.size();
+				for (int j = 0; j < indexByHour; j++) {
+					String strRobot = tblRSByHour.get(j).getRobotno();
+
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else if(str[1].equals("13H096FT006")) {
+						str = strRobot.split("FT");
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSByHour.get(j).setShortName(strRobot);
+				}
 			}
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
@@ -200,6 +236,7 @@ public class TblRsByHourController {
 		}else{
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
+			int indexByHour = 0;
 			
 			for (int i = 0; i <= indexCustomer; i++){
 				tblCustomer = tblCustomers.get(i);
@@ -208,6 +245,23 @@ public class TblRsByHourController {
 				tblCustomer.setId(tblCustomers.get(i).getId());
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 				tblCustomer.setTblRsByHour(tblRSByHour);
+				indexByHour = tblRSByHour.size();
+				for (int j = 0; j < indexByHour; j++) {
+					String strRobot = tblRSByHour.get(j).getRobotno();
+
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else if(str[1].equals("13H096FT006")) {
+						str = strRobot.split("FT");
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSByHour.get(j).setShortName(strRobot);
+				}
 			}
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
@@ -240,6 +294,7 @@ public class TblRsByHourController {
 		}else{
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
+			int indexByHour = 0;
 			
 			for (int i = 0; i <= indexCustomer; i++){
 				tblCustomer = tblCustomers.get(i);
@@ -248,6 +303,23 @@ public class TblRsByHourController {
 				tblCustomer.setId(tblCustomers.get(i).getId());
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 				tblCustomer.setTblRsByHour(tblRSByHour);
+				indexByHour = tblRSByHour.size();
+				for (int j = 0; j < indexByHour; j++) {
+					String strRobot = tblRSByHour.get(j).getRobotno();
+
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else if(str[1].equals("13H096FT006")) {
+						str = strRobot.split("FT");
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSByHour.get(j).setShortName(strRobot);
+				}
 			}
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
@@ -280,6 +352,7 @@ public class TblRsByHourController {
 		}else{
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
+			int indexByHour = 0;
 			
 			for (int i = 0; i <= indexCustomer; i++){
 				tblCustomer = tblCustomers.get(i);
@@ -288,6 +361,24 @@ public class TblRsByHourController {
 				tblCustomer.setId(tblCustomers.get(i).getId());
 				tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 				tblCustomer.setTblRsByHour(tblRSByHour);
+				indexByHour = tblRSByHour.size();
+				for (int j = 0; j < indexByHour; j++) {
+					String strRobot = tblRSByHour.get(j).getRobotno();
+
+					String[] str = strRobot.split("R");
+					if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+						strRobot = "R"+str[1];
+					}else if(str[1].equals("13H096FT006")) {
+						str = strRobot.split("FT");
+						strRobot = "R"+str[1];
+					}else {
+						str = strRobot.split("-");
+						strRobot = "TAKO"+str[3];
+					}
+					
+					tblRSByHour.get(j).setShortName(strRobot);
+				}
+				
 			}
 			map.put("flag", "1");
 			map.put("tblCustomers", tblCustomers);
@@ -352,7 +443,7 @@ public class TblRsByHourController {
 					tblRSByHours.get(j).setShortName(strRobot);
 				}
 
-				}
+			}
 			
 			
 			
@@ -1121,6 +1212,7 @@ public class TblRsByHourController {
 		}else {
 			tblCustomers = tblCustomerBiz.selectAllFun();
 			int indexCustomer = tblCustomers.size()-1;
+			int indexByHour = 0;
 			
 			for (int i = 0; i <= indexCustomer; i++) {
 				
@@ -1133,6 +1225,23 @@ public class TblRsByHourController {
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 					tblCustomer.setTblRsByHour(tblRSByHours);
 					tblCustomer.setTblRSNows(tblRSNows);
+					indexByHour = tblRSByHours.size();
+					for (int j = 0; j < indexByHour; j++) {
+						String strRobot = tblRSByHours.get(j).getRobotno();
+
+						String[] str = strRobot.split("R");
+						if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+							strRobot = "R"+str[1];
+						}else if(str[1].equals("13H096FT006")) {
+							str = strRobot.split("FT");
+							strRobot = "R"+str[1];
+						}else {
+							str = strRobot.split("-");
+							strRobot = "TAKO"+str[3];
+						}
+						
+						tblRSByHours.get(j).setShortName(strRobot);
+					}
 					
 				}else{
 					
@@ -1143,6 +1252,23 @@ public class TblRsByHourController {
 					tblCustomer.setCustomername(tblCustomers.get(i).getCustomername());
 					tblCustomer.setTblRsByHour(tblRSByHours);
 					tblCustomer.setTblRSNows(tblRSNows);
+					indexByHour = tblRSByHours.size();
+					for (int j = 0; j < indexByHour; j++) {
+						String strRobot = tblRSByHours.get(j).getRobotno();
+
+						String[] str = strRobot.split("R");
+						if (str[0].equals("CPEB042FM")|| str[0].equals("CPEB042FF")) {
+							strRobot = "R"+str[1];
+						}else if(str[1].equals("13H096FT006")) {
+							str = strRobot.split("FT");
+							strRobot = "R"+str[1];
+						}else {
+							str = strRobot.split("-");
+							strRobot = "TAKO"+str[3];
+						}
+						
+						tblRSByHours.get(j).setShortName(strRobot);
+					}
 				}
 			}
 			map.put("flag", "1");
